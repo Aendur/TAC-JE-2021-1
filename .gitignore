@@ -39,3 +39,7 @@
 ignored/
 SDL/
 notes.txt
+.vscode/
+bin/*.dll
+bin/LICENSE.*
+bin/sdl2-config
