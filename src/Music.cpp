@@ -2,7 +2,7 @@
 #include <stdexcept>
 
 Music::Music(void) {
-	throw std::runtime_error("not implemented | Music::Music(void)");
+//	throw std::runtime_error("not implemented | Music::Music(void)");
 }
 
 Music::Music(std::string file) {

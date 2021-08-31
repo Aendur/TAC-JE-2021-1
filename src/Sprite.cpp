@@ -5,7 +5,7 @@
 #include <SDL2/SDL_image.h>
 
 Sprite::Sprite (void) {
-	throw std::runtime_error("not implemented Sprite::Sprite (void)");
+	//throw std::runtime_error("not implemented Sprite::Sprite (void)");
 }
 
 Sprite::Sprite (std::string file) {
