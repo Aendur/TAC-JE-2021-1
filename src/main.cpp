@@ -1,6 +1,6 @@
 #include "Game.h"
 
-int main (int argc, char ** argv) {
+int main (int, char ** ) {
 	Game game = Game::GetInstance();
 	game.Run();
 

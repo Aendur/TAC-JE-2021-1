@@ -1,10 +1,10 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "State.h"
-
 #include <string>
-#include <SDL/SDL2-2.0.16/include/SDL.h>
+#include <SDL2/SDL.h>
+
+class State;
 
 class Game {
 private:

@@ -1,8 +1,9 @@
 #include "Game.h"
+#include "State.h"
 
 #include <stdexcept>
-#include <SDL/SDL2_image-2.0.5/include/SDL_image.h>
-#include <SDL/SDL2_mixer-2.0.4/include/SDL_mixer.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
 
 Game::Game(std::string title, int width, int height) {
 	if (Game::instance != nullptr) {
@@ -55,7 +56,6 @@ Game::Game(std::string title, int width, int height) {
 		throw std::runtime_error(error);
 	}
 
-	throw std::exception("missing initialize state");
 	this->state = new State();
 }
 
@@ -74,7 +74,7 @@ Game::~Game() {
 
 void Game::Run(void) {
 	while (!this->state->QuitRequested()) {
-		this->state->Update();
+		this->state->Update(0.0f);
 		this->state->Render();
 		SDL_RenderPresent(this->renderer);
 		SDL_Delay(33);

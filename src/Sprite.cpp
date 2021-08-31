@@ -2,11 +2,10 @@
 #include "Game.h"
 
 #include <stdexcept>
-#include <SDL/SDL2-2.0.16/include/SDL.h>
-#include <SDL/SDL2_image-2.0.5/include/SDL_image.h>
+#include <SDL2/SDL_image.h>
 
 Sprite::Sprite (void) {
-	throw std::exception("not implemented Sprite::Sprite (void)");
+	throw std::runtime_error("not implemented Sprite::Sprite (void)");
 }
 
 Sprite::Sprite (std::string file) {

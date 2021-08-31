@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 #include <string>
-#include <SDL/SDL2-2.0.16/include/SDL.h>
+#include <SDL2/SDL.h>
 
 State::State (void) {
 	bg.Open("assets/img/ocean.jpg");
@@ -14,10 +14,11 @@ bool State::QuitRequested (void) {
 }
 
 void State::LoadAssets (void) {
-	throw std::exception("not implemented");
+	throw std::runtime_error("not implemented");
 }
 
 void State::Update (float dt) {
+	(void) dt;
 	if (SDL_QuitRequested()) {
 		this->quitRequested = true;
 	}

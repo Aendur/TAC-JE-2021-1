@@ -2,7 +2,7 @@
 #include <stdexcept>
 
 Music::Music(void) {
-	throw std::exception("not implemented | Music::Music(void)");
+	throw std::runtime_error("not implemented | Music::Music(void)");
 }
 
 Music::Music(std::string file) {
@@ -16,13 +16,13 @@ Music::~Music(void) {
 	}
 }
 
-void Music::Play (int times = -1) {
+void Music::Play (int times) { //= -1) {
 	if (this->IsOpen()) {
 		Mix_PlayMusic(this->music, times);
 	}
 }
 
-void Music::Stop (int msToStop = 1500) {
+void Music::Stop (int msToStop) { // = 1500) {
 	if (Mix_PlayingMusic()) {
 		Mix_FadeOutMusic(msToStop);
 	}
