@@ -69,20 +69,31 @@ Game::Game(std::string title, int width, int height) {
 	std::cout << "init game state..." << std::endl;
 	this->state = new State();
 	
-	std::cout << "Done." << std::endl;
+	std::cout << "done." << std::endl;
 }
 
 Game::~Game() {
+	std::cout << "deallocating renderer..." << std::endl;
 	SDL_DestroyRenderer(this->renderer);
 	this->renderer = nullptr;
 	
+	std::cout << "deallocating window..." << std::endl;
 	SDL_DestroyWindow(this->window);
 	this->window = nullptr;
 
+	std::cout << "closing audio output..." << std::endl;
 	Mix_CloseAudio();
+	
+	std::cout << "cleanup MIX..." << std::endl;
 	Mix_Quit();
+	
+	std::cout << "cleanup IMG..." << std::endl;
 	IMG_Quit();
+	
+	std::cout << "cleanup SDL..." << std::endl;
 	SDL_Quit();
+	
+	std::cout << "done." << std::endl;
 }
 
 void Game::Run(void) {
