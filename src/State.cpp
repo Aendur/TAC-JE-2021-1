@@ -7,6 +7,7 @@
 State::State (void) {
 	bg.Open("assets/img/ocean.jpg");
 	music.Open("assets/audio/stageState.ogg");
+	music.Play();
 }
 
 bool State::QuitRequested (void) {

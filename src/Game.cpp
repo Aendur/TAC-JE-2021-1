@@ -4,12 +4,16 @@
 #include <stdexcept>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
+#include <iostream>
 
 Game::Game(std::string title, int width, int height) {
 	if (Game::instance != nullptr) {
 		throw std::logic_error("Cannot init singleton twice");
 	}
 
+	Game::instance = this;
+
+	std::cout << "initializing SDL..." << std::endl;
 	int status;
 	status = SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER);
 	if (status != 0) {
@@ -17,6 +21,7 @@ Game::Game(std::string title, int width, int height) {
 		throw std::runtime_error(error);
 	}
 
+	std::cout << "initializing IMG..." << std::endl;
 	int imgflags = IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF;
 	status = IMG_Init(imgflags);
 	if (status != imgflags) {
@@ -24,6 +29,7 @@ Game::Game(std::string title, int width, int height) {
 		throw std::runtime_error(error);
 	}
 
+	std::cout << "initializing MIX..." << std::endl;
 	int mixflags = MIX_INIT_OGG;
 	status = Mix_Init(mixflags);
 	if (status != mixflags) {
@@ -31,12 +37,14 @@ Game::Game(std::string title, int width, int height) {
 		throw std::runtime_error(error);
 	}
 
+	std::cout << "opening audio out..." << std::endl;
 	status = Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024);
 	if (status != 0) {
 		std::string error = Mix_GetError();
 		throw std::runtime_error(error);
 	}
 
+	std::cout << "opening audio channels..." << std::endl;
 	int nchannels = 32;
 	status = Mix_AllocateChannels(32);
 	if (status != nchannels) {
@@ -44,19 +52,24 @@ Game::Game(std::string title, int width, int height) {
 		throw std::runtime_error(error);
 	}
 
+	std::cout << "creating SDL window..." << std::endl;
 	this->window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
 	if (this->window == nullptr) {
 		std::string error = SDL_GetError();
 		throw std::runtime_error(error);
 	}
 
+	std::cout << "creating SDL renderer..." << std::endl;
 	this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED);
 	if (this->renderer == nullptr) {
 		std::string error = SDL_GetError();
 		throw std::runtime_error(error);
 	}
 
+	std::cout << "init game state..." << std::endl;
 	this->state = new State();
+	
+	std::cout << "Done." << std::endl;
 }
 
 Game::~Game() {
@@ -91,7 +104,8 @@ State & Game::GetState (void) {
 
 Game & Game::GetInstance (void) {
 	if (Game::instance == nullptr) {
-		Game::instance = new Game("Diogo Cesar Ferreira - 11/0027931", 1024, 600);
+		std::cout << "instance is null. Creating singleton" << std::endl;
+		new Game("Diogo Cesar Ferreira - 11/0027931", 1024, 600);
 	}
 	return *Game::instance;
 }
