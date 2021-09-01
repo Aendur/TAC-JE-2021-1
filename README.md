@@ -13,6 +13,6 @@ O projeto pode ser compilado utilizando o Makefile existente no repositório, ou
 - LIBPATH = *diretório contendo os headers do SDL*
 - LNKPATH = *diretório contendo as bibliotecas do SDL*
 
-O projeto foi desenvolvido utilizando as bibliotecas do SDL mingw 64 bits, com o compilador TDM-GCC (tdm64-1) 10.3.0
+O projeto foi desenvolvido utilizando as bibliotecas do SDL mingw 64 bits, com o compilador TDM-GCC (tdm64-1) 10.3.0, sistema operacional Windows 10.
 
 Para previnir o aparecimento do console, utilizar a flag -mwindows ao final da linha de comando.
