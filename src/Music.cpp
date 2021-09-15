@@ -1,11 +1,9 @@
 #include "Music.h"
 #include <stdexcept>
 
-Music::Music(void) {
-//	throw std::runtime_error("not implemented | Music::Music(void)");
-}
+Music::Music(void) { }
 
-Music::Music(std::string file) {
+Music::Music(const std::string & file) {
 	this->Open(file);
 }
 
@@ -28,7 +26,7 @@ void Music::Stop (int msToStop) { // = 1500) {
 	}
 }
 
-void Music::Open (std::string file) {
+void Music::Open (const std::string & file) {
 	if (this->IsOpen()) {
 		Mix_FreeMusic(this->music);
 		this->music = nullptr;
