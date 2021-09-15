@@ -1,10 +1,11 @@
 LIBPATH = D:/SDL/include
 LNKPATH = D:/SDL/mingw/lib/x64
 CFLAGS = -std=c++17 -m64 -Wall -Wextra -Wpedantic
+LIBS = obj/Music.o obj/Sprite.o obj/State.o obj/Game.o obj/GameObject.o obj/Rect.o obj/Vec2.o obj/Sound.o obj/Face.o
 
 #-mwindows = noconsole
-main: obj/Music.o obj/Sprite.o obj/State.o obj/Game.o
-	g++ $(CFLAGS) -I$(LIBPATH) -obin/game.exe src/main.cpp obj/Music.o obj/Sprite.o obj/State.o obj/Game.o -L$(LNKPATH) -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer
+main: $(LIBS)
+	g++ $(CFLAGS) -I$(LIBPATH) -obin/game.exe src/main.cpp $(LIBS) -L$(LNKPATH) -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer
 
 obj/Music.o: src/Music.cpp
 	g++ $(CFLAGS) -I$(LIBPATH) -c -oobj/Music.o src/Music.cpp
@@ -17,6 +18,22 @@ obj/State.o: src/State.cpp
 
 obj/Game.o: src/Game.cpp
 	g++ $(CFLAGS) -I$(LIBPATH) -c -oobj/Game.o src/Game.cpp
+
+obj/GameObject.o: src/GameObject.cpp
+	g++ $(CFLAGS) -I$(LIBPATH) -c -oobj/GameObject.o src/GameObject.cpp
+
+obj/Rect.o:
+	g++ $(CFLAGS) -I$(LIBPATH) -c -oobj/Rect.o src/Rect.cpp
+
+obj/Vec2.o:
+	g++ $(CFLAGS) -I$(LIBPATH) -c -oobj/Vec2.o src/Vec2.cpp
+
+obj/Sound.o:
+	g++ $(CFLAGS) -I$(LIBPATH) -c -oobj/Sound.o src/Sound.cpp
+
+ obj/Face.o:
+	g++ $(CFLAGS) -I$(LIBPATH) -c -oobj/Face.o src/Face.cpp
+
 
 clean:
 	del /q obj\*

@@ -4,7 +4,9 @@
 #include <string>
 #include <SDL2/SDL.h>
 
-class Sprite {
+#include "Component.h"
+
+class Sprite : public Component {
 private:
 	SDL_Texture * texture = nullptr;
 	int width = -1;
@@ -12,15 +14,21 @@ private:
 	SDL_Rect clipRect;
 
 public:
-	Sprite (void);
-	Sprite (std::string file);
+	Sprite (GameObject& associated);
+	Sprite (GameObject& associated, const std::string & file);
 	~Sprite (void);
-	void Open (std::string file);
+
+	void Open (const std::string & file);
+	void Reopen (const std::string & file);
 	void SetClip (int x, int y, int w, int h);
-	void Render (int x, int y);
 	int GetWidth (void);
 	int GetHeight (void);
 	bool IsOpen (void);
+
+	// inherited from component
+	void Update (float dt);
+	void Render (void);
+	bool Is (const std::string & type);
 };
 
 #endif
