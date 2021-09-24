@@ -43,3 +43,4 @@ notes.txt
 bin/*.dll
 bin/LICENSE.*
 bin/sdl2-config
+src/test.cpp
