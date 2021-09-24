@@ -11,7 +11,7 @@ bool Sound::Is(const std::string & type) {
 
 Sound::Sound (GameObject & associated) : Component(associated) {}
 
-Sound::Sound (GameObject & associated, std::string file) : Sound(associated) {
+Sound::Sound (GameObject & associated, const std::string & file) : Sound(associated) {
 	this->Open(file);
 }
 

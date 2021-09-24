@@ -15,7 +15,7 @@ private:
 
 public:
 	Sound (GameObject & associated);
-	Sound (GameObject & associated, std::string file);
+	Sound (GameObject & associated, const std::string & file);
 	~Sound(void);
 	
 	void Play (int times = 1);
