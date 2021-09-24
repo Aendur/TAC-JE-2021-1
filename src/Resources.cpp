@@ -11,14 +11,17 @@ private:
 */
 
 SDL_Texture* Resources::GetImage(const std::string & file) {
+	(void) file;
 	throw std::logic_error(MSG_UNIMPLEMENTED_ERROR);
 }
 
 Mix_Music* Resources::GetMusic(const std::string & file) {
+	(void) file;
 	throw std::logic_error(MSG_UNIMPLEMENTED_ERROR);
 }
 
 Mix_Chunk* Resources::GetSound(const std::string & file) {
+	(void) file;
 	throw std::logic_error(MSG_UNIMPLEMENTED_ERROR);
 }
 

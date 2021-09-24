@@ -1,7 +1,7 @@
 LIBPATH = D:/SDL/include
 LNKPATH = D:/SDL/mingw/lib/x64
 CFLAGS = -std=c++17 -m64 -Wall -Wextra -Wpedantic
-LIBS = obj/Music.o obj/Sprite.o obj/State.o obj/Game.o obj/GameObject.o obj/Rect.o obj/Vec2.o obj/Sound.o obj/Face.o obj/TileSet.o obj/TileMap.o
+LIBS = obj/Music.o obj/Sprite.o obj/State.o obj/Game.o obj/GameObject.o obj/Rect.o obj/Vec2.o obj/Sound.o obj/Face.o obj/TileSet.o obj/TileMap.o obj/Resources.o
 
 #-mwindows = noconsole
 main: $(LIBS)
@@ -39,6 +39,9 @@ obj/TileSet.o:
 
 obj/TileMap.o:
 	g++ $(CFLAGS) -I$(LIBPATH) -c -oobj/TileMap.o src/TileMap.cpp
+
+obj/Resources.o:
+	g++ $(CFLAGS) -I$(LIBPATH) -c -oobj/Resources.o src/Resources.cpp
 
 clean:
 	del /q obj\*
