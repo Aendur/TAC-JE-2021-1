@@ -43,5 +43,6 @@ obj/TileMap.o:
 obj/Resources.o:
 	g++ $(CFLAGS) -I$(LIBPATH) -c -oobj/Resources.o src/Resources.cpp
 
+.PHONY: clean
 clean:
-	del /q obj\*
+	for /F %%i in ('dir /b obj') do (echo removing file %%i && del obj\%%i)
