@@ -1,5 +1,7 @@
 #include "errors.h"
 #include "TileMap.h"
+#include <iostream>
+#include <fstream>
 
 /*class TileMap : public Component {
 private:
@@ -13,15 +15,22 @@ private:
 TileMap::TileMap (GameObject& associated, const std::string& file, TileSet* tileSet) : Component(associated) {
 	(void) file;
 	(void) tileSet;
+	this->Load(file);
 	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
 }
 
 TileMap::~TileMap (void) {
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
+	//throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
 }
 
 void TileMap::Load (const std::string & file) {
 	(void) file;
+	std::ifstream stream(file);
+	std::string line;
+	while(!stream.eof()) {
+		stream >> line;
+		std::cout << "LINE " << line << std::endl;
+	}
 	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
 }
 
@@ -68,3 +77,15 @@ void TileMap::Render (void) {
 bool TileMap::Is (const std::string & type) {
 	return (type.compare("TileMap") == 0);
 }
+
+#ifdef UNITTEST
+#ifdef UNITTEST_TILEMAP
+#include "GameObject.h"
+int main (int, char ** ) {
+	GameObject obj;
+	TileMap tm(obj, "bin/assets/map/tileMap.txt", NULL);
+	return 0;
+}
+
+#endif
+#endif
