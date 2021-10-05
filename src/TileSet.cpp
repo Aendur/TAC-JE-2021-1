@@ -1,5 +1,6 @@
 #include "TileSet.h"
-#include <stdexcept>
+#include "Sprite.h"
+#include "errors.h"
 
 //class TileSet {
 //private:
@@ -8,23 +9,14 @@
 //	int columns;
 //	int tileWidth;
 //	int tileHeight;
-//
-//public:
-//	TileSet (int tileWidth, int tileHeight, const std::string & file);
-//	void RenderTile(unsigned int index, float x, float y);
-//	int GetTileWidth();
-//	int GetTileHeight();
 //};
 
 TileSet::TileSet (int tileWidth, int tileHeight, const std::string & file) {
-	(void) tileWidth;
-	(void) tileHeight;
+	this->tileWidth = tileWidth;
+	this->tileHeight = tileHeight;
 	(void) file;
-	std::string msg = std::string(__FILE__) + ": unimplemented | " + std::to_string(__LINE__);
-	throw std::logic_error(msg);
-	// this->tileWidth = tileWidth;
-	// this->tileHeight = tileHeight;
-	// this->tileSet = 
+	//this->tileSet = Sprite(associated, file);
+	throw std::logic_error(MSG_INCOMPLETE_IMPLMT);
 }
 
 void TileSet::RenderTile(unsigned int index, float x, float y) {

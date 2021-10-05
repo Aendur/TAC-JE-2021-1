@@ -13,28 +13,28 @@ private:
 TileMap::TileMap (GameObject& associated, const std::string& file, TileSet* tileSet) : Component(associated) {
 	(void) file;
 	(void) tileSet;
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERROR);
+	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
 }
 
 TileMap::~TileMap (void) {
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERROR);
+	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
 }
 
 void TileMap::Load (const std::string & file) {
 	(void) file;
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERROR);
+	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
 }
 
 void TileMap::SetTileSet (TileSet * tileSet) {
 	(void) tileSet;
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERROR);
+	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
 }
 
 int& TileMap::At (int x, int y, int z) {
 	(void) x;
 	(void) y;
 	(void) z;
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERROR);
+	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
 }
 
 int TileMap::GetWidth (void) {
@@ -53,7 +53,7 @@ void TileMap::RenderLayer (int layer, int cameraX, int cameraY) {
 	(void) layer;
 	(void) cameraX;
 	(void) cameraY;
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERROR);
+	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
 }
 
 // inherited from component
@@ -62,7 +62,7 @@ void TileMap::Update (float dt) {
 }
 
 void TileMap::Render (void) {
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERROR);
+	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
 }
 
 bool TileMap::Is (const std::string & type) {
