@@ -2,6 +2,7 @@
 #include "TileMap.h"
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 /*class TileMap : public Component {
 private:
@@ -13,37 +14,49 @@ private:
 };*/
 
 TileMap::TileMap (GameObject& associated, const std::string& file, TileSet* tileSet) : Component(associated) {
-	(void) file;
-	(void) tileSet;
 	this->Load(file);
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
+	this->SetTileSet(tileSet);
 }
 
-TileMap::~TileMap (void) {
-	//throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
-}
+TileMap::~TileMap (void) { }
 
 void TileMap::Load (const std::string & file) {
-	(void) file;
 	std::ifstream stream(file);
-	std::string line;
+
+	std::string sWidth, sHeight, sDepth;
+	std::getline(stream, sWidth, ',');
+	std::getline(stream, sHeight, ',');
+	std::getline(stream, sDepth, ',');
+	this->mapWidth = stoi(sWidth);
+	this->mapHeight = stoi(sHeight);
+	this->mapDepth = stoi(sDepth);
+
+	std::string sValue;
 	while(!stream.eof()) {
-		stream >> line;
-		std::cout << "LINE " << line << std::endl;
+		std::getline(stream, sValue, ',');
+		try {
+			int value = stoi(sValue) - 1;
+			tileMatrix.push_back(value);
+			//std::cout << sValue.length() << " LINE={" << sValue << "} VAL " << value << std::endl;
+		} catch (std::invalid_argument & e) {
+			std::cout << "warning, invalid argument on function " << __FUNCTION__ << ": " << e.what() << std::endl;
+		}
 	}
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
+
+	long long expected = ((long long) mapWidth) * mapHeight * mapDepth;
+	long long current = (long long) tileMatrix.size();
+	if (current != expected) {
+		throw std::runtime_error(file + " missing indices (expected: " + std::to_string(expected) + " got: " + std::to_string(current) + ")");
+	}
 }
 
 void TileMap::SetTileSet (TileSet * tileSet) {
-	(void) tileSet;
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
+	this->tileSet = tileSet;
 }
 
 int& TileMap::At (int x, int y, int z) {
-	(void) x;
-	(void) y;
-	(void) z;
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
+	int index = z * this->mapWidth * this->mapHeight + y * this->mapWidth + x;
+	return this->tileMatrix.at(index);
 }
 
 int TileMap::GetWidth (void) {
