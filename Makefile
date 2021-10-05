@@ -22,25 +22,25 @@ obj/Game.o: src/Game.cpp
 obj/GameObject.o: src/GameObject.cpp
 	g++ $(CFLAGS) -I$(LIBPATH) -c -oobj/GameObject.o src/GameObject.cpp
 
-obj/Rect.o:
+obj/Rect.o: src/Rect.cpp
 	g++ $(CFLAGS) -I$(LIBPATH) -c -oobj/Rect.o src/Rect.cpp
 
-obj/Vec2.o:
+obj/Vec2.o: src/Vec2.cpp
 	g++ $(CFLAGS) -I$(LIBPATH) -c -oobj/Vec2.o src/Vec2.cpp
 
-obj/Sound.o:
+obj/Sound.o: src/Sound.cpp
 	g++ $(CFLAGS) -I$(LIBPATH) -c -oobj/Sound.o src/Sound.cpp
 
- obj/Face.o:
+ obj/Face.o: src/Face.cpp
 	g++ $(CFLAGS) -I$(LIBPATH) -c -oobj/Face.o src/Face.cpp
 
-obj/TileSet.o:
+obj/TileSet.o: src/TileSet.cpp
 	g++ $(CFLAGS) -I$(LIBPATH) -c -oobj/TileSet.o src/TileSet.cpp
 
-obj/TileMap.o:
+obj/TileMap.o: src/TileMap.cpp
 	g++ $(CFLAGS) -I$(LIBPATH) -c -oobj/TileMap.o src/TileMap.cpp
 
-obj/Resources.o:
+obj/Resources.o: src/Resources.cpp
 	g++ $(CFLAGS) -I$(LIBPATH) -c -oobj/Resources.o src/Resources.cpp
 
 .PHONY: clean
