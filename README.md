@@ -10,8 +10,6 @@ O projeto pode ser compilado utilizando o Makefile existente no repositório
 - `LIBPATH` = *diretório contendo os headers do SDL*
 - `LNKPATH` = *diretório contendo as bibliotecas do SDL*
 
-*Para previnir o aparecimento do console, utilizar a flag `-mwindows` ao final da linha de comando.*
-
 Ao compilar, será criado um arquivo `game.exe` na pasta `bin/`, a qual deve conter os DLLs necessários para a execução do programa (64 bits), caso o sistema não esteja configurado para localizá-los automaticamente.
 
 O projeto foi desenvolvido utilizando:
