@@ -1,6 +1,7 @@
 #include "Sprite.h"
 #include "Game.h"
 #include "GameObject.h"
+#include "Resources.h"
 
 #include <stdexcept>
 #include <SDL2/SDL_image.h>
@@ -11,46 +12,20 @@ Sprite::Sprite (GameObject & associated, const std::string & file) : Sprite(asso
 	this->Open(file);
 }
 
-Sprite::~Sprite (void) {
-	if (this->IsOpen()) {
-		SDL_DestroyTexture(this->texture);
-		this->texture = nullptr;
-	}
-}
+Sprite::~Sprite (void) { }
 
 void Sprite::Open (const std::string& file) {
-	if (this->IsOpen()) {
-		SDL_DestroyTexture(this->texture);
-		this->texture = nullptr;
-	}
-	
-	this->texture = IMG_LoadTexture(Game::GetInstance().GetRenderer(), file.c_str());
-	if (this->texture == nullptr) {
-		std::string error = IMG_GetError();
-		throw std::runtime_error(error);
-	}
-	
+	this->texture = Resources::GetImage(file);
 	int status = SDL_QueryTexture(this->texture, nullptr, nullptr, &this->width, &this->height);
 	if (status != 0) {
 		std::string error = IMG_GetError();
 		throw std::runtime_error(error);
 	}
-
 	this->SetClip(0, 0, this->width, this->height);
 }
 
 void Sprite::Reopen (const std::string& file) {
-	if (this->IsOpen()) {
-		SDL_DestroyTexture(this->texture);
-		this->texture = nullptr;
-	}
-	
-	this->texture = IMG_LoadTexture(Game::GetInstance().GetRenderer(), file.c_str());
-	if (this->texture == nullptr) {
-		std::string error = IMG_GetError();
-		throw std::runtime_error(error);
-	}
-	
+	this->texture = Resources::GetImage(file);
 	int newW, newH;
 	int status = SDL_QueryTexture(this->texture, nullptr, nullptr, &newW, &newH);
 	if (status != 0) {

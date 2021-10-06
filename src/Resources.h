@@ -5,20 +5,21 @@
 #include <unordered_map>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_image.h>
 
 class Resources {
 private:
-	std::unordered_map<std::string, SDL_Texture*> imageTable;
-	std::unordered_map<std::string, Mix_Music*> musicTable;
-	std::unordered_map<std::string, Mix_Chunk*> soundTable;
+	static std::unordered_map<std::string, SDL_Texture*> imageTable;
+	static std::unordered_map<std::string, Mix_Music*> musicTable;
+	static std::unordered_map<std::string, Mix_Chunk*> soundTable;
 
 public:
-	SDL_Texture* GetImage(const std::string & file);
-	Mix_Music* GetMusic(const std::string & file);
-	Mix_Chunk* GetSound(const std::string & file);
-	void ClearImages(void);
-	void ClearMusics(void);
-	void ClearSounds(void);
+	static SDL_Texture* GetImage(const std::string & file);
+	static Mix_Music* GetMusic(const std::string & file);
+	static Mix_Chunk* GetSound(const std::string & file);
+	static void ClearImages(void);
+	static void ClearMusics(void);
+	static void ClearSounds(void);
 };
 
 #endif

@@ -1,4 +1,5 @@
 #include "Sound.h"
+#include "Resources.h"
 #include <stdexcept>
 
 void Sound::Update(float dt) { (void) dt; }
@@ -15,12 +16,7 @@ Sound::Sound (GameObject & associated, const std::string & file) : Sound(associa
 	this->Open(file);
 }
 
-Sound::~Sound(void){
-	if (this->IsOpen()) {
-		Mix_FreeChunk(this->chunk);
-		this->chunk = nullptr;
-	}
-}
+Sound::~Sound(void){ }
 
 void Sound::Play (int times) {
 	if (this->IsOpen()) {
@@ -37,16 +33,7 @@ void Sound::Stop (void) {
 }
 
 void Sound::Open (const std::string & file) {
-	if (this->IsOpen()) {
-		Mix_FreeChunk(this->chunk);
-		this->chunk = nullptr;
-	}
-
-	this->chunk = Mix_LoadWAV(file.c_str());
-	if (this->chunk == nullptr) {
-		std::string error = Mix_GetError();
-		throw std::runtime_error(error);
-	}
+	this->chunk = Resources::GetSound(file);
 }
 
 bool Sound::IsOpen (void) {

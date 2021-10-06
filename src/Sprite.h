@@ -3,7 +3,6 @@
 
 #include <string>
 #include <SDL2/SDL.h>
-
 #include "Component.h"
 
 class Sprite : public Component {
