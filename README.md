@@ -5,7 +5,8 @@ Repositório do trabalho da discipline de TAC - turma JE - 2021/1 da UnB
 
 Autor: Diogo César Ferreira - 11/0027931
 
-O projeto pode ser compilado utilizando o Makefile existente no repositório
+O projeto pode ser compilado utilizando o Makefile existente no repositório.
+
 **Atenção:** editar as variáveis LIBPATH e LNKPATH conforme a configuração do SDL no seu sistema
 - `LIBPATH` = *diretório contendo os headers do SDL*
 - `LNKPATH` = *diretório contendo as bibliotecas do SDL*
