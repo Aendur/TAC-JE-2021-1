@@ -1,5 +1,4 @@
 #include "TileSet.h"
-#include "Sprite.h"
 #include "errors.h"
 
 //class TileSet {
@@ -11,20 +10,25 @@
 //	int tileHeight;
 //};
 
-TileSet::TileSet (int tileWidth, int tileHeight, const std::string & file) {
+TileSet::TileSet (GameObject& associated, int tileWidth, int tileHeight, const std::string & file) : Component(associated), tileSet(associated, file) {
 	this->tileWidth = tileWidth;
 	this->tileHeight = tileHeight;
-	(void) file;
-	//this->tileSet = Sprite(associated, file);
-	throw std::logic_error(MSG_INCOMPLETE_IMPLMT);
+	this->rows = tileSet.GetHeight() / tileHeight;
+	this->columns = tileSet.GetWidth() / tileWidth;
 }
 
-void TileSet::RenderTile(unsigned int index, float x, float y) {
-	(void) index;
-	(void) x;
-	(void) y;
-	std::string msg = std::string(__FILE__) + ": unimplemented | " + std::to_string(__LINE__);
-	throw std::logic_error(msg);
+void TileSet::RenderTile (unsigned int index, float x, float y) {
+	if ((int) index < tileWidth * tileHeight) {
+		int col = index % columns;
+		int row = (index - col) / columns;
+		int x0 = col * tileWidth;
+		int y0 = row * tileHeight;
+		tileSet.SetClip(x0, y0, tileWidth, tileHeight);
+		tileSet.Render((int) x, (int) y);
+	} else {
+		throw std::out_of_range("tile index out of bounds");
+	}
+
 }
 
 int TileSet::GetTileWidth(void) {
@@ -33,4 +37,13 @@ int TileSet::GetTileWidth(void) {
 
 int TileSet::GetTileHeight(void) {
 	return this->tileHeight;
+}
+
+// Inherited from Component
+void TileSet::Update(float dt) { (void) dt; }
+
+void TileSet::Render (void) { }
+
+bool TileSet::Is (const std::string & type) {
+	return (type.compare("TileSet") == 0);
 }

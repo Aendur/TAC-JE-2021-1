@@ -23,7 +23,8 @@ public:
 	int GetWidth (void);
 	int GetHeight (void);
 	bool IsOpen (void);
-
+	void Render (int x, int y);
+	
 	// inherited from component
 	void Update (float dt);
 	void Render (void);

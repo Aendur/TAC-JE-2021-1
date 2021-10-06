@@ -21,7 +21,11 @@ void Sprite::Open (const std::string& file) {
 		std::string error = IMG_GetError();
 		throw std::runtime_error(error);
 	}
-	this->SetClip(0, 0, this->width, this->height);
+	associated.box.x = 0;
+	associated.box.y = 0;
+	associated.box.w = this->width;
+	associated.box.h = this->height;
+	this->SetClip(0, 0, associated.box.w, associated.box.h);
 }
 
 void Sprite::Reopen (const std::string& file) {
@@ -43,10 +47,6 @@ void Sprite::SetClip (int x, int y, int w, int h) {
 	clipRect.y = y;
 	clipRect.w = w;
 	clipRect.h = h;
-	associated.box.x = x;
-	associated.box.y = y;
-	associated.box.w = w;
-	associated.box.h = h;
 }
 
 int Sprite::GetWidth (void) {
@@ -61,17 +61,20 @@ bool Sprite::IsOpen (void) {
 	return (this->texture != nullptr);
 }
 
+void Sprite::Render (int x, int y) {
+	SDL_Rect dstrect;
+	dstrect.x = x;
+	dstrect.y = y;
+	dstrect.w = clipRect.w;
+	dstrect.h = clipRect.h;
+	SDL_RenderCopy(Game::GetInstance().GetRenderer(), this->texture, &clipRect, &dstrect);	
+}
 
 // Inherited from Component
 void Sprite::Update(float dt) { (void) dt; }
 
-void Sprite::Render (void) { //int x, int y) {
-	SDL_Rect dstrect;
-	dstrect.x = associated.box.x;
-	dstrect.y = associated.box.y;
-	dstrect.w = associated.box.w;
-	dstrect.h = associated.box.h;
-	SDL_RenderCopy(Game::GetInstance().GetRenderer(), this->texture, &clipRect, &dstrect);
+void Sprite::Render (void) {
+	this->Render(associated.box.x, associated.box.y);
 }
 
 bool Sprite::Is (const std::string & type) {

@@ -1,5 +1,6 @@
 #include "errors.h"
 #include "TileMap.h"
+#include "GameObject.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -84,7 +85,9 @@ void TileMap::Update (float dt) {
 }
 
 void TileMap::Render (void) {
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
+	for (int layer = 0; layer < this->mapDepth; ++layer) {
+		this->RenderLayer (layer, associated.box.x, associated.box.y);
+	}
 }
 
 bool TileMap::Is (const std::string & type) {
