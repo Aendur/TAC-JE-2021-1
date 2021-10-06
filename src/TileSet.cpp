@@ -17,18 +17,19 @@ TileSet::TileSet (GameObject& associated, int tileWidth, int tileHeight, const s
 	this->columns = tileSet.GetWidth() / tileWidth;
 }
 
-void TileSet::RenderTile (unsigned int index, float x, float y) {
-	if ((int) index < tileWidth * tileHeight) {
+#include <iostream>
+void TileSet::RenderTile (int index, float x, float y) {
+	if (index < 0) {
+	} else if (index < tileWidth * tileHeight) {
 		int col = index % columns;
 		int row = (index - col) / columns;
 		int x0 = col * tileWidth;
 		int y0 = row * tileHeight;
 		tileSet.SetClip(x0, y0, tileWidth, tileHeight);
-		tileSet.Render((int) x, (int) y);
+		tileSet.Render(x, y);
 	} else {
 		throw std::out_of_range("tile index out of bounds");
 	}
-
 }
 
 int TileSet::GetTileWidth(void) {

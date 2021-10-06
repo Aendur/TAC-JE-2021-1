@@ -1,6 +1,7 @@
 #include "errors.h"
 #include "Resources.h"
 #include "Game.h"
+#include <iostream>
 
 /*
 class Resources {
@@ -22,6 +23,7 @@ SDL_Texture* Resources::GetImage(const std::string & file) {
 			std::string error = IMG_GetError();
 			throw std::runtime_error(error);
 		}
+		std::cout << "loaded image: " << file << " as a resource" << std::endl;
 	}
 	return imageTable[file];
 }
@@ -33,6 +35,7 @@ Mix_Music* Resources::GetMusic(const std::string & file) {
 			std::string error = Mix_GetError();
 			throw std::runtime_error(error);
 		}
+		std::cout << "loaded music: " << file << " as a resource" << std::endl;
 	}
 	return musicTable[file];
 }
@@ -44,6 +47,7 @@ Mix_Chunk* Resources::GetSound(const std::string & file) {
 			std::string error = Mix_GetError();
 			throw std::runtime_error(error);
 		}
+		std::cout << "loaded sound: " << file << " as a resource" << std::endl;
 	}
 	return soundTable[file];
 }
@@ -56,6 +60,7 @@ void Resources::ClearImages(void) {
 		}
 	}
 	imageTable.clear();
+	std::cout << "clean up image resources" << std::endl;
 }
 
 void Resources::ClearMusics(void) {
@@ -66,6 +71,7 @@ void Resources::ClearMusics(void) {
 		}
 	}
 	musicTable.clear();
+	std::cout << "clean up music resources" << std::endl;
 }
 
 void Resources::ClearSounds(void) {
@@ -76,4 +82,5 @@ void Resources::ClearSounds(void) {
 		}
 	}
 	soundTable.clear();
+	std::cout << "clean up sound resources" << std::endl;
 }

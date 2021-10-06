@@ -1,12 +1,15 @@
+# LIBPATH and LNKPATH must be set according to where SDL is located in your system
 LIBPATH = D:/SDL/include
 LNKPATH = D:/SDL/mingw/lib/x64
+
+#####
 CFLAGS = -std=c++17 -m64 -Wall -Wextra -Wpedantic
 LIBS = obj/Music.o obj/Sprite.o obj/State.o obj/Game.o obj/GameObject.o obj/Rect.o obj/Vec2.o obj/Sound.o obj/Face.o obj/TileSet.o obj/TileMap.o obj/Resources.o
 SDLLFLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer
 
 #-mwindows = noconsole
 main: $(LIBS)
-	g++ $(CFLAGS) -I$(LIBPATH) -obin/game.exe src/main.cpp $(LIBS) -L$(LNKPATH) $(SDLLFLAGS)
+	g++ $(CFLAGS) -I$(LIBPATH) -obin/game.exe src/main.cpp $(LIBS) -L$(LNKPATH) $(SDLLFLAGS) -mwindows
 
 obj/Music.o: src/Music.cpp
 	g++ $(CFLAGS) -I$(LIBPATH) -c -o$@ $<

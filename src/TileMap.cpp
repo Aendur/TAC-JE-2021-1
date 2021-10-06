@@ -1,6 +1,7 @@
 #include "errors.h"
 #include "TileMap.h"
 #include "GameObject.h"
+#include "TileSet.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -73,10 +74,16 @@ int TileMap::GetDepth (void) {
 }
 
 void TileMap::RenderLayer (int layer, int cameraX, int cameraY) {
-	(void) layer;
-	(void) cameraX;
-	(void) cameraY;
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
+	int w = tileSet->GetTileWidth();
+	int h = tileSet->GetTileHeight();
+	for(int y = 0; y < mapHeight; ++y) {
+		for(int x = 0; x < mapWidth; ++x) {
+			int index = At(x, y, layer);
+			float xpos = cameraX + x * w;
+			float ypos = cameraY + y * h;
+			tileSet->RenderTile(index, xpos, ypos);
+		}
+	}
 }
 
 // inherited from component
@@ -86,7 +93,7 @@ void TileMap::Update (float dt) {
 
 void TileMap::Render (void) {
 	for (int layer = 0; layer < this->mapDepth; ++layer) {
-		this->RenderLayer (layer, associated.box.x, associated.box.y);
+		this->RenderLayer (layer, 0.0, 0.0);
 	}
 }
 

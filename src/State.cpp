@@ -12,14 +12,6 @@
 
 
 State::State (void) {
-	std::unique_ptr<GameObject> tiles = std::make_unique<GameObject>();
-	TileSet * tileset = new TileSet(*tiles, 64, 64, "assets/img/tileset.png");
-	tiles->AddComponent(tileset);
-	tiles->AddComponent(new TileMap(*tiles, "assets/map/tileMap.txt", tileset));
-	tiles->box.x = 0;
-	tiles->box.y = 0;
-	this->objectArray.push_back(std::move(tiles));
-
 	std::unique_ptr<GameObject> bg = std::make_unique<GameObject>();
 	bg->AddComponent(new Sprite(*bg, "assets/img/ocean.jpg"));
 	bg->box.x = 0;
@@ -28,6 +20,14 @@ State::State (void) {
 
 	music.Open("assets/audio/stageState.ogg");
 	music.Play();
+
+	std::unique_ptr<GameObject> tiles = std::make_unique<GameObject>();
+	TileSet * tileset = new TileSet(*tiles, 64, 64, "assets/img/tileset.png");
+	tiles->AddComponent(tileset);
+	tiles->AddComponent(new TileMap(*tiles, "assets/map/tileMap.txt", tileset));
+	tiles->box.x = 0;
+	tiles->box.y = 0;
+	this->objectArray.push_back(std::move(tiles));
 }
 
 State::~State(void) {

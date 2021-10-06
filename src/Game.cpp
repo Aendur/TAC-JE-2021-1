@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "State.h"
+#include "Resources.h"
 
 #include <stdexcept>
 #include <SDL2/SDL_image.h>
@@ -73,6 +74,10 @@ Game::Game(std::string title, int width, int height) {
 }
 
 Game::~Game() {
+	Resources::ClearImages();
+	Resources::ClearMusics();
+	Resources::ClearSounds();
+
 	std::cout << "deallocating renderer..." << std::endl;
 	SDL_DestroyRenderer(this->renderer);
 	this->renderer = nullptr;
