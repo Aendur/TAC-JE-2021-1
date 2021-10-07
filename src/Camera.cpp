@@ -1,5 +1,5 @@
-#include "Camera.h";
-#include "errors.h";
+#include "Camera.h"
+#include "errors.h"
 
 /*
 private:
@@ -10,6 +10,7 @@ public:
 */
 
 void Camera::Follow(GameObject * newFocus) {
+	(void) newFocus;
 	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
 }
 
@@ -18,6 +19,7 @@ void Camera::Unfollow(void) {
 }
 
 void Camera::Update(float dt) {
+	(void) dt;
 	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
 }
 

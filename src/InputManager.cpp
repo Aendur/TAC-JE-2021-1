@@ -16,7 +16,7 @@ InputManager::InputManager(void) {
 }
 
 InputManager::~InputManager(void) {
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
+	//throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
 }
 
 InputManager & InputManager::GetInstance (void) {
@@ -28,26 +28,32 @@ void InputManager::Update(void) {
 }
 
 bool InputManager::KeyPress(int key) {
+	(void) key;
 	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
 }
 
 bool InputManager::KeyRelease(int key) {
+	(void) key;
 	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
 }
 
 bool InputManager::IsKeyDown(int key) {
+	(void) key;
 	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
 }
 
 bool InputManager::MousePress(int button) {
+	(void) button;
 	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
 }
 
 bool InputManager::MouseRelease(int button) {
+	(void) button;
 	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
 }
 
 bool InputManager::IsMouseDown(int button) {
+	(void) button;
 	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
 }
 
