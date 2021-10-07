@@ -4,7 +4,9 @@ LNKPATH = D:/SDL/mingw/lib/x64
 
 #####
 CFLAGS = -std=c++17 -m64 -Wall -Wextra -Wpedantic
-LIBS = obj/Music.o obj/Sprite.o obj/State.o obj/Game.o obj/GameObject.o obj/Rect.o obj/Vec2.o obj/Sound.o obj/Face.o obj/TileSet.o obj/TileMap.o obj/Resources.o obj/InputManager.o obj/Camera.o
+LIBS = obj/Music.o    obj/Sprite.o     obj/State.o         obj/Game.o    obj/GameObject.o     \
+       obj/Rect.o     obj/Vec2.o       obj/Sound.o         obj/Face.o    obj/TileSet.o        \
+       obj/TileMap.o  obj/Resources.o  obj/InputManager.o  obj/Camera.o  obj/CameraFollower.o
 SDLLFLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer
 
 #-mwindows = noconsole
@@ -53,6 +55,8 @@ obj/InputManager.o: src/InputManager.cpp src/InputManager.h
 obj/Camera.o: src/Camera.cpp src/Camera.h
 	g++ $(CFLAGS) -I$(LIBPATH) -c -o$@ $<
 
+obj/CameraFollower.o: src/CameraFollower.cpp src/CameraFollower.h
+	g++ $(CFLAGS) -I$(LIBPATH) -c -o$@ $<
 
 unittest_tilemap: CFLAGS += -DUNITTEST -DUNITTEST_TILEMAP
 unittest_tilemap: obj/TileMap.o obj/GameObject.o obj/Rect.o
