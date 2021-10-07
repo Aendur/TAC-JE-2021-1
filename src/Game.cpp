@@ -1,11 +1,11 @@
 #include "Game.h"
 #include "State.h"
 #include "Resources.h"
+#include "errors.h"
 
-#include <stdexcept>
+#include <iostream>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
-#include <iostream>
 
 Game::Game(std::string title, int width, int height) {
 	if (Game::instance != nullptr) {
@@ -125,3 +125,14 @@ Game & Game::GetInstance (void) {
 	}
 	return *Game::instance;
 }
+
+////////////////////
+
+void Game::CalculateDeltaTime(void) {
+	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
+}
+
+float Game::GetDeltaTime(void) {
+	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
+}
+
