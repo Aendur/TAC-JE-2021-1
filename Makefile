@@ -9,7 +9,7 @@ SDLLFLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer
 
 #-mwindows = noconsole
 main: $(LIBS)
-	g++ $(CFLAGS) -I$(LIBPATH) -Iinclude -obin/game.exe src/main.cpp $(LIBS) -L$(LNKPATH) $(SDLLFLAGS) -mwindows
+	g++ $(CFLAGS) -I$(LIBPATH) -Iinclude -obin/game.exe src/main.cpp $(LIBS) -L$(LNKPATH) $(SDLLFLAGS)
 
 obj/%.o: src/%.cpp include/%.h
 	g++ $(CFLAGS) -I$(LIBPATH) -Iinclude -c -o$@ $<

@@ -3,6 +3,13 @@
 
 //#include <string>
 #include <unordered_map>
+//#define KEY_LEFT     SDLK_LEFT
+//#define KEY_RIGHT    SDLK_RIGHT
+//#define KEY_UP       SDLK_UP
+//#define KEY_DOWN     SDLK_DOWN
+//#define KEY_ESC      SDLK_ESCAPE
+//#define MOUSE_LEFT   SDL_BUTTON_LEFT
+//#define MOUSE_RIGHT  SDL_BUTTON_RIGHT
 
 class InputManager {
 private:
