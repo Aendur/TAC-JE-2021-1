@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "State.h"
 #include "Resources.h"
+#include "InputManager.h"
 #include "errors.h"
 
 #include <iostream>
@@ -103,6 +104,7 @@ Game::~Game() {
 
 void Game::Run(void) {
 	while (!this->state->QuitRequested()) {
+		InputManager::GetInstance().Update();
 		this->state->Update(0.0f);
 		this->state->Render();
 		SDL_RenderPresent(this->renderer);

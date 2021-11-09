@@ -56,7 +56,7 @@ void InputManager::Update(void) {
 			this->quitRequested = true;
 			break;
 		default:
-			std::cout << "unhandled SDL event: " << event.type << std::endl;
+			//std::cout << "unhandled SDL event: " << event.type << std::endl;
 			break;
 		}
 	}
