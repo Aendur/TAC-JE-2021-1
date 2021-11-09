@@ -104,11 +104,14 @@ Game::~Game() {
 
 void Game::Run(void) {
 	while (!this->state->QuitRequested()) {
+		this->CalculateDeltaTime();
+
 		InputManager::GetInstance().Update();
-		this->state->Update(0.0f);
+		this->state->Update(this->dt);
 		this->state->Render();
+
 		SDL_RenderPresent(this->renderer);
-		SDL_Delay(33);
+		SDL_Delay(32);
 	}
 }
 
@@ -131,10 +134,13 @@ Game & Game::GetInstance (void) {
 ////////////////////
 
 void Game::CalculateDeltaTime(void) {
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
+	int lastFrame = this->frameStart;
+	this->frameStart = SDL_GetTicks();
+	this->dt = (float) (this->frameStart - lastFrame);
+	//std::cout << this->dt << std::endl;
 }
 
 float Game::GetDeltaTime(void) {
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
+	return this->dt;
 }
 
