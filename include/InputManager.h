@@ -7,6 +7,10 @@
 #define KEY_RIGHT    SDLK_RIGHT
 #define KEY_UP       SDLK_UP
 #define KEY_DOWN     SDLK_DOWN
+#define KEY_W        SDLK_w
+#define KEY_A        SDLK_a
+#define KEY_S        SDLK_s
+#define KEY_D        SDLK_d
 #define KEY_SPACE    SDLK_SPACE
 #define KEY_ESC      SDLK_ESCAPE
 #define MOUSE_LEFT   SDL_BUTTON_LEFT

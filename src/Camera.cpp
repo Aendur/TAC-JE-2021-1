@@ -1,6 +1,7 @@
 #include "Camera.h"
 #include "errors.h"
 
+#include <iostream>
 /*
 private:
 	inline static GameObject * focus = nullptr;
@@ -10,17 +11,18 @@ public:
 */
 
 void Camera::Follow(GameObject * newFocus) {
-	(void) newFocus;
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
+	focus = newFocus;
 }
 
 void Camera::Unfollow(void) {
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
+	focus = nullptr;
 }
 
 void Camera::Update(float dt) {
-	(void) dt;
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
+	pos.x += speed.x * dt;
+	pos.y += speed.y * dt;
+	//std::cout << "camera position: " << pos << " speed: " << speed << std::endl;
+	//throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
 }
 
 

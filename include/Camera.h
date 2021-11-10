@@ -9,8 +9,8 @@ private:
 	inline static GameObject * focus = nullptr;
 
 public:
-	static Vec2 pos;
-	static Vec2 speed;
+	inline static Vec2 pos = {0.0f, 0.0f};
+	inline static Vec2 speed = {0.0f, 0.0f};
 
 	static void Follow(GameObject * newFocus);
 	static void Unfollow(void);

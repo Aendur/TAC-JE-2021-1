@@ -1,22 +1,20 @@
 #include "CameraFollower.h"
-#include "errors.h"
 
-CameraFollower::CameraFollower (GameObject& go) : Component(go) {
-	(void) go;
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
-}
+#include "errors.h"
+#include "GameObject.h"
+#include "Camera.h"
+
+CameraFollower::CameraFollower (GameObject& go) : Component(go) { }
 
 // inherited from component
 void CameraFollower::Update (float dt) {
 	(void) dt;
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
+	this->associated.box.x = Camera::pos.x;
+	this->associated.box.y = Camera::pos.y;
 }
 
-void CameraFollower::Render (void) {
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
-}
+void CameraFollower::Render (void) { }
 
 bool CameraFollower::Is (const std::string & type) {
-	(void) type;
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
+	return (type.compare("CameraFollower") == 0);
 }

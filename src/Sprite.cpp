@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "GameObject.h"
 #include "Resources.h"
+#include "Camera.h"
 
 #include <stdexcept>
 #include <SDL2/SDL_image.h>
@@ -74,7 +75,7 @@ void Sprite::Render (int x, int y) {
 void Sprite::Update(float dt) { (void) dt; }
 
 void Sprite::Render (void) {
-	this->Render(associated.box.x, associated.box.y);
+	this->Render(associated.box.x - Camera::pos.x, associated.box.y - Camera::pos.y);
 }
 
 bool Sprite::Is (const std::string & type) {

@@ -2,6 +2,7 @@
 #include "TileMap.h"
 #include "GameObject.h"
 #include "TileSet.h"
+#include "Camera.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -79,8 +80,10 @@ void TileMap::RenderLayer (int layer, int cameraX, int cameraY) {
 	for(int y = 0; y < mapHeight; ++y) {
 		for(int x = 0; x < mapWidth; ++x) {
 			int index = At(x, y, layer);
-			float xpos = cameraX + x * w;
-			float ypos = cameraY + y * h;
+			//float xpos = x * w - cameraX * (1.0f + layer) / this->mapDepth;
+			//float ypos = y * h - cameraY * (1.0f + layer) / this->mapDepth;
+			float xpos = x * w - cameraX * ((float)(this->mapDepth - layer)) / this->mapDepth;
+			float ypos = y * h - cameraY * ((float)(this->mapDepth - layer)) / this->mapDepth;
 			tileSet->RenderTile(index, xpos, ypos);
 		}
 	}
@@ -92,8 +95,9 @@ void TileMap::Update (float dt) {
 }
 
 void TileMap::Render (void) {
-	for (int layer = 0; layer < this->mapDepth; ++layer) {
-		this->RenderLayer (layer, 0.0, 0.0);
+	//for (int layer = 0; layer < this->mapDepth; ++layer) {
+	for (int layer = this->mapDepth - 1; layer >= 0; --layer) {
+		this->RenderLayer (layer, Camera::pos.x, Camera::pos.y);
 	}
 }
 
@@ -109,6 +113,5 @@ int main (int, char ** ) {
 	TileMap tm(obj, "bin/assets/map/tileMap.txt", NULL);
 	return 0;
 }
-
 #endif
 #endif

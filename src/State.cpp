@@ -4,6 +4,8 @@
 #include <string>
 //#include <SDL2/SDL.h>
 #include "InputManager.h"
+#include "CameraFollower.h"
+#include "Camera.h"
 #include "GameObject.h"
 #include "Sprite.h"
 #include "Sound.h"
@@ -15,6 +17,7 @@
 State::State (void) {
 	std::unique_ptr<GameObject> bg = std::make_unique<GameObject>();
 	bg->AddComponent(new Sprite(*bg, "assets/img/ocean.jpg"));
+	bg->AddComponent(new CameraFollower(*bg));
 	bg->box.x = 0;
 	bg->box.y = 0;
 	this->objectArray.push_back(std::move(bg));
@@ -45,6 +48,9 @@ void State::LoadAssets (void) {
 
 void State::Update (float dt) {
 	this->HandleInput();
+
+	Camera::Update(dt);
+
 	for(std::unique_ptr<GameObject> & obj : this->objectArray) {
 		obj->Update(dt);
 	}
@@ -80,11 +86,33 @@ void State::HandleInput(void) {
 	// Quit if requested or ESC was pressed
 	this->quitRequested = (inputManager.IsKeyDown(KEY_ESC) || inputManager.QuitRequested());
 
+	// Get keyboard input for camera WASD / arrows
+	bool accelerateCameraU = (inputManager.IsKeyDown(KEY_W) || inputManager.IsKeyDown(KEY_UP));
+	bool accelerateCameraD = (inputManager.IsKeyDown(KEY_S) || inputManager.IsKeyDown(KEY_DOWN));
+	bool accelerateCameraL = (inputManager.IsKeyDown(KEY_A) || inputManager.IsKeyDown(KEY_LEFT));
+	bool accelerateCameraR = (inputManager.IsKeyDown(KEY_D) || inputManager.IsKeyDown(KEY_RIGHT));
+	float cameraAcceleration = 50.0f;
+	float cameraDecceleration = 0.80f;
+	if (!(accelerateCameraU || accelerateCameraD) ) {
+		// deccelerate vertical
+		Camera::speed.y = std::abs(Camera::speed.y) < 1.0f ? 0.0f : Camera::speed.y * cameraDecceleration;
+	} else {
+		if (accelerateCameraU) { Camera::speed.y -= cameraAcceleration; }
+		if (accelerateCameraD) { Camera::speed.y += cameraAcceleration; }
+	}
+	if (!(accelerateCameraL || accelerateCameraR) ) {
+		// deccelerate horizontal
+		Camera::speed.x = std::abs(Camera::speed.x) < 1.0f ? 0.0f : Camera::speed.x * cameraDecceleration;
+	} else {
+		if (accelerateCameraL) { Camera::speed.x -= cameraAcceleration; }
+		if (accelerateCameraR) { Camera::speed.x += cameraAcceleration; }
+	}
+
 	// Spawn faces on SPACE key press
 	int mouseX = inputManager.GetMouseX();
 	int mouseY = inputManager.GetMouseY();
 	if (inputManager.KeyPress(KEY_SPACE)) {
-		Vec2 objPos = Vec2(mouseX, mouseY) + Vec2(200, 0).RotateBy(rand() % 360);
+		Vec2 objPos = Vec2(mouseX + Camera::pos.x, mouseY + Camera::pos.y) + Vec2(200, 0).RotateBy(rand() % 360);
 		AddObject((int)objPos.x, (int)objPos.y);
 	}
 
@@ -93,7 +121,7 @@ void State::HandleInput(void) {
 		for(int i = objectArray.size() - 1; i >= 0; --i) {
 			GameObject & obj = *objectArray[i];
 
-			if(obj.box.Contains((float) mouseX, (float) mouseY)) {
+			if(obj.box.Contains(mouseX + Camera::pos.x, mouseY + Camera::pos.y)) {
 				Face* face = (Face*)obj.GetComponent("Face");
 				if (face != nullptr) {
 					// Aplica dano
@@ -104,4 +132,5 @@ void State::HandleInput(void) {
 			}
 		}
 	}
+	
 }
