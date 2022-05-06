@@ -15,13 +15,20 @@
 #include "errors.h"
 
 State::State (void) {
-	LoadAssets();
 	this->started = false;
 	this->quitRequested = false;
 }
 
 State::~State(void) {
 	this->objectArray.clear();
+}
+
+void State::Start(void) {
+	if (!started) {
+		LoadAssets();
+		for (auto & i : objectArray) { i->Start(); }
+		started = true;
+	}
 }
 
 bool State::QuitRequested (void) {
@@ -53,7 +60,7 @@ void State::Update (float dt) {
 
 	Camera::Update(dt);
 
-	for(std::unique_ptr<GameObject> & obj : this->objectArray) {
+	for(auto & obj : this->objectArray) {
 		obj->Update(dt);
 	}
 	for (size_t i = 0; i < this->objectArray.size(); ++i) {
@@ -64,7 +71,7 @@ void State::Update (float dt) {
 }
 
 void State::Render (void) {
-	for(std::unique_ptr<GameObject> & obj : this->objectArray) {
+	for(auto & obj : this->objectArray) {
 		obj->Render();
 	}
 }
@@ -80,6 +87,23 @@ void State::AddObject(int mouseX, int mouseY) {
 	obj->AddComponent(new Face(*obj));
 
 	this->objectArray.push_back(std::move(obj));
+}
+std::weak_ptr<GameObject> State::AddObject(GameObject * go) {
+	auto obj_ptr = std::shared_ptr<GameObject>(go);
+	if (started) { obj_ptr->Start(); }
+	objectArray.push_back(obj_ptr);
+	//return std::weak_ptr<GameObject>(obj_ptr);
+	#pragma message ("Review this State 96")
+	return obj_ptr;
+}
+
+std::weak_ptr<GameObject> State::GetObjectPtr(GameObject * go) const {
+	for (auto & shared : objectArray) {
+		if (go == shared.get()) {
+			return std::weak_ptr<GameObject>(shared);
+		}
+	}
+	return std::weak_ptr<GameObject>();
 }
 
 void State::HandleInput(void) {
@@ -136,7 +160,3 @@ void State::HandleInput(void) {
 	}
 }
 
-void State::Start(void) {
-	#pragma message (MSG_UNIMPLEMENTED_ERR)
-	throw std::runtime_error(MSG_UNIMPLEMENTED_ERR);
-}

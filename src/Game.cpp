@@ -103,6 +103,7 @@ Game::~Game() {
 }
 
 void Game::Run(void) {
+	this->state->Start();
 	while (!this->state->QuitRequested()) {
 		this->CalculateDeltaTime();
 
