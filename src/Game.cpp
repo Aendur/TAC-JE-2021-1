@@ -136,7 +136,7 @@ Game & Game::GetInstance (void) {
 void Game::CalculateDeltaTime(void) {
 	int lastFrame = this->frameStart;
 	this->frameStart = SDL_GetTicks();
-	this->dt = (float) (this->frameStart - lastFrame) * 0.001;
+	this->dt = (float) (this->frameStart - lastFrame) * 0.001f;
 	//std::cout << this->dt << std::endl;
 }
 

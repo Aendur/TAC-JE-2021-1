@@ -26,7 +26,7 @@ void TileSet::RenderTile (int index, float x, float y) {
 		int x0 = col * tileWidth;
 		int y0 = row * tileHeight;
 		tileSet.SetClip(x0, y0, tileWidth, tileHeight);
-		tileSet.Render(x, y);
+		tileSet.Render((int)x, (int)y);
 	} else {
 		throw std::out_of_range("tile index out of bounds");
 	}

@@ -1,8 +1,9 @@
 #include "Game.h"
 
-#include <ctime>
+//#include <ctime>
 #include <filesystem>
 #include <iostream>
+#include <random>
 
 #ifndef UNITTEST
 int main (int, char ** argv) {
@@ -10,7 +11,8 @@ int main (int, char ** argv) {
 	std::cout << "working directory is " << wdir << std::endl;
 	std::filesystem::current_path(wdir);
 	
-	std::srand(std::time(NULL));
+	//std::srand(std::time(NULL));
+	std::srand(std::random_device()());
 	Game game = Game::GetInstance();
 	game.Run();
 

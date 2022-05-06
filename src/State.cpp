@@ -2,7 +2,6 @@
 
 #include <stdexcept>
 #include <string>
-//#include <SDL2/SDL.h>
 #include "InputManager.h"
 #include "CameraFollower.h"
 #include "Camera.h"
@@ -13,6 +12,7 @@
 #include "TileSet.h"
 #include "TileMap.h"
 #include "Vec2.h"
+#include "errors.h"
 
 State::State (void) {
 	std::unique_ptr<GameObject> bg = std::make_unique<GameObject>();
@@ -32,6 +32,8 @@ State::State (void) {
 	tiles->box.x = 0;
 	tiles->box.y = 0;
 	this->objectArray.push_back(std::move(tiles));
+	this->started = false;
+	this->quitRequested = false;
 }
 
 State::~State(void) {
@@ -112,13 +114,13 @@ void State::HandleInput(void) {
 	int mouseX = inputManager.GetMouseX();
 	int mouseY = inputManager.GetMouseY();
 	if (inputManager.KeyPress(KEY_SPACE)) {
-		Vec2 objPos = Vec2(mouseX + Camera::pos.x, mouseY + Camera::pos.y) + Vec2(200, 0).RotateBy(rand() % 360);
+		Vec2 objPos = Vec2((float)mouseX + Camera::pos.x, (float)mouseY + Camera::pos.y) + Vec2(200.0f, 0.0f).RotateBy((float)(rand() % 360));
 		AddObject((int)objPos.x, (int)objPos.y);
 	}
 
 	// Damage faces on MOUSE click
 	if (inputManager.MousePress(MOUSE_LEFT) || inputManager.MousePress(MOUSE_RIGHT)) {
-		for(int i = objectArray.size() - 1; i >= 0; --i) {
+		for(int i = (int) objectArray.size() - 1; i >= 0; --i) {
 			GameObject & obj = *objectArray[i];
 
 			if(obj.box.Contains(mouseX + Camera::pos.x, mouseY + Camera::pos.y)) {
@@ -132,5 +134,9 @@ void State::HandleInput(void) {
 			}
 		}
 	}
-	
+}
+
+void State::Start(void) {
+	#pragma message ("State::Start(void) not implemented")
+	throw std::runtime_error(MSG_UNIMPLEMENTED_ERR);
 }

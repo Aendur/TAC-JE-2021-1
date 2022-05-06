@@ -53,8 +53,8 @@ void TileMap::Load (const std::string & file) {
 	}
 }
 
-void TileMap::SetTileSet (TileSet * tileSet) {
-	this->tileSet = tileSet;
+void TileMap::SetTileSet (TileSet * ts) {
+	this->tileSet = ts;
 }
 
 int& TileMap::At (int x, int y, int z) {
@@ -97,7 +97,7 @@ void TileMap::Update (float dt) {
 void TileMap::Render (void) {
 	//for (int layer = 0; layer < this->mapDepth; ++layer) {
 	for (int layer = this->mapDepth - 1; layer >= 0; --layer) {
-		this->RenderLayer (layer, Camera::pos.x, Camera::pos.y);
+		this->RenderLayer (layer, (int)Camera::pos.x, (int)Camera::pos.y);
 	}
 }
 

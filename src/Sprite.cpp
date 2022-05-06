@@ -24,9 +24,9 @@ void Sprite::Open (const std::string& file) {
 	}
 	associated.box.x = 0;
 	associated.box.y = 0;
-	associated.box.w = this->width;
-	associated.box.h = this->height;
-	this->SetClip(0, 0, associated.box.w, associated.box.h);
+	associated.box.w = (float) this->width;
+	associated.box.h = (float) this->height;
+	this->SetClip(0, 0, (int)associated.box.w, (int)associated.box.h);
 }
 
 void Sprite::Reopen (const std::string& file) {
@@ -75,7 +75,7 @@ void Sprite::Render (int x, int y) {
 void Sprite::Update(float dt) { (void) dt; }
 
 void Sprite::Render (void) {
-	this->Render(associated.box.x - Camera::pos.x, associated.box.y - Camera::pos.y);
+	this->Render((int)(associated.box.x - Camera::pos.x), (int)(associated.box.y - Camera::pos.y));
 }
 
 bool Sprite::Is (const std::string & type) {

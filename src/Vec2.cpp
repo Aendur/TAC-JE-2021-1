@@ -7,7 +7,7 @@
 
 Vec2 Vec2::RotateBy(float deg) {
 	double t = deg * M_PI / 180.0;
-	return Vec2(x * cos(t) - y * sin(t), y * cos(t) + x * sin(t));
+	return Vec2((float)(x * cos(t) - y * sin(t)), (float)(y * cos(t) + x * sin(t)));
 }
 
 Vec2 Vec2::operator+(const Vec2 & other) {
