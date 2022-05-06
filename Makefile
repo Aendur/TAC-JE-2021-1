@@ -1,24 +1,32 @@
-# LIBPATH and LNKPATH must be set according to where SDL is located in your system
-LIBPATH = D:/SDL/include
-LNKPATH = D:/SDL/mingw/lib/x64
+# SDL_INCLUDE_PATH and SDL_LIB_PATH must be set according to where SDL is located in your system
+#SDL_INCLUDE_PATH=
+#SDL_LIB_PATH=
 
 #####
-CFLAGS = -std=c++17 -m64 -Wall -Wextra -Wpedantic
-LIBS = $(patsubst src/%.cpp,obj/%.o,$(filter-out src/main.cpp,$(wildcard src/*.cpp)))
-SDLLFLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer
+SRCDIR=src
+HEADIR=include
+OBJDIR=obj
+MAIN=src\main.cpp
+PROJ_LIBS= Camera CameraFollower Face Game GameObject InputManager Music Rect Resources Sound Sprite State TileMap TileSet Vec2
+LIBS=$(patsubst %,obj\\%.obj,$(PROJ_LIBS))
+CFLAGS=/W4 /EHsc /std:c++20 /I$(HEADIR) /I$(SDL_INCLUDE_PATH) /utf-8 /nologo
 
-#-mwindows = noconsole
-main: $(LIBS)
-	g++ $(CFLAGS) -I$(LIBPATH) -Iinclude -obin/game.exe src/main.cpp $(LIBS) -L$(LNKPATH) $(SDLLFLAGS)
+SDL_LIBS=SDL2main SDL2 SDL2_image SDL2_mixer
+LINKFLAGS=/link /SUBSYSTEM:CONSOLE /LIBPATH:$(OBJDIR) /LIBPATH:$(SDL_LIB_PATH) $(PROJ_LIBS) $(patsubst %,%.lib,$(SDL_LIBS)) shell32.lib
+#LINKFLAGS=/link /SUBSYSTEM:WINDOWS /LIBPATH:$(OBJDIR) /LIBPATH:$(SDL_LIB_PATH) $(PROJ_LIBS) $(patsubst %,%.lib,$(SDL_LIBS)) shell32.lib
 
-obj/%.o: src/%.cpp include/%.h
-	g++ $(CFLAGS) -I$(LIBPATH) -Iinclude -c -o$@ $<
+bin\main.exe: dirs $(MAIN) $(LIBS)
+	cl $(CFLAGS) /Fo:obj\ /Fe:bin\game.exe $(MAIN) $(LINKFLAGS)
 
-unittest_tilemap: CFLAGS += -DUNITTEST -DUNITTEST_TILEMAP
-unittest_tilemap: obj/TileMap.o obj/GameObject.o obj/Rect.o
-	g++ -I$(LIBPATH) -o tests/test.exe $^ -L$(LNKPATH) $(SDLLFLAGS)
+{src\}.cpp{obj\}.obj:
+	cl $(CFLAGS) /c /Fo:obj\ $<
 
-.PHONY: clean
+dirs:
+	(IF NOT EXIST obj (MKDIR obj))
+.PHONY: dirs
+
 clean:
-	for /F %%i in ('dir /b obj') do (echo removing file %%i && del obj\%%i)
+	FOR %I IN (obj\*) DO @((echo Removing file %I) & (del %I))
+	IF EXIST obj (rmdir obj)
+.PHONY: clean
 
