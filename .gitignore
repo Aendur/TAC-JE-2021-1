@@ -45,3 +45,5 @@ bin/LICENSE.*
 bin/sdl2-config
 src/test.cpp
 tests/
+
+test.cpp

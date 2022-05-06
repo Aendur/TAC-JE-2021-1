@@ -137,6 +137,6 @@ void State::HandleInput(void) {
 }
 
 void State::Start(void) {
-	#pragma message ("State::Start(void) not implemented")
+	#pragma message (MSG_UNIMPLEMENTED_ERR)
 	throw std::runtime_error(MSG_UNIMPLEMENTED_ERR);
 }

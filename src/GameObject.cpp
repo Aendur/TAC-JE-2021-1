@@ -1,8 +1,17 @@
 #include "GameObject.h"
 #include "Component.h"
+#include "errors.h"
 #include <stdexcept>
 
-GameObject::GameObject (void) {}
+GameObject::GameObject (void) {
+	isDead = false;
+	started = false;
+}
+
+void GameObject::Start(void) {
+	#pragma message (MSG_UNIMPLEMENTED_ERR)
+	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
+}
 
 GameObject::~GameObject (void) {
 	for (Component * component : this->components) {

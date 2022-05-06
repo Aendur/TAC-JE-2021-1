@@ -9,7 +9,8 @@ class Component;
 class GameObject {
 private:
 	std::vector<Component*> components;
-	bool isDead = false;
+	bool isDead;
+	bool started; 
 
 public:
 	GameObject (void);
@@ -21,6 +22,8 @@ public:
 	void AddComponent(Component * cpt);
 	void RemoveComponent(Component * cpt);
 	Component * GetComponent(const std::string & type);
+
+	void Start(void);
 
 	Rect box;
 };

@@ -2,9 +2,12 @@
 #include "Sprite.h"
 #include "GameObject.h"
 #include "Sound.h"
+#include "errors.h"
 #include <stdexcept>
 #include <string>
 #include <iostream>
+
+#pragma message (MSG_ERROR_COLOR("MARKED FOR REMOVAL"))
 
 Face::Face (GameObject& associated) : Component(associated) { }
 
