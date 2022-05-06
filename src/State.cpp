@@ -15,6 +15,20 @@
 #include "errors.h"
 
 State::State (void) {
+	LoadAssets();
+	this->started = false;
+	this->quitRequested = false;
+}
+
+State::~State(void) {
+	this->objectArray.clear();
+}
+
+bool State::QuitRequested (void) {
+	return this->quitRequested;
+}
+
+void State::LoadAssets (void) {
 	std::unique_ptr<GameObject> bg = std::make_unique<GameObject>();
 	bg->AddComponent(new Sprite(*bg, "assets/img/ocean.jpg"));
 	bg->AddComponent(new CameraFollower(*bg));
@@ -32,20 +46,6 @@ State::State (void) {
 	tiles->box.x = 0;
 	tiles->box.y = 0;
 	this->objectArray.push_back(std::move(tiles));
-	this->started = false;
-	this->quitRequested = false;
-}
-
-State::~State(void) {
-	this->objectArray.clear();
-}
-
-bool State::QuitRequested (void) {
-	return this->quitRequested;
-}
-
-void State::LoadAssets (void) {
-	throw std::runtime_error("not implemented");
 }
 
 void State::Update (float dt) {
