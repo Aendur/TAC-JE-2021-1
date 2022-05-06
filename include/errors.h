@@ -4,6 +4,12 @@
 #include <stdexcept>
 #include <string>
 
-#define MSG_UNIMPLEMENTED_ERR std::string(__FILE__) + "(" + std::to_string(__LINE__) + "): unimplemented | " + std::string(__FUNCTION__)
-#define MSG_INCOMPLETE_IMPLMT std::string(__FILE__) + "(" + std::to_string(__LINE__) + "): incomplete implementation | " + std::string(__FUNCTION__)
+#define STRING2(val) #val
+#define STRING(val) STRING2(val)
+
+#define MSG_ERROR_COLOR(msg) "\033[31;1m" msg "\033[0m"
+
+#define MSG_UNIMPLEMENTED_ERR MSG_ERROR_COLOR(__FILE__ "(" STRING(__LINE__) "): " __FUNCTION__ " not implemented")
+#define MSG_INCOMPLETE_IMPLMT MSG_ERROR_COLOR(__FILE__ "(" STRING(__LINE__) "): " __FUNCTION__ " incomplete implementation")
+
 #endif
