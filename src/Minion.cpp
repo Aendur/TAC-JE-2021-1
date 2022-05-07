@@ -1,11 +1,10 @@
 #include "Minion.h"
 #include "Sprite.h"
+#include "Bullet.h"
+#include "Game.h"
+#include "State.h"
 #include "GameObject.h"
-//#include "InputManager.h"
-//#include "Sound.h"
 #include "errors.h"
-//#include <stdexcept>
-//#include <string>
 #include <iostream>
 
 
@@ -45,5 +44,11 @@ bool Minion::Is (const std::string & type) {
 }
 
 void Minion::Shoot(const Vec2 & vec) {
-	#pragma message (MSG_INCOMPLETE_ERR)
+	State & state = Game::GetInstance().GetState();
+	Vec2 target = vec - associated.GetCenterPosition();
+
+	GameObject * bullet = new GameObject();
+	bullet->AddComponent(new Bullet(*bullet, target.deg(), 300.0f, 20, 500.0f, "assets/img/minionbullet1.png"));
+	bullet->SetCenterPosition(associated.GetCenterPosition());
+	state.AddObject(bullet);
 }

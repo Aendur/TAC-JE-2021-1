@@ -2,7 +2,6 @@
 #define MINION_H
 
 #include <string>
-#include <queue>
 #include <SDL2/SDL.h>
 
 #include "Component.h"

@@ -5,10 +5,7 @@
 #include "Minion.h"
 #include "GameObject.h"
 #include "InputManager.h"
-//#include "Sound.h"
 #include "errors.h"
-//#include <stdexcept>
-//#include <string>
 #include <iostream>
 
 Alien::Alien (GameObject& associated, int nMinions) : Component(associated), nMinions(nMinions) {
@@ -85,7 +82,7 @@ bool Alien::MoveTo(const Vec2 & newpos, float dt) {
 		std::cout << "alien " << oldpos << " arrived at " << newpos << std::endl;
 		return true;
 	} else {
-		speed = dif * (Vmax / dif.abs());
+		speed = dif * (Vmax / dif.mag());
 		associated.SetCenterPosition(oldpos + speed * dt);
 		//std::cout << "alien " << oldpos << " is moving to " << newpos << " with speed " << speed << std::endl;
 		return false;
@@ -93,8 +90,10 @@ bool Alien::MoveTo(const Vec2 & newpos, float dt) {
 }
 
 bool Alien::ShootAt(const Vec2 & newpos) {
-	Vec2 oldpos = associated.GetCenterPosition();
-	std::cout << "alien @ " << oldpos << " would SHOOT @ " << newpos << std::endl;
+	//Vec2 oldpos = associated.GetCenterPosition();
+	//std::cout << "alien @ " << oldpos << " would SHOOT @ " << newpos << std::endl;
+	Minion * minion = (Minion*) minionArray.at(0).lock()->GetComponent("Minion");
+	if (minion != nullptr) { minion->Shoot(newpos); }
 	return true;
 }
 
