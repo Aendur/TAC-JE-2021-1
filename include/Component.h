@@ -13,7 +13,8 @@ public:
 	virtual ~Component () {}
 	virtual void Update(float dt) = 0;
 	virtual void Render(void) = 0;
-	virtual bool Is(const std::string & type) = 0;
+	virtual bool Is(const std::string & type) const = 0;
+	virtual const std::string GetType(void) const = 0;
 	virtual void Start(void) {}
 };
 

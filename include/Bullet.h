@@ -24,7 +24,8 @@ public:
 	//void Start (void);
 	void Update (float dt);
 	void Render (void);
-	bool Is (const std::string & type);
+	bool Is (const std::string & type) const;
+	const std::string GetType(void) const;
 	int GetDamage (void) const;
 };
 

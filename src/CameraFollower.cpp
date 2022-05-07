@@ -15,6 +15,10 @@ void CameraFollower::Update (float dt) {
 
 void CameraFollower::Render (void) { }
 
-bool CameraFollower::Is (const std::string & type) {
-	return (type.compare("CameraFollower") == 0);
+bool CameraFollower::Is (const std::string & type) const {
+	return type.compare("CameraFollower") == 0;
+}
+
+const std::string CameraFollower::GetType(void) const {
+	return "CameraFollower";
 }

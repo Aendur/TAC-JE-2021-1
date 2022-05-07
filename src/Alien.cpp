@@ -59,17 +59,17 @@ void Alien::Update (float dt) {
 		if (complete) {
 			taskQueue.pop();
 		}
-		//taskQueue.pop();
-		//if (!complete) {
-		//	taskQueue.push(nextAction);
-		//}
 	}
 }
 
 void Alien::Render (void) { }
 
-bool Alien::Is (const std::string & type) {
+bool Alien::Is (const std::string & type) const {
 	return type.compare("Alien") == 0;
+}
+
+const std::string Alien::GetType(void) const {
+	return "Alien";
 }
 
 bool Alien::MoveTo(const Vec2 & newpos, float dt) {
@@ -84,14 +84,11 @@ bool Alien::MoveTo(const Vec2 & newpos, float dt) {
 	} else {
 		speed = dif * (Vmax / dif.mag());
 		associated.SetCenterPosition(oldpos + speed * dt);
-		//std::cout << "alien " << oldpos << " is moving to " << newpos << " with speed " << speed << std::endl;
 		return false;
 	}
 }
 
 bool Alien::ShootAt(const Vec2 & newpos) {
-	//Vec2 oldpos = associated.GetCenterPosition();
-	//std::cout << "alien @ " << oldpos << " would SHOOT @ " << newpos << std::endl;
 	Minion * minion = (Minion*) minionArray.at(0).lock()->GetComponent("Minion");
 	if (minion != nullptr) { minion->Shoot(newpos); }
 	return true;

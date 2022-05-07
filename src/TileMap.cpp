@@ -101,8 +101,12 @@ void TileMap::Render (void) {
 	}
 }
 
-bool TileMap::Is (const std::string & type) {
-	return (type.compare("TileMap") == 0);
+bool TileMap::Is (const std::string & type) const {
+	return type.compare("TileMap") == 0;
+}
+
+const std::string TileMap::GetType(void) const {
+	return "TileMap";
 }
 
 #ifdef UNITTEST

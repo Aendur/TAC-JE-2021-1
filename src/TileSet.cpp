@@ -45,6 +45,10 @@ void TileSet::Update(float dt) { (void) dt; }
 
 void TileSet::Render (void) { }
 
-bool TileSet::Is (const std::string & type) {
-	return (type.compare("TileSet") == 0);
+bool TileSet::Is (const std::string & type) const {
+	return type.compare("TileSet") == 0;
+}
+
+const std::string TileSet::GetType(void) const {
+	return "TileSet";
 }

@@ -3,8 +3,6 @@
 #include "GameObject.h"
 #include "Resources.h"
 #include "Camera.h"
-
-#include <stdexcept>
 #include <SDL2/SDL_image.h>
 
 Sprite::Sprite (GameObject & associated) : Component(associated) { }
@@ -82,6 +80,10 @@ void Sprite::Render (void) {
 	this->Render((int)(associated.box.x - Camera::pos.x), (int)(associated.box.y - Camera::pos.y));
 }
 
-bool Sprite::Is (const std::string & type) {
-	return (type.compare("Sprite") == 0);
+bool Sprite::Is (const std::string & type) const {
+	return type.compare("Sprite") == 0;
+}
+
+const std::string Sprite::GetType(void) const {
+	return "Sprite";
 }

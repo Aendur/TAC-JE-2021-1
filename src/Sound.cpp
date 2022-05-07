@@ -5,10 +5,13 @@
 void Sound::Update(float dt) { (void) dt; }
 void Sound::Render(void) { }
 
-bool Sound::Is(const std::string & type) {
-	return (type.compare("Sound") == 0);
+bool Sound::Is (const std::string & type) const {
+	return type.compare("Sound") == 0;
 }
 
+const std::string Sound::GetType(void) const {
+	return "Sound";
+}
 
 Sound::Sound (GameObject & associated) : Component(associated) {}
 

@@ -49,8 +49,12 @@ void Bullet::Update (float dt) {
 
 void Bullet::Render (void) { }
 
-bool Bullet::Is (const std::string & type) {
+bool Bullet::Is (const std::string & type) const {
 	return type.compare("Bullet") == 0;
+}
+
+const std::string Bullet::GetType(void) const {
+	return "Bullet";
 }
 
 int Bullet::GetDamage(void) const {

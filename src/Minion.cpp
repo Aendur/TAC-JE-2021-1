@@ -39,8 +39,12 @@ void Minion::Update (float dt) {
 
 void Minion::Render (void) { }
 
-bool Minion::Is (const std::string & type) {
+bool Minion::Is (const std::string & type) const {
 	return type.compare("Minion") == 0;
+}
+
+const std::string Minion::GetType(void) const {
+	return "Minion";
 }
 
 void Minion::Shoot(const Vec2 & vec) {
