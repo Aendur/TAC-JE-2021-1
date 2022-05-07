@@ -34,7 +34,20 @@ Vec2 operator*(float op1, const Vec2 & op2) {
 	return op2 * op1;
 }
 
+float Vec2::abs(void) const {
+	return std::sqrt(this->x * this->x + this->y * this->y);
+}
+
+bool Vec2::operator<(float other) const {
+	return this->abs() < other;
+}
+
+bool operator<(float op1, const Vec2 & op2) {
+	return op1 < op2.abs();
+}
+
 std::ostream& operator<< (std::ostream& os, const Vec2& vec) {
 	os << '(' << vec.x << ',' << vec.y << ')';
 	return os;
 }
+
