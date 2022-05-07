@@ -6,17 +6,15 @@
 #include "errors.h"
 //#include <stdexcept>
 //#include <string>
-//#include <iostream>
+#include <iostream>
 
 Alien::Alien (GameObject& associated, int nMinions) : Component(associated) {
-	#pragma message (MSG_INCOMPLETE_ERR)
 	speed = { 0, 0 };
 	hp = 100;
 	associated.AddComponent(new Sprite(associated, "assets/img/alien.png"));
 }
 
 Alien::~Alien (void) {
-	#pragma message (MSG_INCOMPLETE_ERR)
 	minionArray.clear();
 }
 
@@ -24,12 +22,10 @@ void Alien::Start (void) {
 	#pragma message (MSG_INCOMPLETE_ERR)
 }
 
-#include <iostream>
 void Alien::Update (float dt) {
-	#pragma message (MSG_INCOMPLETE_ERR)
 	InputManager & inputManager = InputManager::GetInstance();
 
-	associated.SetRotation(associated.GetRotation() + 8);
+	associated.SetRotation(associated.GetRotation() + 6);
 
 	// Get camera-independent mouse position
 	Vec2 newpos = inputManager.GetMouseWorldPosition();
@@ -43,7 +39,7 @@ void Alien::Update (float dt) {
 	}
 
 	// Axecute actions, if any
-	while (!taskQueue.empty()) {
+	if (!taskQueue.empty()) {
 		Action nextAction = taskQueue.front();
 		bool complete = false;
 		switch(nextAction.type) {
@@ -51,10 +47,13 @@ void Alien::Update (float dt) {
 			case Action::SHOOT: complete = ShootAt(nextAction.pos); break;
 			default: break;
 		}
-		taskQueue.pop();
-		if (!complete) {
-			taskQueue.push(nextAction);
+		if (complete) {
+			taskQueue.pop();
 		}
+		//taskQueue.pop();
+		//if (!complete) {
+		//	taskQueue.push(nextAction);
+		//}
 	}
 }
 
@@ -65,10 +64,20 @@ bool Alien::Is (const std::string & type) {
 }
 
 bool Alien::MoveTo(const Vec2 & newpos, float dt) {
+	static const float Vmax = 200.0f;
 	Vec2 oldpos = associated.GetCenterPosition();
-	//Vec2 spd = (newpos - oldpos);
-	std::cout << "alien @ " << oldpos << " would MOVE @ " << newpos << std::endl;
-	return true;
+	Vec2 dif = (newpos - oldpos);
+	if (dif < Vmax * dt) {
+		associated.SetCenterPosition(newpos);
+		speed = { 0, 0 };
+		std::cout << "alien " << oldpos << " arrived at " << newpos << std::endl;
+		return true;
+	} else {
+		speed = dif * (Vmax / dif.abs());
+		associated.SetCenterPosition(oldpos + speed * dt);
+		//std::cout << "alien " << oldpos << " is moving to " << newpos << " with speed " << speed << std::endl;
+		return false;
+	}
 }
 
 bool Alien::ShootAt(const Vec2 & newpos) {
