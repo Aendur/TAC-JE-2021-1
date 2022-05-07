@@ -7,7 +7,7 @@ SRCDIR=src
 HEADIR=include
 OBJDIR=obj
 MAIN=src\main.cpp
-PROJ_LIBS= Alien Camera CameraFollower Face Game GameObject InputManager Music Rect Resources Sound Sprite State TileMap TileSet Vec2
+PROJ_LIBS= Alien Camera CameraFollower Game GameObject InputManager Music Rect Resources Sound Sprite State TileMap TileSet Vec2
 LIBS=$(patsubst %,obj\\%.obj,$(PROJ_LIBS))
 CFLAGS=/W4 /EHsc /std:c++20 /I$(HEADIR) /I$(SDL_INCLUDE_PATH) /utf-8 /nologo
 
