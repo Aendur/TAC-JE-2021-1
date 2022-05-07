@@ -66,3 +66,22 @@ Component * GameObject::GetComponent(const std::string & type) {
 	}
 	return nullptr;
 }
+
+Vec2 GameObject::GetPosition(void) const {
+	return Vec2(box.x, box.y);
+}
+
+Vec2 GameObject::GetCenterPosition(void) const {
+	return Vec2(box.x + box.w/2, box.y + box.h/2);
+}
+
+void GameObject::SetPosition(const Vec2 & pos) {
+	box.x = pos.x;
+	box.y = pos.y;
+}
+
+void GameObject::SetCenterPosition(const Vec2 & pos) {
+	box.x = pos.x - box.w/2;
+	box.y = pos.y - box.h/2;
+}
+

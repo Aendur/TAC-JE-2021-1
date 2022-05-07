@@ -39,8 +39,7 @@ void State::LoadAssets (void) {
 	GameObject * bg = new GameObject();
 	bg->AddComponent(new Sprite(*bg, "assets/img/ocean.jpg"));
 	bg->AddComponent(new CameraFollower(*bg));
-	bg->box.x = 0;
-	bg->box.y = 0;
+	bg->SetPosition({0, 0});
 	this->AddObject(bg);
 	//this->objectArray.push_back(std::move(bg));
 
@@ -52,15 +51,13 @@ void State::LoadAssets (void) {
 	TileSet * tileset = new TileSet(*tiles, 64, 64, "assets/img/tileset.png");
 	tiles->AddComponent(tileset);
 	tiles->AddComponent(new TileMap(*tiles, "assets/map/tileMap.txt", tileset));
-	tiles->box.x = 0;
-	tiles->box.y = 0;
+	tiles->SetPosition({0, 0});
 	this->AddObject(tiles);
 	//this->objectArray.push_back(std::move(tiles));
 
 	GameObject * alien = new GameObject();
 	alien->AddComponent(new Alien(*alien, 5));
-	alien->box.x = 512;
-	alien->box.y = 300;
+	alien->SetCenterPosition({512, 300});
 	this->AddObject(alien);
 }
 

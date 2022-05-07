@@ -116,6 +116,12 @@ int InputManager::GetMouseY(void) {
 	return this->mouseY;
 }
 
+#include "Camera.h"
+
+Vec2 InputManager::GetMouseWorldPosition(void) {
+	return Vec2(this->mouseX + Camera::pos.x, this->mouseY + Camera::pos.y);
+}
+
 bool InputManager::QuitRequested(void) {
 	return this->quitRequested;
 }

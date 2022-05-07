@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "Rect.h"
+#include "Vec2.h"
 class Component;
 
 class GameObject {
@@ -22,6 +23,11 @@ public:
 	void AddComponent(Component * cpt);
 	void RemoveComponent(Component * cpt);
 	Component * GetComponent(const std::string & type);
+
+	Vec2 GetPosition(void) const;
+	Vec2 GetCenterPosition(void) const;
+	void SetPosition(const Vec2 & pos);
+	void SetCenterPosition(const Vec2 & pos);
 
 	void Start(void);
 

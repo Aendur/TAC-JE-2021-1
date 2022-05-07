@@ -1,8 +1,9 @@
 #ifndef INPUTMANAGER_H
 #define INPUTMANAGER_H
 
-//#include <string>
 #include <unordered_map>
+#include "Vec2.h"
+
 #define KEY_LEFT     SDLK_LEFT
 #define KEY_RIGHT    SDLK_RIGHT
 #define KEY_UP       SDLK_UP
@@ -47,6 +48,7 @@ public:
 
 	int GetMouseX(void);
 	int GetMouseY(void);
+	Vec2 GetMouseWorldPosition(void);
 
 	bool QuitRequested(void);
 };

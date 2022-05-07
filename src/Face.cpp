@@ -7,7 +7,7 @@
 #include <string>
 #include <iostream>
 
-#pragma message (MSG_ERROR_COLOR("MARKED FOR REMOVAL"))
+#pragma message (MSG_ERROR_COLOR_RED("MARKED FOR REMOVAL"))
 
 Face::Face (GameObject& associated) : Component(associated) { }
 
