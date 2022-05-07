@@ -19,13 +19,16 @@ private:
 
 		ActionType type;
 		Vec2 pos;
-		Action(ActionType type, float x, float y);
+		Action(ActionType type, float x, float y) : type(type), pos(x, y) {}
 	};
 
 	Vec2 speed;
 	int hp;
 	std::queue<Action> taskQueue;
 	std::vector<std::weak_ptr<GameObject>> minionArray;
+
+	bool MoveTo(const Vec2 & newpos, float dt);
+	bool ShootAt(const Vec2 & newpos);
 
 public:
 	//
