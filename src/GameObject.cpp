@@ -8,16 +8,20 @@ GameObject::GameObject (void) {
 	started = false;
 }
 
-void GameObject::Start(void) {
-	#pragma message (MSG_UNIMPLEMENTED_ERR)
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
-}
-
 GameObject::~GameObject (void) {
 	for (Component * component : this->components) {
 		delete(component);
 	}
 	this->components.clear();
+}
+
+void GameObject::Start(void) {
+	if (!started) {
+		for (Component * comp : components) {
+			comp->Start();
+		}
+		started = true;
+	}
 }
 
 void GameObject::Update(float dt) {
@@ -42,6 +46,7 @@ void GameObject::RequestDelete(void) {
 
 void GameObject::AddComponent(Component * cpt) {
 	components.push_back(cpt);
+	if (started) { cpt->Start(); }
 }
 
 void GameObject::RemoveComponent(Component * cpt) {

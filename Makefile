@@ -21,6 +21,8 @@ bin\main.exe: dirs $(MAIN) $(LIBS)
 {src\}.cpp{obj\}.obj:
 	cl $(CFLAGS) /c /Fo:obj\ $<
 
+remake: clean bin\main.exe
+
 dirs:
 	(IF NOT EXIST obj (MKDIR obj))
 .PHONY: dirs
