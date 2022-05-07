@@ -53,7 +53,8 @@ void State::LoadAssets (void) {
 	this->AddObject(tiles);
 
 	GameObject * alien = new GameObject();
-	alien->AddComponent(new Alien(*alien, 5));
+	int N = 3 + rand() % 7;
+	alien->AddComponent(new Alien(*alien, N));
 	alien->SetCenterPosition({512, 300});
 	this->AddObject(alien);
 }

@@ -49,7 +49,7 @@ void Minion::Shoot(const Vec2 & vec) {
 	Vec2 target = vec - associated.GetCenterPosition();
 
 	GameObject * bullet = new GameObject();
-	bullet->AddComponent(new Bullet(*bullet, target.deg(), 300.0f, 20, 500.0f, "assets/img/minionbullet1.png"));
+	bullet->AddComponent(new Bullet(*bullet, target.deg(), 500.0f, 20, 1000.0f, "assets/img/minionbullet1.png"));
 	bullet->SetCenterPosition(associated.GetCenterPosition());
 	state.AddObject(bullet);
 }

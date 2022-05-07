@@ -25,6 +25,13 @@ void Alien::Start (void) {
 	for (int i = 0; i < nMinions; ++i) {
 		GameObject * minion = new GameObject();
 		minion->AddComponent(new Minion(*minion, state.GetObjectPtr(&this->associated), i * arc));
+		
+		Sprite * spr = (Sprite*) minion->GetComponent("Sprite");
+		if (spr != nullptr) {
+			float newscale = (float)(10000 + rand() % 5000) / 10000.0f;
+			spr->SetScale(newscale, newscale);
+		}
+
 		auto ptr = state.AddObject(minion);
 		this->minionArray.push_back(ptr);
 	}
@@ -90,13 +97,12 @@ bool Alien::MoveTo(const Vec2 & newpos, float dt) {
 }
 
 bool Alien::ShootAt(const Vec2 & newpos) {
-	//Minion * minion = (Minion*) minionArray.at(0).lock()->GetComponent("Minion");
 	int N = rand() % minionArray.size();
-	auto minion_weak = minionArray.at(N);
-	auto minion_shared = minion_weak.lock();
-	Minion * minion = (Minion*) minion_shared->GetComponent("Minion");
-	if (minion != nullptr) { minion->Shoot(newpos); }
 	std::cout << "alien minion " << N << " shoot at " << newpos << std::endl;
+
+	Minion * minion = (Minion*) minionArray.at(N).lock()->GetComponent("Minion");
+	if (minion != nullptr) { minion->Shoot(newpos); }
+
 	return true;
 }
 
