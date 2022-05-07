@@ -18,7 +18,7 @@ private:
 public:
 	//
 	Bullet (GameObject& associated, float angle, float speed, int damage, float maxDistance, const std::string & sprite);
-	//~Bullet (void);
+	~Bullet (void);
 
 	// inherited from component
 	//void Start (void);

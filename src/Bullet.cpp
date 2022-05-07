@@ -35,10 +35,16 @@ Bullet::Bullet (GameObject& associated, float angle, float spd, int dmg, float m
 	associated.AddComponent(new Sprite(associated, sprite));
 }
 
+Bullet::~Bullet(void) {
+	std::cout << "bullet deleted\n";
+}
+
 void Bullet::Update (float dt) {
 	associated.SetCenterPosition(associated.GetCenterPosition() + speed * dt);
-	distanceLeft -= speedAbs;
-	if (distanceLeft <= speedAbs * dt) { associated.RequestDelete(); }
+
+	float travelled = speedAbs * dt;
+	distanceLeft -= travelled;
+	if (distanceLeft <= travelled) { associated.RequestDelete(); }
 }
 
 void Bullet::Render (void) { }
