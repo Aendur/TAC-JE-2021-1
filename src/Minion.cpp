@@ -12,12 +12,9 @@ Minion::Minion (GameObject& associated, std::weak_ptr<GameObject> alien, float a
 	associated.AddComponent(new Sprite(associated, "assets/img/Minion.png"));
 }
 
-// void Minion::Start (void) {
-// 	#pragma message (MSG_INCOMPLETE_ERR)
-// 	if (!started) {
-// 		started = true;
-// 	}
-// }
+Minion::~Minion(void) {
+	std::cout << "minion deleted" << std::endl;
+}
 
 void Minion::Update (float dt) {
 	static const Vec2 dist = { 200.0f, 0.0f };

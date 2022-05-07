@@ -15,7 +15,7 @@ private:
 public:
 	//
 	Minion (GameObject& associated, std::weak_ptr<GameObject> alienCenter, float arcOffsetDeg = 0);
-	//~Minion (void);
+	~Minion (void);
 
 	// inherited from component
 	//void Start (void);

@@ -14,6 +14,6 @@
 #define MSG_UNIMPLEMENTED_ERR MSG_ERROR_COLOR_RED(__FILE__ "(" STRING(__LINE__) "): " __FUNCTION__ " not implemented")
 #define MSG_INCOMPLETE_ERR    MSG_ERROR_COLOR_YLW(__FILE__ "(" STRING(__LINE__) "): " __FUNCTION__ " incomplete implementation")
 
-#define DEBUG(msg) std::cout << msg << ' ' << __FILE__ << ' ' << __FUNCTION__ << ' ' << __LINE__ << std::endl
+#define DEBUG(msg) std::cout << __FILE__ << ' ' << __FUNCTION__ << ' ' << __LINE__ << ' ' << msg
 
 #endif
