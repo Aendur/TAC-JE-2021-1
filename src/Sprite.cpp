@@ -68,7 +68,11 @@ void Sprite::Render (int x, int y) {
 	dstrect.y = y;
 	dstrect.w = clipRect.w;
 	dstrect.h = clipRect.h;
-	SDL_RenderCopy(Game::GetInstance().GetRenderer(), this->texture, &clipRect, &dstrect);	
+	if (-0.1f < associated.GetRotation() && associated.GetRotation() < 0.0f) {
+		SDL_RenderCopy(Game::GetInstance().GetRenderer(), this->texture, &clipRect, &dstrect);
+	} else {
+		SDL_RenderCopyEx(Game::GetInstance().GetRenderer(), this->texture, &clipRect, &dstrect, associated.GetRotation(), NULL, SDL_FLIP_NONE);
+	}
 }
 
 // Inherited from Component
