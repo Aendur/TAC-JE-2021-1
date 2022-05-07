@@ -6,7 +6,7 @@
 GameObject::GameObject (void) {
 	isDead = false;
 	started = false;
-	rot = 0.0f;
+	angleDeg = 0.0f;
 }
 
 GameObject::~GameObject (void) {
@@ -87,11 +87,11 @@ void GameObject::SetCenterPosition(const Vec2 & pos) {
 }
 
 float GameObject::GetRotation(void) {
-	return rot;
+	return angleDeg;
 }
 
 void GameObject::SetRotation(float angle) {
 	while (angle > 360.0f) { angle -= 360.0f; }
 	while (angle < 360.0f) { angle += 360.0f; }
-	rot = angle;
+	angleDeg = angle;
 }

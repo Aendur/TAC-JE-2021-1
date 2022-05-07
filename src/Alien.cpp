@@ -1,5 +1,8 @@
 #include "Alien.h"
 #include "Sprite.h"
+#include "Game.h"
+#include "State.h"
+#include "Minion.h"
 #include "GameObject.h"
 #include "InputManager.h"
 //#include "Sound.h"
@@ -8,7 +11,7 @@
 //#include <string>
 #include <iostream>
 
-Alien::Alien (GameObject& associated, int nMinions) : Component(associated) {
+Alien::Alien (GameObject& associated, int nMinions) : Component(associated), nMinions(nMinions) {
 	speed = { 0, 0 };
 	hp = 100;
 	associated.AddComponent(new Sprite(associated, "assets/img/alien.png"));
@@ -19,17 +22,24 @@ Alien::~Alien (void) {
 }
 
 void Alien::Start (void) {
-	#pragma message (MSG_INCOMPLETE_ERR)
+	State & state = Game::GetInstance().GetState();
+
+	float arc = 360.0f / nMinions;
+	for (int i = 0; i < nMinions; ++i) {
+		GameObject * minion = new GameObject();
+		minion->AddComponent(new Minion(*minion, state.GetObjectPtr(&this->associated), i * arc));
+		this->minionArray.push_back(state.AddObject(minion));
+	}
 }
 
 void Alien::Update (float dt) {
-	InputManager & inputManager = InputManager::GetInstance();
-
 	if (hp <= 0) { associated.RequestDelete(); }
 
-	associated.SetRotation(associated.GetRotation() + 6);
+	static const float angularSpeed = 60.0f;
+	associated.SetRotation(associated.GetRotation() + angularSpeed * dt);
 
 	// Get camera-independent mouse position
+	InputManager & inputManager = InputManager::GetInstance();
 	Vec2 newpos = inputManager.GetMouseWorldPosition();
 	
 	// Enqueue actions if applicable
