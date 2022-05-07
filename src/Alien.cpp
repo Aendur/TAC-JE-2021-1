@@ -25,6 +25,8 @@ void Alien::Start (void) {
 void Alien::Update (float dt) {
 	InputManager & inputManager = InputManager::GetInstance();
 
+	if (hp <= 0) { associated.RequestDelete(); }
+
 	associated.SetRotation(associated.GetRotation() + 6);
 
 	// Get camera-independent mouse position
