@@ -97,7 +97,17 @@ bool Alien::MoveTo(const Vec2 & newpos, float dt) {
 }
 
 bool Alien::ShootAt(const Vec2 & newpos) {
-	int N = rand() % minionArray.size();
+	//int N = rand() % minionArray.size();
+	float min_dist = (newpos - minionArray[0].lock()->GetCenterPosition()).mag();
+	int N = 0;
+
+	for (int i = 1; i < minionArray.size(); ++i) {
+		float d = (newpos - minionArray[i].lock()->GetCenterPosition()).mag();
+		if (d < min_dist) {
+			min_dist = d;
+			N = i;
+		}
+	}
 	std::cout << "alien minion " << N << " shoot at " << newpos << std::endl;
 
 	Minion * minion = (Minion*) minionArray.at(N).lock()->GetComponent("Minion");
