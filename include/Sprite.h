@@ -4,6 +4,7 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include "Component.h"
+#include "Vec2.h"
 
 class Sprite : public Component {
 private:
@@ -11,6 +12,7 @@ private:
 	int width = -1;
 	int height = -1;
 	SDL_Rect clipRect;
+	Vec2 scale;
 
 public:
 	Sprite (GameObject& associated);
@@ -24,6 +26,9 @@ public:
 	int GetHeight (void);
 	bool IsOpen (void);
 	void Render (int x, int y);
+
+	void SetScale(float scaleX, float scaleY);
+	const Vec2 & GetScale(void) const;
 	
 	// inherited from component
 	void Update (float dt);

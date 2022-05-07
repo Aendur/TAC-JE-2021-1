@@ -5,9 +5,12 @@
 #include "Camera.h"
 #include <SDL2/SDL_image.h>
 
-Sprite::Sprite (GameObject & associated) : Component(associated) { }
+Sprite::Sprite (GameObject & associated) : Component(associated) {
+	scale = { 1.0f, 1.0f };
+}
 
 Sprite::Sprite (GameObject & associated, const std::string & file) : Sprite(associated) {
+	scale = { 1.0f, 1.0f };
 	this->Open(file);
 }
 
@@ -62,10 +65,13 @@ bool Sprite::IsOpen (void) {
 
 void Sprite::Render (int x, int y) {
 	SDL_Rect dstrect;
-	dstrect.x = x;
-	dstrect.y = y;
-	dstrect.w = clipRect.w;
-	dstrect.h = clipRect.h;
+
+	int scaledW = (int)(clipRect.w * scale.x);
+	int scaledH = (int)(clipRect.h * scale.y);
+	dstrect.x = x - (scaledW - clipRect.w) / 2;
+	dstrect.y = y - (scaledH - clipRect.h) / 2;
+	dstrect.w = scaledW;
+	dstrect.h = scaledH;
 	if (-0.1f < associated.GetRotation() && associated.GetRotation() < 0.0f) {
 		SDL_RenderCopy(Game::GetInstance().GetRenderer(), this->texture, &clipRect, &dstrect);
 	} else {
@@ -86,4 +92,14 @@ bool Sprite::Is (const std::string & type) const {
 
 const std::string Sprite::GetType(void) const {
 	return "Sprite";
+}
+
+void Sprite::SetScale(float scaleX, float scaleY) {
+	if (scaleX > 0.01f) { scale.x = scaleX; }
+	if (scaleY > 0.01f) { scale.y = scaleY; }
+}
+
+
+const Vec2 & Sprite::GetScale(void) const {
+	return this->scale;
 }
