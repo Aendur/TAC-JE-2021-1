@@ -1,5 +1,5 @@
 #include "Alien.h"
-//#include "Sprite.h"
+#include "Sprite.h"
 #include "GameObject.h"
 //#include "Sound.h"
 #include "errors.h"
@@ -11,26 +11,26 @@ Alien::Action::Action(ActionType type, float x, float y) {
 	#pragma message (MSG_UNIMPLEMENTED_ERR)
 	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
 }
-Alien::Alien (GameObject& associated) : Component(associated) {
-	#pragma message (MSG_UNIMPLEMENTED_ERR)
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
+
+Alien::Alien (GameObject& associated, int nMinions) : Component(associated) {
+	#pragma message (MSG_INCOMPLETE_ERR)
+	associated.AddComponent(new Sprite(associated, "assets/img/alien.png"));
 }
+
 Alien::~Alien (void) {
-	#pragma message (MSG_UNIMPLEMENTED_ERR)
+	minionArray.clear();
 }
+
 void Alien::Start (void) {
 	#pragma message (MSG_UNIMPLEMENTED_ERR)
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
 }
+
 void Alien::Update (float dt) {
-	#pragma message (MSG_UNIMPLEMENTED_ERR)
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
+	#pragma message (MSG_INCOMPLETE_ERR)
 }
-void Alien::Render (void) {
-	#pragma message (MSG_UNIMPLEMENTED_ERR)
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
-}
+
+void Alien::Render (void) { }
+
 bool Alien::Is (const std::string & type) {
-	#pragma message (MSG_UNIMPLEMENTED_ERR)
-	throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
+	return type.compare("Alien") == 0;
 }

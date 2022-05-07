@@ -16,7 +16,7 @@ private:
 	std::vector<std::shared_ptr<GameObject>> objectArray;
 
 	void HandleInput(void);
-	void AddObject(int mouseX, int mouseY);
+	// void AddObject(int mouseX, int mouseY);
 
 	bool started;
 public:

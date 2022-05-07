@@ -8,7 +8,7 @@
 #include "GameObject.h"
 #include "Sprite.h"
 #include "Sound.h"
-#include "Face.h"
+#include "Alien.h"
 #include "TileSet.h"
 #include "TileMap.h"
 #include "Vec2.h"
@@ -36,23 +36,32 @@ bool State::QuitRequested (void) {
 }
 
 void State::LoadAssets (void) {
-	std::unique_ptr<GameObject> bg = std::make_unique<GameObject>();
+	GameObject * bg = new GameObject();
 	bg->AddComponent(new Sprite(*bg, "assets/img/ocean.jpg"));
 	bg->AddComponent(new CameraFollower(*bg));
 	bg->box.x = 0;
 	bg->box.y = 0;
-	this->objectArray.push_back(std::move(bg));
+	this->AddObject(bg);
+	//this->objectArray.push_back(std::move(bg));
 
 	music.Open("assets/audio/stageState.ogg");
 	music.Play();
 
-	std::unique_ptr<GameObject> tiles = std::make_unique<GameObject>();
+	//std::unique_ptr<GameObject> tiles = std::make_shared<GameObject>();
+	GameObject * tiles = new GameObject();
 	TileSet * tileset = new TileSet(*tiles, 64, 64, "assets/img/tileset.png");
 	tiles->AddComponent(tileset);
 	tiles->AddComponent(new TileMap(*tiles, "assets/map/tileMap.txt", tileset));
 	tiles->box.x = 0;
 	tiles->box.y = 0;
-	this->objectArray.push_back(std::move(tiles));
+	this->AddObject(tiles);
+	//this->objectArray.push_back(std::move(tiles));
+
+	GameObject * alien = new GameObject();
+	alien->AddComponent(new Alien(*alien, 5));
+	alien->box.x = 512;
+	alien->box.y = 300;
+	this->AddObject(alien);
 }
 
 void State::Update (float dt) {
@@ -76,18 +85,19 @@ void State::Render (void) {
 	}
 }
 
-void State::AddObject(int mouseX, int mouseY) {
-	//std::unique_ptr<GameObject> obj(new GameObject());
-	std::unique_ptr<GameObject> obj = std::make_unique<GameObject>();
-	obj->AddComponent(new Sprite(*obj, "assets/img/penguinface.png"));
-	obj->box.x = mouseX - obj->box.w / 2;
-	obj->box.y = mouseY - obj->box.h / 2;
+// void State::AddObject(int mouseX, int mouseY) {
+// 	//std::unique_ptr<GameObject> obj(new GameObject());
+// 	std::unique_ptr<GameObject> obj = std::make_unique<GameObject>();
+// 	obj->AddComponent(new Sprite(*obj, "assets/img/penguinface.png"));
+// 	obj->box.x = mouseX - obj->box.w / 2;
+// 	obj->box.y = mouseY - obj->box.h / 2;
 
-	obj->AddComponent(new Sound(*obj, "assets/audio/boom.wav"));
-	obj->AddComponent(new Face(*obj));
+// 	obj->AddComponent(new Sound(*obj, "assets/audio/boom.wav"));
+// 	obj->AddComponent(new Face(*obj));
 
-	this->objectArray.push_back(std::move(obj));
-}
+// 	this->objectArray.push_back(std::move(obj));
+// }
+
 std::weak_ptr<GameObject> State::AddObject(GameObject * go) {
 	auto obj_ptr = std::shared_ptr<GameObject>(go);
 	if (started) { obj_ptr->Start(); }
@@ -134,29 +144,29 @@ void State::HandleInput(void) {
 		if (accelerateCameraR) { Camera::speed.x += cameraAcceleration; }
 	}
 
-	// Spawn faces on SPACE key press
-	int mouseX = inputManager.GetMouseX();
-	int mouseY = inputManager.GetMouseY();
-	if (inputManager.KeyPress(KEY_SPACE)) {
-		Vec2 objPos = Vec2((float)mouseX + Camera::pos.x, (float)mouseY + Camera::pos.y) + Vec2(200.0f, 0.0f).RotateBy((float)(rand() % 360));
-		AddObject((int)objPos.x, (int)objPos.y);
-	}
+	// // Spawn faces on SPACE key press
+	// int mouseX = inputManager.GetMouseX();
+	// int mouseY = inputManager.GetMouseY();
+	// if (inputManager.KeyPress(KEY_SPACE)) {
+	// 	Vec2 objPos = Vec2((float)mouseX + Camera::pos.x, (float)mouseY + Camera::pos.y) + Vec2(200.0f, 0.0f).RotateBy((float)(rand() % 360));
+	// 	AddObject((int)objPos.x, (int)objPos.y);
+	// }
 
-	// Damage faces on MOUSE click
-	if (inputManager.MousePress(MOUSE_LEFT) || inputManager.MousePress(MOUSE_RIGHT)) {
-		for(int i = (int) objectArray.size() - 1; i >= 0; --i) {
-			GameObject & obj = *objectArray[i];
+	// // Damage faces on MOUSE click
+	// if (inputManager.MousePress(MOUSE_LEFT) || inputManager.MousePress(MOUSE_RIGHT)) {
+	// 	for(int i = (int) objectArray.size() - 1; i >= 0; --i) {
+	// 		GameObject & obj = *objectArray[i];
 
-			if(obj.box.Contains(mouseX + Camera::pos.x, mouseY + Camera::pos.y)) {
-				Face* face = (Face*)obj.GetComponent("Face");
-				if (face != nullptr) {
-					// Aplica dano
-					face->Damage(std::rand() % 10 + 10);
-					// Sai do loop (só queremos acertar um)
-					break;
-				}
-			}
-		}
-	}
+	// 		if(obj.box.Contains(mouseX + Camera::pos.x, mouseY + Camera::pos.y)) {
+	// 			Face* face = (Face*)obj.GetComponent("Face");
+	// 			if (face != nullptr) {
+	// 				// Aplica dano
+	// 				face->Damage(std::rand() % 10 + 10);
+	// 				// Sai do loop (só queremos acertar um)
+	// 				break;
+	// 			}
+	// 		}
+	// 	}
+	// }
 }
 

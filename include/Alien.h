@@ -16,7 +16,7 @@ private:
 			MOVE,
 			SHOOT,
 		};
-		
+
 		ActionType type;
 		Vec2 pos;
 		Action(ActionType type, float x, float y);
@@ -28,16 +28,15 @@ private:
 	std::vector<std::weak_ptr<GameObject>> minionArray;
 
 public:
+	//
+	Alien (GameObject& associated, int nMinions);
+	~Alien (void);
+
 	// inherited from component
 	void Start (void);
 	void Update (float dt);
 	void Render (void);
 	bool Is (const std::string & type);
-
-	//
-	Alien (GameObject& associated);
-	~Alien (void);
-	//void Damage(int damage);
 };
 
 #endif
