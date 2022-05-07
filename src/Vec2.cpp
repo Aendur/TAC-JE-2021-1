@@ -19,7 +19,8 @@ float Vec2::mag(void) const {
 }
 
 float Vec2::deg(void) const {
-	return (float)(acos(this->x / this->mag()) * 180.0 / M_PI);
+	//return (float)(acos(this->x / this->mag()) * 180.0 / M_PI);
+	return (float)(atan2(this->y, this->x) * 180.0 / M_PI);
 }
 
 
@@ -31,7 +32,8 @@ Vec2  operator*(const Vec2 & op1,        float op2) { return Vec2(op1.x * op2, o
 Vec2  operator*(float        op1, const Vec2 & op2) { return op2 * op1; }
 float operator*(const Vec2 & op1, const Vec2 & op2) { return op1.x * op2.x + op1.y * op2.y; }
 
-float operator%(const Vec2 & op1, const Vec2 & op2) { return acosf(op1 * op2) / (op1.mag() * op2.mag()); }
+//float operator%(const Vec2 & op1, const Vec2 & op2) { return acosf(op1 * op2) / (op1.mag() * op2.mag()); }
+//float operator%(const Vec2 & op1, const Vec2 & op2) { return acosf(op1 * op2) / (op1.mag() * op2.mag()); }
 
 bool operator<(const Vec2 & op1, float op2) { return op1.mag() < op2; }
 bool operator<(float op1, const Vec2 & op2) { return op1 < op2.mag(); }
