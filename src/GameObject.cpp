@@ -97,9 +97,9 @@ void GameObject::SetRotation(float angle) {
 }
 
 void GameObject::NotifyCollision(const GameObject & other) const {
-	std::cout << this << " collided with " << (&other) << std::endl;
+	//std::cout << this << " collided with " << (&other) << std::endl;
 	for (Component * component : components) {
-		std::cout << "notifying component: " << component->GetType() << std::endl;
+		//std::cout << "notifying component: " << component->GetType() << std::endl;
 		component->NotifyCollision(other);
 	}
 }

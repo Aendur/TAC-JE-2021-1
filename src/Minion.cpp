@@ -31,8 +31,13 @@ void Minion::Update (float dt) {
 		while (arc < -360.0f) { arc += 360.0f; }
 		while (arc >  360.0f) { arc -= 360.0f; }
 	}
+}
 
-
+void Minion::NotifyCollision(const GameObject & other) {
+	Bullet * bullet = (Bullet*)other.GetComponent("Bullet");
+	if (bullet != nullptr) {
+		std::cout << GetType() << " soaked " << bullet->GetDamage() << " damage.\n";
+	}
 }
 
 void Minion::Render (void) { }

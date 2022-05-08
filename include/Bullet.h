@@ -30,7 +30,7 @@ public:
 	const std::string GetType(void) const;
 	int GetDamage (void) const;
 
-	void NotifyCollision(const GameObject & other) const;
+	void NotifyCollision(const GameObject & other);
 };
 
 #endif

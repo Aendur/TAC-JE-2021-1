@@ -59,3 +59,12 @@ void PenguinCannon::Shoot(void) {
 	state.AddObject(bullet);
 }
 
+void PenguinCannon::NotifyCollision(const GameObject & other) {
+	std::cout << GetType() << " collided with " << &other << std::endl;
+
+	Bullet * bullet = (Bullet*)other.GetComponent("Bullet");
+	if (bullet != nullptr) {
+		std::cout << GetType() << " soaked " << bullet->GetDamage() << " damage.\n";
+	}
+}
+

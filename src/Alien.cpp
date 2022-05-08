@@ -6,6 +6,7 @@
 #include "GameObject.h"
 #include "InputManager.h"
 #include "Collider.h"
+#include "Bullet.h"
 #include "errors.h"
 #include <iostream>
 
@@ -80,6 +81,19 @@ bool Alien::Is (const std::string & type) const {
 
 const std::string Alien::GetType(void) const {
 	return "Alien";
+}
+
+void Alien::NotifyCollision(const GameObject & other) {
+	std::cout << GetType() << " collided with " << &other << std::endl;
+	
+	Bullet * bullet = (Bullet*)other.GetComponent("Bullet");
+	if (bullet != nullptr) {
+		hp -= bullet->GetDamage();
+		std::cout << GetType() << " took " << bullet->GetDamage() << " damage. " << hp << "  hitpoints remaining\n";
+		if (hp <= 0) {
+			associated.RequestDelete();
+		}
+	}
 }
 
 bool Alien::MoveTo(const Vec2 & newpos, float dt) {

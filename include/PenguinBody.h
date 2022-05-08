@@ -28,6 +28,7 @@ public:
 	void Render (void);
 	bool Is (const std::string & type) const;
 	const std::string GetType(void) const;
+	void NotifyCollision(const GameObject & other);
 };
 
 #endif

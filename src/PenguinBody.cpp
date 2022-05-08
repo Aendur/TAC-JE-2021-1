@@ -6,6 +6,7 @@
 #include "PenguinCannon.h"
 #include "InputManager.h"
 #include "Collider.h"
+#include "Bullet.h"
 #include "errors.h"
 
 
@@ -32,10 +33,8 @@ void PenguinBody::Start (void) {
 }
 
 void PenguinBody::Update (float dt) {
-	#pragma message (MSG_INCOMPLETE_ERR)
 	if (hp <= 0) {
 		associated.RequestDelete();
-		//pcannon.lock()->RequestDelete();
 	}
 
 	InputManager & inputManager = InputManager::GetInstance();
@@ -69,5 +68,18 @@ bool PenguinBody::Is (const std::string & type) const {
 
 const std::string PenguinBody::GetType(void) const {
 	return "PenguinBody";
+}
+
+void PenguinBody::NotifyCollision(const GameObject & other) {
+	std::cout << GetType() << " collided with " << &other << std::endl;
+	
+	Bullet * bullet = (Bullet*)other.GetComponent("Bullet");
+	if (bullet != nullptr) {
+		hp -= bullet->GetDamage();
+		std::cout << GetType() << " took " << bullet->GetDamage() << " damage. " << hp << "  hitpoints remaining\n";
+		if (hp <= 0) {
+			associated.RequestDelete();
+		}
+	}
 }
 

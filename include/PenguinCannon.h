@@ -27,6 +27,7 @@ public:
 
 	//void Shoot(const Vec2 & target);
 	void Shoot(void);
+	void NotifyCollision(const GameObject & other);
 };
 
 #endif

@@ -25,6 +25,7 @@ public:
 	const std::string GetType(void) const;
 
 	void Shoot(const Vec2 & target);
+	void NotifyCollision(const GameObject & other);
 };
 
 #endif
