@@ -41,3 +41,8 @@ const std::string Bullet::GetType(void) const {
 int Bullet::GetDamage(void) const {
 	return this->damage;
 }
+
+void Bullet::NotifyCollision(const GameObject & other) const {
+	std::cout << "bullet collided with " << &other << std::endl;
+	associated.RequestDelete();
+}

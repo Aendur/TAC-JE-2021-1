@@ -59,7 +59,7 @@ void GameObject::RemoveComponent(Component * cpt) {
 	}
 }
 
-Component * GameObject::GetComponent(const std::string & type) {
+Component * GameObject::GetComponent(const std::string & type) const {
 	for (Component * component : this->components) {
 		if (component->Is(type)) {
 			return component;
@@ -94,4 +94,12 @@ void GameObject::SetRotation(float angle) {
 	while (angle > 360.0f) { angle -= 360.0f; }
 	while (angle < 360.0f) { angle += 360.0f; }
 	angleDeg = angle;
+}
+
+void GameObject::NotifyCollision(const GameObject & other) const {
+	std::cout << this << " collided with " << (&other) << std::endl;
+	for (Component * component : components) {
+		std::cout << "notifying component: " << component->GetType() << std::endl;
+		component->NotifyCollision(other);
+	}
 }

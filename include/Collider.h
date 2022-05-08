@@ -18,7 +18,7 @@ enum CollisionClass {
 	COLLISION_MINION,
 };
 
-typedef std::unordered_map<CollisionClass, std::set<const Collider*>> GlobalColliderInfo;
+typedef std::unordered_map<CollisionClass, std::set<const GameObject*>> GlobalColliderInfo;
 
 class Collider : public Component {
 private:
@@ -44,6 +44,7 @@ public:
 
 	inline void SetScale(const Vec2 & value) { this->scale = value; }
 	inline void SetOffset(const Vec2 & value) { this->offset = value; }
+
 };
 
 #endif

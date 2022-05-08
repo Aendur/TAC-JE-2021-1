@@ -3,10 +3,10 @@
 #include "errors.h"
 
 GlobalColliderInfo Collider::globalColliders = {
-	{ COLLISION_PENGB , std::set<const Collider*>() },
-	{ COLLISION_PENGC , std::set<const Collider*>() },
-	{ COLLISION_ALIEN , std::set<const Collider*>() },
-	{ COLLISION_MINION, std::set<const Collider*>() },
+	{ COLLISION_PENGB , std::set<const GameObject*>() },
+	{ COLLISION_PENGC , std::set<const GameObject*>() },
+	{ COLLISION_ALIEN , std::set<const GameObject*>() },
+	{ COLLISION_MINION, std::set<const GameObject*>() },
 };
 
 Collider::Collider (GameObject& associated, std::vector<CollisionClass> cclass, const Vec2 & colliderScale, const Vec2 & colliderOffset) : Component(associated) {
@@ -16,13 +16,13 @@ Collider::Collider (GameObject& associated, std::vector<CollisionClass> cclass, 
 	radius = (associated.box.w + associated.box.h) / 2.0f;
 
 	for (CollisionClass cc : collisionClass) {
-		globalColliders[cc].insert(this);
+		globalColliders[cc].insert(&this->associated);
 	}
 }
 
 Collider::~Collider (void) {
 	for (CollisionClass cc : collisionClass) {
-		globalColliders[cc].erase(this);
+		globalColliders[cc].erase(&this->associated);
 	}
 }
 
@@ -43,3 +43,5 @@ bool Collider::IsCollidingWith(const Collider & other) const {
 	Vec2 c2 = other.associated.GetCenterPosition();
 	return ((c2 - c1).mag() <= (this->radius + other.radius));
 }
+
+

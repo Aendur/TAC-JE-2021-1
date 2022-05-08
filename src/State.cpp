@@ -73,30 +73,9 @@ void State::LoadAssets (void) {
 void State::Update (float dt) {
 	this->HandleInput();
 	Camera::Update(dt);
-
-	for (size_t i = 0; i < this->objectArray.size(); ++i) {
-		this->objectArray[i]->Update(dt);
-	}
-	for (size_t i = 0; i < this->objectArray.size(); ++i) {
-		if (this->objectArray[i]->IsDead()) {
-			this->objectArray.erase(this->objectArray.begin() + i);
-		}
-	}
-	for (const auto & [_, colliders] : Collider::GetGlobalColliders()) {
-		auto coll1 = colliders.begin();
-		auto end   = colliders.end();
-		while (coll1 != end) {
-			auto coll2 = coll1;
-			++coll2;
-			while (coll2 != end) {
-				if ((*coll1)->IsCollidingWith(**coll2)) {
-					std::cout << (*coll1) << " is colliding with " << (*coll2) << std::endl;
-				}
-				++coll2;
-			}
-			++coll1;
-		}
-	}
+	UpdateObjects(dt);
+	DetectCollisions();
+	EraseDeadObjects();
 }
 
 void State::Render (void) {
@@ -128,25 +107,61 @@ void State::HandleInput(void) {
 	// Quit if requested or ESC was pressed
 	this->quitRequested = (inputManager.IsKeyDown(KEY_ESC) || inputManager.QuitRequested());
 
-	// // Get keyboard input for camera WASD / arrows
-	// bool accelerateCameraU = (inputManager.IsKeyDown(KEY_W) || inputManager.IsKeyDown(KEY_UP));
-	// bool accelerateCameraD = (inputManager.IsKeyDown(KEY_S) || inputManager.IsKeyDown(KEY_DOWN));
-	// bool accelerateCameraL = (inputManager.IsKeyDown(KEY_A) || inputManager.IsKeyDown(KEY_LEFT));
-	// bool accelerateCameraR = (inputManager.IsKeyDown(KEY_D) || inputManager.IsKeyDown(KEY_RIGHT));
-	// float cameraAcceleration = 50.0f;
-	// float cameraDecceleration = 0.80f;
-	// if (!(accelerateCameraU || accelerateCameraD) ) {
-	// 	// deccelerate vertical
-	// 	Camera::speed.y = std::abs(Camera::speed.y) < 1.0f ? 0.0f : Camera::speed.y * cameraDecceleration;
-	// } else {
-	// 	if (accelerateCameraU) { Camera::speed.y -= cameraAcceleration; }
-	// 	if (accelerateCameraD) { Camera::speed.y += cameraAcceleration; }
-	// }
-	// if (!(accelerateCameraL || accelerateCameraR) ) {
-	// 	// deccelerate horizontal
-	// 	Camera::speed.x = std::abs(Camera::speed.x) < 1.0f ? 0.0f : Camera::speed.x * cameraDecceleration;
-	// } else {
-	// 	if (accelerateCameraL) { Camera::speed.x -= cameraAcceleration; }
-	// 	if (accelerateCameraR) { Camera::speed.x += cameraAcceleration; }
-	// }
+	// Get keyboard input for camera WASD / arrows
+	bool accelerateCameraU = inputManager.IsKeyDown(KEY_UP);
+	bool accelerateCameraD = inputManager.IsKeyDown(KEY_DOWN);
+	bool accelerateCameraL = inputManager.IsKeyDown(KEY_LEFT);
+	bool accelerateCameraR = inputManager.IsKeyDown(KEY_RIGHT);
+	float cameraAcceleration = 50.0f;
+	float cameraDecceleration = 0.80f;
+	if (!(accelerateCameraU || accelerateCameraD) ) {
+		// deccelerate vertical
+		Camera::speed.y = std::abs(Camera::speed.y) < 1.0f ? 0.0f : Camera::speed.y * cameraDecceleration;
+	} else {
+		if (accelerateCameraU) { Camera::speed.y -= cameraAcceleration; }
+		if (accelerateCameraD) { Camera::speed.y += cameraAcceleration; }
+	}
+	if (!(accelerateCameraL || accelerateCameraR) ) {
+		// deccelerate horizontal
+		Camera::speed.x = std::abs(Camera::speed.x) < 1.0f ? 0.0f : Camera::speed.x * cameraDecceleration;
+	} else {
+		if (accelerateCameraL) { Camera::speed.x -= cameraAcceleration; }
+		if (accelerateCameraR) { Camera::speed.x += cameraAcceleration; }
+	}
+}
+
+void State::UpdateObjects(float dt) {
+	for (size_t i = 0; i < this->objectArray.size(); ++i) {
+		this->objectArray[i]->Update(dt);
+	}
+}
+
+void State::DetectCollisions(void) {
+	for (const auto & [_, objects] : Collider::GetGlobalColliders()) {
+		auto obj1 = objects.begin();
+		auto end   = objects.end();
+		while (obj1 != end) {
+			auto obj2 = obj1;
+			++obj2;
+			while (obj2 != end) {
+				const Collider * c1 = (Collider*)(*obj1)->GetComponent("Collider");
+				const Collider * c2 = (Collider*)(*obj2)->GetComponent("Collider");
+				if (c1 != nullptr && c2 != nullptr && c1->IsCollidingWith(*c2)) {
+					(*obj1)->NotifyCollision(**obj2);
+					(*obj2)->NotifyCollision(**obj1);
+					//std::cout << (*obj1) << " collided with " << (*obj2) << std::endl;
+				}
+				++obj2;
+			}
+			++obj1;
+		}
+	}
+}
+
+void State::EraseDeadObjects(void) {
+	for (size_t i = 0; i < this->objectArray.size(); ++i) {
+		if (this->objectArray[i]->IsDead()) {
+			this->objectArray.erase(this->objectArray.begin() + i);
+		}
+	}
 }

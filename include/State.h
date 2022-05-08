@@ -27,6 +27,10 @@ public:
 	void Update (float);
 	void Render (void);
 
+	void UpdateObjects(float dt);
+	void DetectCollisions(void);
+	void EraseDeadObjects(void);
+
 	void Start(void);
 	std::weak_ptr<GameObject> AddObject(GameObject * go);
 	std::weak_ptr<GameObject> GetObjectPtr(GameObject * go) const;

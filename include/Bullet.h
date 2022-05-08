@@ -29,6 +29,8 @@ public:
 	bool Is (const std::string & type) const;
 	const std::string GetType(void) const;
 	int GetDamage (void) const;
+
+	void NotifyCollision(const GameObject & other) const;
 };
 
 #endif

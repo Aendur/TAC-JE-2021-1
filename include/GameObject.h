@@ -23,7 +23,7 @@ public:
 	void RequestDelete(void);
 	void AddComponent(Component * cpt);
 	void RemoveComponent(Component * cpt);
-	Component * GetComponent(const std::string & type);
+	Component * GetComponent(const std::string & type) const;
 
 	Vec2 GetPosition(void) const;
 	Vec2 GetCenterPosition(void) const;
@@ -34,6 +34,7 @@ public:
 	void SetRotation(float angle);
 
 	void Start(void);
+	void NotifyCollision(const GameObject & other) const;
 
 	Rect box;
 };
