@@ -13,12 +13,14 @@ Sprite::Sprite (GameObject & associated) : Component(associated) {
 	this->frameTime = 0.0f;
 }
 
-Sprite::Sprite (GameObject & associated, const std::string & file, int fCount, float fTime) : Sprite(associated) {
+Sprite::Sprite (GameObject & associated, const std::string & file, int fCount, float fTime, float maxLifeTime) : Sprite(associated) {
 	this->scale = { 1.0f, 1.0f };
 	this->frameCount = fCount;
 	this->currentFrame = 0;
 	this->timeElapsed = 0.0f;
 	this->frameTime = fTime;
+	this->secondsToSelfDestruct = maxLifeTime;
+	this->selfDestructCount.Restart();
 	this->Open(file);
 }
 
@@ -34,10 +36,12 @@ void Sprite::Open (const std::string& file) {
 
 	this->width /= frameCount;
 
-	associated.box.x = 0;
-	associated.box.y = 0;
-	associated.box.w = (float) this->width;
-	associated.box.h = (float) this->height;
+	if (associated.box.w == 0 && associated.box.h == 0) {
+		associated.box.x = 0;
+		associated.box.y = 0;
+		associated.box.w = (float) this->width;
+		associated.box.h = (float) this->height;
+	}
 	this->SetClip(0, 0, (int)associated.box.w, (int)associated.box.h);
 }
 
@@ -97,6 +101,12 @@ void Sprite::Update(float dt) {
 		if (timeElapsed > frameTime) {
 			timeElapsed = 0.0f;
 			SetFrame(currentFrame + 1);
+		}
+	}
+	if (secondsToSelfDestruct > 0.0f) {
+		selfDestructCount.Update(dt);
+		if (selfDestructCount.Get() > secondsToSelfDestruct) {
+			associated.RequestDelete();
 		}
 	}
 }

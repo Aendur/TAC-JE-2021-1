@@ -22,15 +22,21 @@ void Minion::Update (float dt) {
 	static const float angular_speed = -60.0f;
 
 	if (alienCenter.expired()) {
-		associated.RequestDelete();
+		//associated.RequestDelete();
+		if (!alienDead) {
+			associated.AddComponent(new Sprite(associated, "assets/img/miniondeath.png", 4, 0.15f, 0.6f));
+			alienDead = true;
+		}
 	} else {
 		auto ac = alienCenter.lock();
-		associated.SetCenterPosition(ac->GetCenterPosition() + dist.RotateBy(arc));
-		associated.SetRotation(arc);
-		arc += angular_speed * dt;
-		while (arc < -360.0f) { arc += 360.0f; }
-		while (arc >  360.0f) { arc -= 360.0f; }
+		lastCenter = ac->GetCenterPosition();
 	}
+	
+	associated.SetCenterPosition(lastCenter + dist.RotateBy(arc));
+	associated.SetRotation(arc);
+	arc += angular_speed * dt;
+	while (arc < -360.0f) { arc += 360.0f; }
+	while (arc >  360.0f) { arc -= 360.0f; }
 }
 
 void Minion::NotifyCollision(const GameObject & other) {

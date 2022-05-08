@@ -11,7 +11,8 @@ class Minion : public Component {
 private:
 	std::weak_ptr<GameObject> alienCenter;
 	float arc;
-
+	bool alienDead = false;
+	Vec2 lastCenter;
 public:
 	//
 	Minion (GameObject& associated, std::weak_ptr<GameObject> alienCenter, float arcOffsetDeg = 0);

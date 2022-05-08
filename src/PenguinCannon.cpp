@@ -21,7 +21,11 @@ void PenguinCannon::Update (float dt) {
 	cooldown.Update(dt);
 
 	if (PenguinBody::player == nullptr) {
-		associated.RequestDelete();
+		//associated.RequestDelete();
+		if (!playerDead) {
+			associated.AddComponent(new Sprite(associated, "assets/img/penguindeath.png", 5, 0.2f, 1.0f));
+			playerDead = true;
+		}
 	} else {
 		cooldown.Update(dt);
 		associated.SetCenterPosition(pbody.lock()->GetCenterPosition());

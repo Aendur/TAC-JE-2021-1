@@ -7,6 +7,7 @@
 #include "InputManager.h"
 #include "Collider.h"
 #include "Bullet.h"
+#include "Sound.h"
 #include "errors.h"
 
 
@@ -34,7 +35,11 @@ void PenguinBody::Start (void) {
 
 void PenguinBody::Update (float dt) {
 	if (hitpoints <= 0) {
-		associated.RequestDelete();
+		hitpoints = INT_MAX;
+		Sound * sfx = new Sound(associated, "assets/audio/boom.wav");
+		sfx->Play(1);
+		associated.AddComponent(sfx);
+		associated.AddComponent(new Sprite(associated, "assets/img/penguindeath.png", 5, 0.2f, 1.0f));
 	}
 
 	InputManager & inputManager = InputManager::GetInstance();
@@ -77,9 +82,6 @@ void PenguinBody::NotifyCollision(const GameObject & other) {
 	if (bullet != nullptr) {
 		hitpoints -= bullet->GetDamage();
 		std::cout << GetType() << " took " << bullet->GetDamage() << " damage. " << hitpoints << "  hitpoints remaining\n";
-		if (hitpoints <= 0) {
-			associated.RequestDelete();
-		}
 	}
 }
 

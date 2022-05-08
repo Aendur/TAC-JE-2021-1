@@ -14,6 +14,7 @@ private:
 	std::weak_ptr<GameObject> pbody;
 	float angle;
 	Timer cooldown;
+	bool playerDead = false;
 	
 public:
 	//

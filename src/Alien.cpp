@@ -7,6 +7,7 @@
 #include "InputManager.h"
 #include "Collider.h"
 #include "Bullet.h"
+#include "Sound.h"
 #include "errors.h"
 #include <iostream>
 
@@ -41,7 +42,14 @@ void Alien::Start (void) {
 }
 
 void Alien::Update (float dt) {
-	if (hitpoints <= 0) { associated.RequestDelete(); }
+	if (hitpoints <= 0) {
+		hitpoints = INT_MAX;
+		//associated.RequestDelete();
+		Sound * sfx = new Sound(associated, "assets/audio/boom.wav");
+		sfx->Play(1);
+		associated.AddComponent(sfx);
+		associated.AddComponent(new Sprite(associated, "assets/img/aliendeath.png", 4, 0.15f, 0.6f));
+	}
 
 	static const float angularSpeed = 60.0f;
 	associated.SetRotation(associated.GetRotation() + angularSpeed * dt);
@@ -90,9 +98,6 @@ void Alien::NotifyCollision(const GameObject & other) {
 	if (bullet != nullptr) {
 		hitpoints -= bullet->GetDamage();
 		std::cout << GetType() << " took " << bullet->GetDamage() << " damage. " << hitpoints << "  hitpoints remaining\n";
-		if (hitpoints <= 0) {
-			associated.RequestDelete();
-		}
 	}
 }
 

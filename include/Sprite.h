@@ -4,6 +4,7 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include "Component.h"
+#include "Timer.h"
 #include "Vec2.h"
 
 class Sprite : public Component {
@@ -18,11 +19,13 @@ private:
 	int currentFrame;
 	float timeElapsed;
 	float frameTime;
+	Timer selfDestructCount;
+	float secondsToSelfDestruct;
 
 public:
 	Sprite (GameObject& associated);
 	//Sprite (GameObject& associated, const std::string & file);
-	Sprite (GameObject& associated, const std::string & file, int frameCount = 1, float frameTime = 1.0f);
+	Sprite (GameObject& associated, const std::string & file, int frameCount = 1, float frameTime = 1.0f, float secondsToSelfDestruct = -1.0f);
 	~Sprite (void);
 
 	void Open (const std::string & file);
