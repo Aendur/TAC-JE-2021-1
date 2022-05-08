@@ -30,8 +30,8 @@ Collider::~Collider (void) {
 
 void Collider::Update (float dt) {
 	(void) dt;
-	radius = (associated.box.w * scale.x + associated.box.h * scale.y) / 2.0f;
-	center = associated.GetCenterPosition() + offset.RotateBy(associated.GetRotation());
+	// radius = (associated.box.w * scale.x + associated.box.h * scale.y) / 2.0f;
+	// center = associated.GetCenterPosition() + offset.RotateBy(associated.GetRotation());
 }
 
 #include "Utility.h"
