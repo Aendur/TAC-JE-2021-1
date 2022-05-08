@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "State.h"
+#include "Camera.h"
 #include "Resources.h"
 #include "InputManager.h"
 #include "errors.h"
@@ -68,6 +69,11 @@ Game::Game(std::string title, int width, int height) {
 		throw std::runtime_error(error);
 	}
 
+
+	std::cout << "init camera properties..." << std::endl;
+	Camera::width = width;
+	Camera::height = height;
+	
 	std::cout << "init game state..." << std::endl;
 	this->state = new State();
 	

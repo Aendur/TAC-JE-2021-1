@@ -1,14 +1,9 @@
 #include "Camera.h"
+#include "GameObject.h"
+#include "Vec2.h"
 #include "errors.h"
 
 #include <iostream>
-/*
-private:
-	inline static GameObject * focus = nullptr;
-public:
-	static Vec2 pos;
-	static Vec2 speed;
-*/
 
 void Camera::Follow(GameObject * newFocus) {
 	focus = newFocus;
@@ -19,8 +14,14 @@ void Camera::Unfollow(void) {
 }
 
 void Camera::Update(float dt) {
-	pos.x += speed.x * dt;
-	pos.y += speed.y * dt;
+	if (focus != nullptr) {
+		Vec2 center = focus->GetCenterPosition();
+		pos.x = center.x - width / 2;
+		pos.y = center.y - height / 2;
+	} else {
+		pos.x += speed.x * dt;
+		pos.y += speed.y * dt;
+	}
 	//std::cout << "camera position: " << pos << " speed: " << speed << std::endl;
 	//throw std::logic_error(MSG_UNIMPLEMENTED_ERR);
 }
