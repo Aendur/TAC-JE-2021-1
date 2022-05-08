@@ -44,5 +44,7 @@ int Bullet::GetDamage(void) const {
 
 void Bullet::NotifyCollision(const GameObject & other) {
 	std::cout << GetType() << " collided with " << &other << std::endl;
-	associated.RequestDelete();
+	if (other.GetComponent("Bullet") == nullptr) {
+		associated.RequestDelete();
+	}
 }
