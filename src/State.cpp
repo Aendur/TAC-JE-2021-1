@@ -28,7 +28,7 @@ State::~State(void) {
 void State::Start(void) {
 	if (!started) {
 		LoadAssets();
-		for (auto & i : objectArray) { i->Start(); }
+		for (size_t i = 0; i < objectArray.size(); ++i) { objectArray[i]->Start(); }
 		started = true;
 	}
 }

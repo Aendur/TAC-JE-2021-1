@@ -22,10 +22,10 @@ PenguinBody::~PenguinBody (void) {
 }
 
 void PenguinBody::Start (void) {
-	// State & state = Game::GetInstance().GetState();
-	// GameObject * cannon = new GameObject();
-	// cannon->AddComponent(new PenguinCannon(*cannon, state.GetObjectPtr(&this->associated)));
-	// pcannon = state.AddObject(cannon);
+	State & state = Game::GetInstance().GetState();
+	GameObject * cannon = new GameObject();
+	cannon->AddComponent(new PenguinCannon(*cannon, state.GetObjectPtr(&this->associated)));
+	pcannon = state.AddObject(cannon);
 }
 
 void PenguinBody::Update (float dt) {
@@ -34,7 +34,7 @@ void PenguinBody::Update (float dt) {
 		associated.RequestDelete();
 		//pcannon.lock()->RequestDelete();
 	}
-	
+
 	InputManager & inputManager = InputManager::GetInstance();
 	static const float angularSpeed = 270.0f;
 	static const float acceleration = 350.3f;

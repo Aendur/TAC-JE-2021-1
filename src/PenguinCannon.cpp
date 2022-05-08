@@ -1,10 +1,8 @@
 #include "PenguinCannon.h"
 #include "GameObject.h"
 #include "Sprite.h"
-// #include "Game.h"
-// #include "State.h"
-// #include "Minion.h"
-// #include "InputManager.h"
+#include "PenguinBody.h"
+#include "InputManager.h"
 #include "errors.h"
 #include <iostream>
 
@@ -15,37 +13,17 @@ PenguinCannon::PenguinCannon (GameObject& associated, std::weak_ptr<GameObject> 
 }
 
 void PenguinCannon::Update (float dt) {
-	#pragma message (MSG_UNIMPLEMENTED_ERR)
-	// if (hp <= 0) { associated.RequestDelete(); }
+	#pragma message (MSG_INCOMPLETE_ERR)
+	if (PenguinBody::player == nullptr) {
+		associated.RequestDelete();
+	} else {
+		associated.SetCenterPosition(pbody.lock()->GetCenterPosition());
 
-	// static const float angularSpeed = 60.0f;
-	// associated.SetRotation(associated.GetRotation() + angularSpeed * dt);
-
-	// // Get camera-independent mouse position
-	// InputManager & inputManager = InputManager::GetInstance();
-	// Vec2 newpos = inputManager.GetMouseWorldPosition();
-	
-	// // Enqueue actions if applicable
-	// if (inputManager.MousePress(MOUSE_LEFT)) {
-	// 	taskQueue.push({Action::SHOOT, newpos.x, newpos.y});
-	// }
-	// if (inputManager.MousePress(MOUSE_RIGHT)) {
-	// 	taskQueue.push({Action::MOVE, newpos.x, newpos.y});
-	// }
-
-	// // Axecute actions, if any
-	// if (!taskQueue.empty()) {
-	// 	Action nextAction = taskQueue.front();
-	// 	bool complete = false;
-	// 	switch(nextAction.type) {
-	// 		case Action::MOVE:  complete = MoveTo(nextAction.pos, dt); break;
-	// 		case Action::SHOOT: complete = ShootAt(nextAction.pos); break;
-	// 		default: break;
-	// 	}
-	// 	if (complete) {
-	// 		taskQueue.pop();
-	// 	}
-	// }
+		// Get camera-independent mouse position
+		InputManager & inputManager = InputManager::GetInstance();
+		angle = (inputManager.GetMouseWorldPosition() - associated.GetCenterPosition()).deg();
+		associated.SetRotation(angle);
+	}
 }
 
 void PenguinCannon::Render (void) { }
