@@ -14,6 +14,7 @@
 #include "TileMap.h"
 #include "Vec2.h"
 #include "Collider.h"
+#include "PenguinBody.h"
 #include "errors.h"
 
 State::State (void) {
@@ -72,6 +73,7 @@ void State::LoadAssets (void) {
 
 void State::Update (float dt) {
 	this->HandleInput();
+	if (PenguinBody::player == nullptr) { Camera::Unfollow(); }
 	Camera::Update(dt);
 	UpdateObjects(dt);
 	DetectCollisions();
