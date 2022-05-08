@@ -7,6 +7,7 @@
 #include "Component.h"
 #include "Vec2.h"
 
+class Sprite;
 class Bullet : public Component {
 private:
 
@@ -17,7 +18,7 @@ private:
 
 public:
 	//
-	Bullet (GameObject& associated, float angle, float speed, int damage, float maxDistance, const std::string & sprite);
+	Bullet (GameObject& associated, float angle, float speed, int damage, float maxDistance, Sprite * sprite);
 	~Bullet (void);
 
 	// inherited from component

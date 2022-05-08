@@ -5,7 +5,7 @@ Repositório do trabalho da discipline de TAC - turma JE - 2021/1 da UnB
 
 Autor: Diogo César Ferreira - 11/0027931
 
-**A partir da parte 5, o projeto passou a utilizar o compilador MSVC do Windows.**
+**Desde a parte 5, o projeto passou a utilizar o compilador MSVC do Windows.**
 
 As ferramentas necessárias para compilar o projeto podem ser obtidas na [página de downloads do Visual Studio](https://visualstudio.microsoft.com/downloads/).
 Não é necessário realizar a instalação completa do Visual Studio, apenas das [Build tools](https://aka.ms/vs/17/release/vs_BuildTools.exe), a partir das

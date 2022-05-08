@@ -6,11 +6,19 @@
 #include <SDL2/SDL_image.h>
 
 Sprite::Sprite (GameObject & associated) : Component(associated) {
-	scale = { 1.0f, 1.0f };
+	this->scale = { 1.0f, 1.0f };
+	this->frameCount = 1;
+	this->currentFrame = 0;
+	this->timeElapsed = 0.0f;
+	this->frameTime = 0.0f;
 }
 
-Sprite::Sprite (GameObject & associated, const std::string & file) : Sprite(associated) {
-	scale = { 1.0f, 1.0f };
+Sprite::Sprite (GameObject & associated, const std::string & file, int fCount, float fTime) : Sprite(associated) {
+	this->scale = { 1.0f, 1.0f };
+	this->frameCount = fCount;
+	this->currentFrame = 0;
+	this->timeElapsed = 0.0f;
+	this->frameTime = fTime;
 	this->Open(file);
 }
 
@@ -23,6 +31,9 @@ void Sprite::Open (const std::string& file) {
 		std::string error = IMG_GetError();
 		throw std::runtime_error(error);
 	}
+
+	this->width /= frameCount;
+
 	associated.box.x = 0;
 	associated.box.y = 0;
 	associated.box.w = (float) this->width;
@@ -80,7 +91,15 @@ void Sprite::Render (int x, int y) {
 }
 
 // Inherited from Component
-void Sprite::Update(float dt) { (void) dt; }
+void Sprite::Update(float dt) { 
+	if (frameCount > 1) {
+		timeElapsed += dt;
+		if (timeElapsed > frameTime) {
+			timeElapsed = 0.0f;
+			SetFrame(currentFrame + 1);
+		}
+	}
+}
 
 void Sprite::Render (void) {
 	this->Render((int)(associated.box.x - Camera::pos.x), (int)(associated.box.y - Camera::pos.y));
@@ -102,4 +121,18 @@ void Sprite::SetScale(float scaleX, float scaleY) {
 
 const Vec2 & Sprite::GetScale(void) const {
 	return this->scale;
+}
+
+void Sprite::SetFrame(int frame) {
+	currentFrame = frame % frameCount;
+	SetClip(width * currentFrame, 0, width, height);
+}
+
+void Sprite::SetFrameCount(int fCount) {
+	(void) fCount;
+	//this->frameCount = fCount;
+}
+
+void Sprite::SetFrameTime(float fTime) {
+	this->frameTime = fTime;
 }

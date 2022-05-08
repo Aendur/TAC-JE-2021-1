@@ -14,9 +14,15 @@ private:
 	SDL_Rect clipRect;
 	Vec2 scale;
 
+	int frameCount;
+	int currentFrame;
+	float timeElapsed;
+	float frameTime;
+
 public:
 	Sprite (GameObject& associated);
-	Sprite (GameObject& associated, const std::string & file);
+	//Sprite (GameObject& associated, const std::string & file);
+	Sprite (GameObject& associated, const std::string & file, int frameCount = 1, float frameTime = 1.0f);
 	~Sprite (void);
 
 	void Open (const std::string & file);
@@ -29,6 +35,10 @@ public:
 
 	void SetScale(float scaleX, float scaleY);
 	const Vec2 & GetScale(void) const;
+
+	void SetFrame(int frame);
+	void SetFrameCount(int frameCount);
+	void SetFrameTime(float frameTime);
 	
 	// inherited from component
 	void Update (float dt);
