@@ -20,7 +20,7 @@ public:
 	//
 	PenguinBody (GameObject& associated);
 	~PenguinBody (void);
-	PenguinBody * player;
+	inline static PenguinBody * player = nullptr;
 
 	// inherited from component
 	void Start (void);

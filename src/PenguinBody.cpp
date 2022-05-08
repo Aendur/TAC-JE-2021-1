@@ -1,87 +1,61 @@
 #include "PenguinBody.h"
 #include "GameObject.h"
 #include "Sprite.h"
-// #include "Game.h"
-// #include "State.h"
-// #include "Minion.h"
-// #include "InputManager.h"
+#include "Game.h"
+#include "State.h"
+#include "PenguinCannon.h"
+#include "InputManager.h"
 #include "errors.h"
 #include <iostream>
-
-/*
-class PenguinBody : public Component {
-private:
-	std::weak_ptr<GameObject> pcannon;
-};
-*/
 
 PenguinBody::PenguinBody (GameObject& associated) : Component(associated) {
 	this->speed = { 0, 0 };
 	this->linearSpeed = 0.0f;
 	this->angle = 0.0f;
 	this->hp = 100;
-	this->player = nullptr;
+	PenguinBody::player = this;
 	associated.AddComponent(new Sprite(associated, "assets/img/penguin.png"));
 }
 
 PenguinBody::~PenguinBody (void) {
-	#pragma message (MSG_UNIMPLEMENTED_ERR)
-	// minionArray.clear();
+	PenguinBody::player = nullptr;
 }
 
 void PenguinBody::Start (void) {
-	#pragma message (MSG_UNIMPLEMENTED_ERR)
-	//
 	// State & state = Game::GetInstance().GetState();
-
-	// float arc = 360.0f / nMinions;
-	// for (int i = 0; i < nMinions; ++i) {
-	// 	GameObject * minion = new GameObject();
-	// 	minion->AddComponent(new Minion(*minion, state.GetObjectPtr(&this->associated), i * arc));
-		
-	// 	Sprite * spr = (Sprite*) minion->GetComponent("Sprite");
-	// 	if (spr != nullptr) {
-	// 		float newscale = (float)(10000 + rand() % 5000) / 10000.0f;
-	// 		spr->SetScale(newscale, newscale);
-	// 	}
-
-	// 	auto ptr = state.AddObject(minion);
-	// 	this->minionArray.push_back(ptr);
-	// }
+	// GameObject * cannon = new GameObject();
+	// cannon->AddComponent(new PenguinCannon(*cannon, state.GetObjectPtr(&this->associated)));
+	// pcannon = state.AddObject(cannon);
 }
 
 void PenguinBody::Update (float dt) {
-	#pragma message (MSG_UNIMPLEMENTED_ERR)
-	// if (hp <= 0) { associated.RequestDelete(); }
-
-	// static const float angularSpeed = 60.0f;
-	// associated.SetRotation(associated.GetRotation() + angularSpeed * dt);
-
-	// // Get camera-independent mouse position
-	// InputManager & inputManager = InputManager::GetInstance();
-	// Vec2 newpos = inputManager.GetMouseWorldPosition();
+	#pragma message (MSG_INCOMPLETE_ERR)
+	if (hp <= 0) {
+		associated.RequestDelete();
+		//pcannon.lock()->RequestDelete();
+	}
 	
-	// // Enqueue actions if applicable
-	// if (inputManager.MousePress(MOUSE_LEFT)) {
-	// 	taskQueue.push({Action::SHOOT, newpos.x, newpos.y});
-	// }
-	// if (inputManager.MousePress(MOUSE_RIGHT)) {
-	// 	taskQueue.push({Action::MOVE, newpos.x, newpos.y});
-	// }
+	InputManager & inputManager = InputManager::GetInstance();
+	static const float angularSpeed = 270.0f;
+	static const float acceleration = 350.3f;
+	static const float frictionFact =  0.50f;
 
-	// // Axecute actions, if any
-	// if (!taskQueue.empty()) {
-	// 	Action nextAction = taskQueue.front();
-	// 	bool complete = false;
-	// 	switch(nextAction.type) {
-	// 		case Action::MOVE:  complete = MoveTo(nextAction.pos, dt); break;
-	// 		case Action::SHOOT: complete = ShootAt(nextAction.pos); break;
-	// 		default: break;
-	// 	}
-	// 	if (complete) {
-	// 		taskQueue.pop();
-	// 	}
-	// }
+	if      (inputManager.IsKeyDown(KEY_W)) { linearSpeed += acceleration * dt; }
+	else if (inputManager.IsKeyDown(KEY_S)) { linearSpeed -= acceleration * dt; }
+	linearSpeed -= linearSpeed * frictionFact * dt;
+
+	//std::cout << linearSpeed << std::endl;
+	
+	if (inputManager.IsKeyDown(KEY_A)) { angle -= angularSpeed * dt; }
+	if (inputManager.IsKeyDown(KEY_D)) { angle += angularSpeed * dt; }
+
+	speed = Vec2(linearSpeed, 0.0f).RotateBy(angle);
+
+	Vec2 currentPosition = associated.GetCenterPosition();
+	associated.SetCenterPosition(currentPosition + dt * speed );
+	associated.SetRotation(angle);
+
+	//std::cout << (--hp) << std::endl;
 }
 
 void PenguinBody::Render (void) { }

@@ -4,10 +4,12 @@
 #include <string>
 #include "InputManager.h"
 #include "CameraFollower.h"
+//#include "MainCamera.h"
 #include "Camera.h"
 #include "GameObject.h"
 #include "Sprite.h"
 #include "Sound.h"
+#include "PenguinBody.h"
 #include "Alien.h"
 #include "TileSet.h"
 #include "TileMap.h"
@@ -52,11 +54,20 @@ void State::LoadAssets (void) {
 	tiles->SetPosition({0, 0});
 	this->AddObject(tiles);
 
+
+	GameObject * penguin = new GameObject();
+	penguin->AddComponent(new PenguinBody(*penguin));
+	penguin->SetCenterPosition({704,640});
+	this->AddObject(penguin);
+
+
 	GameObject * alien = new GameObject();
 	int N = 3 + rand() % 7;
 	alien->AddComponent(new Alien(*alien, N));
 	alien->SetCenterPosition({512, 300});
 	this->AddObject(alien);
+
+	Camera::Follow(penguin);
 }
 
 void State::Update (float dt) {
@@ -102,25 +113,25 @@ void State::HandleInput(void) {
 	// Quit if requested or ESC was pressed
 	this->quitRequested = (inputManager.IsKeyDown(KEY_ESC) || inputManager.QuitRequested());
 
-	// Get keyboard input for camera WASD / arrows
-	bool accelerateCameraU = (inputManager.IsKeyDown(KEY_W) || inputManager.IsKeyDown(KEY_UP));
-	bool accelerateCameraD = (inputManager.IsKeyDown(KEY_S) || inputManager.IsKeyDown(KEY_DOWN));
-	bool accelerateCameraL = (inputManager.IsKeyDown(KEY_A) || inputManager.IsKeyDown(KEY_LEFT));
-	bool accelerateCameraR = (inputManager.IsKeyDown(KEY_D) || inputManager.IsKeyDown(KEY_RIGHT));
-	float cameraAcceleration = 50.0f;
-	float cameraDecceleration = 0.80f;
-	if (!(accelerateCameraU || accelerateCameraD) ) {
-		// deccelerate vertical
-		Camera::speed.y = std::abs(Camera::speed.y) < 1.0f ? 0.0f : Camera::speed.y * cameraDecceleration;
-	} else {
-		if (accelerateCameraU) { Camera::speed.y -= cameraAcceleration; }
-		if (accelerateCameraD) { Camera::speed.y += cameraAcceleration; }
-	}
-	if (!(accelerateCameraL || accelerateCameraR) ) {
-		// deccelerate horizontal
-		Camera::speed.x = std::abs(Camera::speed.x) < 1.0f ? 0.0f : Camera::speed.x * cameraDecceleration;
-	} else {
-		if (accelerateCameraL) { Camera::speed.x -= cameraAcceleration; }
-		if (accelerateCameraR) { Camera::speed.x += cameraAcceleration; }
-	}
+	// // Get keyboard input for camera WASD / arrows
+	// bool accelerateCameraU = (inputManager.IsKeyDown(KEY_W) || inputManager.IsKeyDown(KEY_UP));
+	// bool accelerateCameraD = (inputManager.IsKeyDown(KEY_S) || inputManager.IsKeyDown(KEY_DOWN));
+	// bool accelerateCameraL = (inputManager.IsKeyDown(KEY_A) || inputManager.IsKeyDown(KEY_LEFT));
+	// bool accelerateCameraR = (inputManager.IsKeyDown(KEY_D) || inputManager.IsKeyDown(KEY_RIGHT));
+	// float cameraAcceleration = 50.0f;
+	// float cameraDecceleration = 0.80f;
+	// if (!(accelerateCameraU || accelerateCameraD) ) {
+	// 	// deccelerate vertical
+	// 	Camera::speed.y = std::abs(Camera::speed.y) < 1.0f ? 0.0f : Camera::speed.y * cameraDecceleration;
+	// } else {
+	// 	if (accelerateCameraU) { Camera::speed.y -= cameraAcceleration; }
+	// 	if (accelerateCameraD) { Camera::speed.y += cameraAcceleration; }
+	// }
+	// if (!(accelerateCameraL || accelerateCameraR) ) {
+	// 	// deccelerate horizontal
+	// 	Camera::speed.x = std::abs(Camera::speed.x) < 1.0f ? 0.0f : Camera::speed.x * cameraDecceleration;
+	// } else {
+	// 	if (accelerateCameraL) { Camera::speed.x -= cameraAcceleration; }
+	// 	if (accelerateCameraR) { Camera::speed.x += cameraAcceleration; }
+	// }
 }
