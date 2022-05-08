@@ -15,7 +15,7 @@ PenguinBody::PenguinBody (GameObject& associated) : Component(associated) {
 	this->speed = { 0, 0 };
 	this->linearSpeed = 0.0f;
 	this->angle = 0.0f;
-	this->hp = 100;
+	this->hitpoints = 100;
 	PenguinBody::player = this;
 	associated.AddComponent(new Sprite(associated, "assets/img/penguin.png"));
 	associated.AddComponent(new Collider(associated, {COLLISION_PENGB}));
@@ -33,7 +33,7 @@ void PenguinBody::Start (void) {
 }
 
 void PenguinBody::Update (float dt) {
-	if (hp <= 0) {
+	if (hitpoints <= 0) {
 		associated.RequestDelete();
 	}
 
@@ -75,9 +75,9 @@ void PenguinBody::NotifyCollision(const GameObject & other) {
 	
 	Bullet * bullet = (Bullet*)other.GetComponent("Bullet");
 	if (bullet != nullptr) {
-		hp -= bullet->GetDamage();
-		std::cout << GetType() << " took " << bullet->GetDamage() << " damage. " << hp << "  hitpoints remaining\n";
-		if (hp <= 0) {
+		hitpoints -= bullet->GetDamage();
+		std::cout << GetType() << " took " << bullet->GetDamage() << " damage. " << hitpoints << "  hitpoints remaining\n";
+		if (hitpoints <= 0) {
 			associated.RequestDelete();
 		}
 	}

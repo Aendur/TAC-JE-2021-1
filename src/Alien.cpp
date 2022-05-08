@@ -12,7 +12,7 @@
 
 Alien::Alien (GameObject& associated, int nMinions) : Component(associated), nMinions(nMinions) {
 	speed = { 0, 0 };
-	hp = 100;
+	hitpoints = 100;
 	associated.AddComponent(new Sprite(associated, "assets/img/alien.png"));
 	associated.AddComponent(new Collider(associated, {COLLISION_ALIEN}));
 }
@@ -41,7 +41,7 @@ void Alien::Start (void) {
 }
 
 void Alien::Update (float dt) {
-	if (hp <= 0) { associated.RequestDelete(); }
+	if (hitpoints <= 0) { associated.RequestDelete(); }
 
 	static const float angularSpeed = 60.0f;
 	associated.SetRotation(associated.GetRotation() + angularSpeed * dt);
@@ -88,9 +88,9 @@ void Alien::NotifyCollision(const GameObject & other) {
 	
 	Bullet * bullet = (Bullet*)other.GetComponent("Bullet");
 	if (bullet != nullptr) {
-		hp -= bullet->GetDamage();
-		std::cout << GetType() << " took " << bullet->GetDamage() << " damage. " << hp << "  hitpoints remaining\n";
-		if (hp <= 0) {
+		hitpoints -= bullet->GetDamage();
+		std::cout << GetType() << " took " << bullet->GetDamage() << " damage. " << hitpoints << "  hitpoints remaining\n";
+		if (hitpoints <= 0) {
 			associated.RequestDelete();
 		}
 	}

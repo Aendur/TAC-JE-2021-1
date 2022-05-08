@@ -20,11 +20,11 @@ Minion::~Minion(void) {
 void Minion::Update (float dt) {
 	static const Vec2 dist = { 200.0f, 0.0f };
 	static const float angular_speed = -60.0f;
-	auto ac = alienCenter.lock();
 
-	if (ac.use_count() == 1) {
+	if (alienCenter.expired()) {
 		associated.RequestDelete();
 	} else {
+		auto ac = alienCenter.lock();
 		associated.SetCenterPosition(ac->GetCenterPosition() + dist.RotateBy(arc));
 		associated.SetRotation(arc);
 		arc += angular_speed * dt;

@@ -14,13 +14,15 @@ private:
 	Vec2 speed;
 	float linearSpeed;
 	float angle;
-	int hp;
+	int hitpoints;
+
 
 public:
 	//
 	PenguinBody (GameObject& associated);
 	~PenguinBody (void);
 	inline static PenguinBody * player = nullptr;
+	inline int GetHitPoints(void) const { return hitpoints; }
 
 	// inherited from component
 	void Start (void);

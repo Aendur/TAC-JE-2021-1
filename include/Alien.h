@@ -23,7 +23,7 @@ private:
 	};
 
 	Vec2 speed;
-	int hp;
+	int hitpoints;
 	int nMinions;
 	std::queue<Action> taskQueue;
 	std::vector<std::weak_ptr<GameObject>> minionArray;
@@ -35,6 +35,7 @@ public:
 	//
 	Alien (GameObject& associated, int nMinions);
 	~Alien (void);
+	inline int GetHitPoints(void) const { return hitpoints; }
 
 	// inherited from component
 	void Start (void);
