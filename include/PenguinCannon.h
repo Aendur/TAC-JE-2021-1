@@ -7,11 +7,13 @@
 
 #include "Component.h"
 #include "Vec2.h"
+#include "Timer.h"
 
 class PenguinCannon : public Component {
 private:
 	std::weak_ptr<GameObject> pbody;
 	float angle;
+	Timer cooldown;
 	
 public:
 	//
@@ -24,7 +26,6 @@ public:
 	void Render (void);
 	bool Is (const std::string & type) const;
 	const std::string GetType(void) const;
-
 	//void Shoot(const Vec2 & target);
 	void Shoot(void);
 	void NotifyCollision(const GameObject & other);

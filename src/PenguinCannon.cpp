@@ -9,19 +9,21 @@
 #include "Collider.h"
 #include "errors.h"
 
-
-
 PenguinCannon::PenguinCannon (GameObject& associated, std::weak_ptr<GameObject> penguinBody) : Component(associated), pbody(penguinBody) {
 	this->angle = 0.0f;
 	associated.AddComponent(new Sprite(associated, "assets/img/cubngun.png"));
 	associated.AddComponent(new Collider(associated, {COLLISION_PENGC}, {0.325f, 0.325f}, {-30.0f, 0.0f}));
+	cooldown.Restart();
 }
 
 void PenguinCannon::Update (float dt) {
 	(void) dt;
+	cooldown.Update(dt);
+
 	if (PenguinBody::player == nullptr) {
 		associated.RequestDelete();
 	} else {
+		cooldown.Update(dt);
 		associated.SetCenterPosition(pbody.lock()->GetCenterPosition());
 
 		// Get camera-independent mouse position
@@ -31,8 +33,9 @@ void PenguinCannon::Update (float dt) {
 		angle = (target - center).deg();
 		associated.SetRotation(angle);
 
-		if (inputManager.MousePress(MOUSE_LEFT)) {
+		if (inputManager.MousePress(MOUSE_LEFT) && cooldown.Get() > 1.0f) {
 			Shoot();
+			cooldown.Restart();
 		}
 	}
 }
