@@ -1,6 +1,7 @@
 #include "Collider.h"
 #include "GameObject.h"
 #include "errors.h"
+#include "Camera.h"
 
 GlobalColliderInfo Collider::globalColliders = {
 	{ COLLISION_PENGB , std::set<const GameObject*>() },
@@ -28,7 +29,11 @@ Collider::~Collider (void) {
 
 void Collider::Update (float dt) { (void) dt; }
 
-void Collider::Render (void) { }
+#include "Utility.h"
+
+void Collider::Render (void) {
+	Utility::DrawCircumference(associated.GetCenterPosition() - Camera::pos, radius, {255, 0, 0});
+}
 
 bool Collider::Is (const std::string & type) const {
 	return type.compare("Collider") == 0;
