@@ -14,7 +14,7 @@
 PenguinCannon::PenguinCannon (GameObject& associated, std::weak_ptr<GameObject> penguinBody) : Component(associated), pbody(penguinBody) {
 	this->angle = 0.0f;
 	associated.AddComponent(new Sprite(associated, "assets/img/cubngun.png"));
-	associated.AddComponent(new Collider(associated, {COLLISION_PENGC}));
+	associated.AddComponent(new Collider(associated, {COLLISION_PENGC}, {0.325f, 0.325f}, {-30.0f, 0.0f}));
 }
 
 void PenguinCannon::Update (float dt) {
@@ -54,7 +54,8 @@ void PenguinCannon::Shoot(void) {
 
 	GameObject * bullet = new GameObject();
 	Sprite * bulletSprite = new Sprite(*bullet, "assets/img/penguinbullet.png", 4, 0.25f);
-	bullet->AddComponent(new Bullet(*bullet, angle, 400.0f, 20, 470.0f, bulletSprite, {COLLISION_ALIEN,COLLISION_MINION}));
+	Collider * bulletCollider = new Collider(*bullet,  {COLLISION_ALIEN,COLLISION_MINION}, {0.45f,0.45f}, {10.0f,0.0f});
+	bullet->AddComponent(new Bullet(*bullet, angle, 400.0f, 20, 470.0f, bulletSprite, bulletCollider));
 	bullet->SetCenterPosition(bulletCenter);
 	state.AddObject(bullet);
 }

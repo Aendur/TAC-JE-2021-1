@@ -14,7 +14,7 @@ Alien::Alien (GameObject& associated, int nMinions) : Component(associated), nMi
 	speed = { 0, 0 };
 	hitpoints = 100;
 	associated.AddComponent(new Sprite(associated, "assets/img/alien.png"));
-	associated.AddComponent(new Collider(associated, {COLLISION_ALIEN}));
+	associated.AddComponent(new Collider(associated, {COLLISION_ALIEN}, {0.30f, 0.30f}, {-10.0f, 0.0f}));
 }
 
 Alien::~Alien (void) {

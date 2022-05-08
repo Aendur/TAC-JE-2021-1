@@ -6,14 +6,14 @@
 
 
 
-Bullet::Bullet (GameObject& associated, float angle, float spd, int dmg, float maxDistance, Sprite * sprite, const std::vector<CollisionClass>& cclass) : Component(associated) {
+Bullet::Bullet (GameObject& associated, float angle, float spd, int dmg, float maxDistance, Sprite * sprite, Collider * collider) : Component(associated) {
 	associated.SetRotation(angle);
 	this->speedAbs = spd;
 	this->speed = Vec2(spd, 0.0f).RotateBy(angle);
 	this->damage = dmg;
 	this->distanceLeft = maxDistance;
 	associated.AddComponent(sprite);
-	associated.AddComponent(new Collider(associated, cclass));
+	associated.AddComponent(collider);
 }
 
 Bullet::~Bullet(void) {

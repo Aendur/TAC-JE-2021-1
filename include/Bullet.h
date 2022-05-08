@@ -19,7 +19,7 @@ private:
 
 public:
 	//
-	Bullet (GameObject& associated, float angle, float speed, int damage, float maxDistance, Sprite * sprite, const std::vector<CollisionClass>& cclass);
+	Bullet (GameObject& associated, float angle, float speed, int damage, float maxDistance, Sprite * sprite, Collider * collider);
 	~Bullet (void);
 
 	// inherited from component

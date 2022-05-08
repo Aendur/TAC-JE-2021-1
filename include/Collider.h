@@ -25,12 +25,13 @@ private:
 	static GlobalColliderInfo globalColliders;
 	Vec2 scale;
 	Vec2 offset;
+	Vec2 center;
+	float radius;
 	std::vector<CollisionClass> collisionClass;
 
 public:
 	Collider (GameObject& associated, std::vector<CollisionClass> cclass, const Vec2 & scale = {1,1}, const Vec2 & offset = {0,0});
 	~Collider (void);
-	float radius;
 	
 	inline static const GlobalColliderInfo & GetGlobalColliders(void) { return globalColliders; }
 	bool IsCollidingWith(const Collider & other) const;

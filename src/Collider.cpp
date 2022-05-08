@@ -14,7 +14,8 @@ Collider::Collider (GameObject& associated, std::vector<CollisionClass> cclass, 
 	collisionClass = cclass;
 	scale = colliderScale;
 	offset = colliderOffset;
-	radius = (associated.box.w + associated.box.h) / 2.0f;
+	// center = associated.GetCenterPosition() + offset.RotateBy(associated.GetRotation());
+	// radius = (associated.box.w * scale.x + associated.box.h * scale.y) / 2.0f;
 
 	for (CollisionClass cc : collisionClass) {
 		globalColliders[cc].insert(&this->associated);
@@ -27,12 +28,16 @@ Collider::~Collider (void) {
 	}
 }
 
-void Collider::Update (float dt) { (void) dt; }
+void Collider::Update (float dt) {
+	(void) dt;
+	radius = (associated.box.w * scale.x + associated.box.h * scale.y) / 2.0f;
+	center = associated.GetCenterPosition() + offset.RotateBy(associated.GetRotation());
+}
 
 #include "Utility.h"
 
 void Collider::Render (void) {
-	Utility::DrawCircumference(associated.GetCenterPosition() - Camera::pos, radius, {255, 0, 0});
+	Utility::DrawCircumference(center - Camera::pos, radius, {255, 0, 0});
 }
 
 bool Collider::Is (const std::string & type) const {
@@ -44,8 +49,8 @@ const std::string Collider::GetType(void) const {
 }
 
 bool Collider::IsCollidingWith(const Collider & other) const {
-	Vec2 c1 = this->associated.GetCenterPosition();
-	Vec2 c2 = other.associated.GetCenterPosition();
+	Vec2 c1 = this->center;
+	Vec2 c2 = other.center;
 	return ((c2 - c1).mag() <= (this->radius + other.radius));
 }
 

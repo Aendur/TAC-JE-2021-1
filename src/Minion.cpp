@@ -10,7 +10,7 @@
 
 Minion::Minion (GameObject& associated, std::weak_ptr<GameObject> alien, float arcOffsetDeg) : Component(associated), alienCenter(alien), arc(arcOffsetDeg) {
 	associated.AddComponent(new Sprite(associated, "assets/img/Minion.png"));
-	associated.AddComponent(new Collider(associated, {COLLISION_MINION}));
+	associated.AddComponent(new Collider(associated, {COLLISION_MINION}, {0.5f, 0.5f}, {5.0f,-5.0f}));
 }
 
 Minion::~Minion(void) {
@@ -56,7 +56,8 @@ void Minion::Shoot(const Vec2 & vec) {
 
 	GameObject * bullet = new GameObject();
 	Sprite * bulletSprite = new Sprite(*bullet, "assets/img/minionbullet2.png", 3, 0.05f);
-	bullet->AddComponent(new Bullet(*bullet, target.deg(), 500.0f, 20, 1000.0f, bulletSprite, { COLLISION_PENGB, COLLISION_PENGC }));
+	Collider * bulletCollider = new Collider(*bullet, { COLLISION_PENGB, COLLISION_PENGC }, {0.275f,0.275f}, {10.0f,0.0f});
+	bullet->AddComponent(new Bullet(*bullet, target.deg(), 500.0f, 20, 1000.0f, bulletSprite, bulletCollider));
 	bullet->SetCenterPosition(associated.GetCenterPosition());
 	state.AddObject(bullet);
 }

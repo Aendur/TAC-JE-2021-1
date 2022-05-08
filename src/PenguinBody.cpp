@@ -18,7 +18,7 @@ PenguinBody::PenguinBody (GameObject& associated) : Component(associated) {
 	this->hitpoints = 100;
 	PenguinBody::player = this;
 	associated.AddComponent(new Sprite(associated, "assets/img/penguin.png"));
-	associated.AddComponent(new Collider(associated, {COLLISION_PENGB}));
+	associated.AddComponent(new Collider(associated, {COLLISION_PENGB}, {0.4f, 0.4f}, {0.0f, 0.0f}));
 }
 
 PenguinBody::~PenguinBody (void) {
