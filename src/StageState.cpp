@@ -45,7 +45,7 @@ void StageState::LoadAssets (void) {
 	bg->SetPosition({0, 0});
 	this->AddObject(bg);
 
-	music.Open("assets/audio/stageStageState.ogg");
+	music.Open("assets/audio/stageState.ogg");
 	music.Play();
 
 	GameObject * tiles = new GameObject();
