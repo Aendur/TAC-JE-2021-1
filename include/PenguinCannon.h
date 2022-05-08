@@ -25,6 +25,7 @@ public:
 	bool Is (const std::string & type) const;
 	const std::string GetType(void) const;
 
+	//void Shoot(const Vec2 & target);
 	void Shoot(void);
 };
 

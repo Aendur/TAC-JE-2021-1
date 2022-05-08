@@ -1,8 +1,11 @@
 #include "PenguinCannon.h"
 #include "GameObject.h"
+#include "Game.h"
+#include "State.h"
 #include "Sprite.h"
 #include "PenguinBody.h"
 #include "InputManager.h"
+#include "Bullet.h"
 #include "errors.h"
 #include <iostream>
 
@@ -13,7 +16,7 @@ PenguinCannon::PenguinCannon (GameObject& associated, std::weak_ptr<GameObject> 
 }
 
 void PenguinCannon::Update (float dt) {
-	#pragma message (MSG_INCOMPLETE_ERR)
+	(void) dt;
 	if (PenguinBody::player == nullptr) {
 		associated.RequestDelete();
 	} else {
@@ -21,8 +24,14 @@ void PenguinCannon::Update (float dt) {
 
 		// Get camera-independent mouse position
 		InputManager & inputManager = InputManager::GetInstance();
-		angle = (inputManager.GetMouseWorldPosition() - associated.GetCenterPosition()).deg();
+		Vec2 target = inputManager.GetMouseWorldPosition();
+		Vec2 center = associated.GetCenterPosition();
+		angle = (target - center).deg();
 		associated.SetRotation(angle);
+
+		if (inputManager.MousePress(MOUSE_LEFT)) {
+			Shoot();
+		}
 	}
 }
 
@@ -37,6 +46,14 @@ const std::string PenguinCannon::GetType(void) const {
 }
 
 void PenguinCannon::Shoot(void) {
-	#pragma message (MSG_UNIMPLEMENTED_ERR)
+	State & state = Game::GetInstance().GetState();
+
+	Vec2 bulletCenter = associated.GetCenterPosition() + Vec2(associated.box.w / 2, 0.0f).RotateBy(angle);
+
+	GameObject * bullet = new GameObject();
+	Sprite * bulletSprite = new Sprite(*bullet, "assets/img/penguinbullet.png", 4, 0.25f);
+	bullet->AddComponent(new Bullet(*bullet, angle, 400.0f, 20, 470.0f, bulletSprite));
+	bullet->SetCenterPosition(bulletCenter);
+	state.AddObject(bullet);
 }
 
