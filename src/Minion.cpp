@@ -2,7 +2,7 @@
 #include "Sprite.h"
 #include "Bullet.h"
 #include "Game.h"
-#include "State.h"
+#include "StageState.h"
 #include "GameObject.h"
 #include "Collider.h"
 #include "errors.h"
@@ -57,7 +57,7 @@ const std::string Minion::GetType(void) const {
 }
 
 void Minion::Shoot(const Vec2 & vec) {
-	State & state = Game::GetInstance().GetState();
+	StageState & state = Game::GetInstance().GetState();
 	Vec2 target = vec - associated.GetCenterPosition();
 
 	GameObject * bullet = new GameObject();

@@ -1,4 +1,4 @@
-#include "State.h"
+#include "StageState.h"
 
 #include <stdexcept>
 #include <string>
@@ -17,16 +17,16 @@
 #include "PenguinBody.h"
 #include "errors.h"
 
-State::State (void) {
+StageState::StageState (void) {
 	this->started = false;
 	this->quitRequested = false;
 }
 
-State::~State(void) {
+StageState::~StageState(void) {
 	this->objectArray.clear();
 }
 
-void State::Start(void) {
+void StageState::Start(void) {
 	if (!started) {
 		LoadAssets();
 		for (size_t i = 0; i < objectArray.size(); ++i) { objectArray[i]->Start(); }
@@ -34,18 +34,18 @@ void State::Start(void) {
 	}
 }
 
-bool State::QuitRequested (void) {
+bool StageState::QuitRequested (void) {
 	return this->quitRequested;
 }
 
-void State::LoadAssets (void) {
+void StageState::LoadAssets (void) {
 	GameObject * bg = new GameObject();
 	bg->AddComponent(new Sprite(*bg, "assets/img/ocean.jpg"));
 	bg->AddComponent(new CameraFollower(*bg));
 	bg->SetPosition({0, 0});
 	this->AddObject(bg);
 
-	music.Open("assets/audio/stageState.ogg");
+	music.Open("assets/audio/stageStageState.ogg");
 	music.Play();
 
 	GameObject * tiles = new GameObject();
@@ -71,7 +71,7 @@ void State::LoadAssets (void) {
 	Camera::Follow(penguin);
 }
 
-void State::Update (float dt) {
+void StageState::Update (float dt) {
 	this->HandleInput();
 	if (PenguinBody::player == nullptr) { Camera::Unfollow(); }
 	Camera::Update(dt);
@@ -80,13 +80,13 @@ void State::Update (float dt) {
 	EraseDeadObjects();
 }
 
-void State::Render (void) {
+void StageState::Render (void) {
 	for(auto & obj : this->objectArray) {
 		obj->Render();
 	}
 }
 
-std::weak_ptr<GameObject> State::AddObject(GameObject * go) {
+std::weak_ptr<GameObject> StageState::AddObject(GameObject * go) {
 	auto obj_ptr = std::shared_ptr<GameObject>(go);
 	if (started) { obj_ptr->Start(); }
 	objectArray.push_back(obj_ptr);
@@ -94,7 +94,7 @@ std::weak_ptr<GameObject> State::AddObject(GameObject * go) {
 
 }
 
-std::weak_ptr<GameObject> State::GetObjectPtr(GameObject * go) const {
+std::weak_ptr<GameObject> StageState::GetObjectPtr(GameObject * go) const {
 	for (auto & shared : objectArray) {
 		if (go == shared.get()) {
 			return std::weak_ptr<GameObject>(shared);
@@ -103,7 +103,7 @@ std::weak_ptr<GameObject> State::GetObjectPtr(GameObject * go) const {
 	return std::weak_ptr<GameObject>();
 }
 
-void State::HandleInput(void) {
+void StageState::HandleInput(void) {
 	InputManager & inputManager = InputManager::GetInstance();
 
 	// Quit if requested or ESC was pressed
@@ -132,13 +132,13 @@ void State::HandleInput(void) {
 	}
 }
 
-void State::UpdateObjects(float dt) {
+void StageState::UpdateObjects(float dt) {
 	for (size_t i = 0; i < this->objectArray.size(); ++i) {
 		this->objectArray[i]->Update(dt);
 	}
 }
 
-void State::DetectCollisions(void) {
+void StageState::DetectCollisions(void) {
 	for (const auto & [_, objects] : Collider::GetGlobalColliders()) {
 		auto obj1 = objects.begin();
 		auto end   = objects.end();
@@ -160,7 +160,7 @@ void State::DetectCollisions(void) {
 	}
 }
 
-void State::EraseDeadObjects(void) {
+void StageState::EraseDeadObjects(void) {
 	for (size_t i = 0; i < this->objectArray.size(); ++i) {
 		if (this->objectArray[i]->IsDead()) {
 			this->objectArray.erase(this->objectArray.begin() + i);

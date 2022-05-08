@@ -1,5 +1,5 @@
-#ifndef STATE_H
-#define STATE_H
+#ifndef STAGE_STATE_H
+#define STAGE_STATE_H
 
 
 #include "Music.h"
@@ -8,7 +8,7 @@
 
 class GameObject;
 
-class State {
+class StageState {
 private:
 	Music music;
 	bool quitRequested;
@@ -20,8 +20,8 @@ private:
 
 	bool started;
 public:
-	State (void);
-	~State(void);
+	StageState (void);
+	~StageState(void);
 	bool QuitRequested (void);
 	void LoadAssets (void);
 	void Update (float);

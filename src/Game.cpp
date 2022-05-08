@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "State.h"
+#include "StageState.h"
 #include "Camera.h"
 #include "Resources.h"
 #include "InputManager.h"
@@ -75,7 +75,7 @@ Game::Game(std::string title, int width, int height) {
 	Camera::height = height;
 	
 	std::cout << "init game state..." << std::endl;
-	this->state = new State();
+	this->state = new StageState();
 	
 	std::cout << "done." << std::endl;
 }
@@ -126,7 +126,7 @@ SDL_Renderer * Game::GetRenderer (void) {
 	return this->renderer;
 }
 
-State & Game::GetState (void) {
+StageState & Game::GetState (void) {
 	return *this->state;
 }
 

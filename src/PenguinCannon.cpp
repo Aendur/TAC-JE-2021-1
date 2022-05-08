@@ -1,7 +1,7 @@
 #include "PenguinCannon.h"
 #include "GameObject.h"
 #include "Game.h"
-#include "State.h"
+#include "StageState.h"
 #include "Sprite.h"
 #include "PenguinBody.h"
 #include "InputManager.h"
@@ -55,7 +55,7 @@ const std::string PenguinCannon::GetType(void) const {
 }
 
 void PenguinCannon::Shoot(void) {
-	State & state = Game::GetInstance().GetState();
+	StageState & state = Game::GetInstance().GetState();
 
 	Vec2 bulletCenter = associated.GetCenterPosition() + Vec2(associated.box.w / 2, 0.0f).RotateBy(angle);
 
