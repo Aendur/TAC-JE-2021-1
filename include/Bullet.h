@@ -5,6 +5,7 @@
 #include <SDL2/SDL.h>
 
 #include "Component.h"
+#include "Collider.h"
 #include "Vec2.h"
 
 class Sprite;
@@ -18,7 +19,7 @@ private:
 
 public:
 	//
-	Bullet (GameObject& associated, float angle, float speed, int damage, float maxDistance, Sprite * sprite);
+	Bullet (GameObject& associated, float angle, float speed, int damage, float maxDistance, Sprite * sprite, const std::vector<CollisionClass>& cclass);
 	~Bullet (void);
 
 	// inherited from component

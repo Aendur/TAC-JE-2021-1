@@ -2,18 +2,28 @@
 #include "GameObject.h"
 #include "errors.h"
 
+GlobalColliderInfo Collider::globalColliders = {
+	{ COLLISION_PENGB , std::set<const Collider*>() },
+	{ COLLISION_PENGC , std::set<const Collider*>() },
+	{ COLLISION_ALIEN , std::set<const Collider*>() },
+	{ COLLISION_MINION, std::set<const Collider*>() },
+};
+
 Collider::Collider (GameObject& associated, std::vector<CollisionClass> cclass, const Vec2 & colliderScale, const Vec2 & colliderOffset) : Component(associated) {
-	#pragma message (MSG_INCOMPLETE_ERR)
-	#pragma message ("missing add to global colliders")
 	collisionClass = cclass;
 	scale = colliderScale;
 	offset = colliderOffset;
 	radius = (associated.box.w + associated.box.h) / 2.0f;
+
+	for (CollisionClass cc : collisionClass) {
+		globalColliders[cc].insert(this);
+	}
 }
 
 Collider::~Collider (void) {
-	#pragma message (MSG_INCOMPLETE_ERR)
-	#pragma message ("missing remove from global colliders")
+	for (CollisionClass cc : collisionClass) {
+		globalColliders[cc].erase(this);
+	}
 }
 
 void Collider::Update (float dt) { (void) dt; }
@@ -26,4 +36,10 @@ bool Collider::Is (const std::string & type) const {
 
 const std::string Collider::GetType(void) const {
 	return "Collider";
+}
+
+bool Collider::IsCollidingWith(const Collider & other) const {
+	Vec2 c1 = this->associated.GetCenterPosition();
+	Vec2 c2 = other.associated.GetCenterPosition();
+	return ((c2 - c1).mag() <= (this->radius + other.radius));
 }

@@ -5,8 +5,10 @@
 #include "State.h"
 #include "PenguinCannon.h"
 #include "InputManager.h"
+#include "Collider.h"
 #include "errors.h"
-#include <iostream>
+
+
 
 PenguinBody::PenguinBody (GameObject& associated) : Component(associated) {
 	this->speed = { 0, 0 };
@@ -15,6 +17,7 @@ PenguinBody::PenguinBody (GameObject& associated) : Component(associated) {
 	this->hp = 100;
 	PenguinBody::player = this;
 	associated.AddComponent(new Sprite(associated, "assets/img/penguin.png"));
+	associated.AddComponent(new Collider(associated, {COLLISION_PENGB}));
 }
 
 PenguinBody::~PenguinBody (void) {

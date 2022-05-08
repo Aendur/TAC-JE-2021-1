@@ -4,7 +4,6 @@
 #include <string>
 #include "InputManager.h"
 #include "CameraFollower.h"
-//#include "MainCamera.h"
 #include "Camera.h"
 #include "GameObject.h"
 #include "Sprite.h"
@@ -14,6 +13,7 @@
 #include "TileSet.h"
 #include "TileMap.h"
 #include "Vec2.h"
+#include "Collider.h"
 #include "errors.h"
 
 State::State (void) {
@@ -80,6 +80,21 @@ void State::Update (float dt) {
 	for (size_t i = 0; i < this->objectArray.size(); ++i) {
 		if (this->objectArray[i]->IsDead()) {
 			this->objectArray.erase(this->objectArray.begin() + i);
+		}
+	}
+	for (const auto & [_, colliders] : Collider::GetGlobalColliders()) {
+		auto coll1 = colliders.begin();
+		auto end   = colliders.end();
+		while (coll1 != end) {
+			auto coll2 = coll1;
+			++coll2;
+			while (coll2 != end) {
+				if ((*coll1)->IsCollidingWith(**coll2)) {
+					std::cout << (*coll1) << " is colliding with " << (*coll2) << std::endl;
+				}
+				++coll2;
+			}
+			++coll1;
 		}
 	}
 }

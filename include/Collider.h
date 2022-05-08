@@ -3,24 +3,26 @@
 
 #include <string>
 #include <unordered_map>
-#include <list>
+#include <set>
 #include <SDL2/SDL.h>
 
 #include "Component.h"
 #include "Vec2.h"
 #include "Rect.h"
 
+class Collider;
 enum CollisionClass {
-	COLLISION_ALL,
 	COLLISION_PENGB,
 	COLLISION_PENGC,
 	COLLISION_ALIEN,
 	COLLISION_MINION,
 };
 
+typedef std::unordered_map<CollisionClass, std::set<const Collider*>> GlobalColliderInfo;
+
 class Collider : public Component {
 private:
-	static std::unordered_map<CollisionClass, std::list<const Collider*>> globalColliders;
+	static GlobalColliderInfo globalColliders;
 	Vec2 scale;
 	Vec2 offset;
 	std::vector<CollisionClass> collisionClass;
@@ -30,6 +32,8 @@ public:
 	~Collider (void);
 	float radius;
 	
+	inline static const GlobalColliderInfo & GetGlobalColliders(void) { return globalColliders; }
+	bool IsCollidingWith(const Collider & other) const;
 
 	// inherited from component
 	//void Start (void);

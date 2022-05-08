@@ -6,13 +6,15 @@
 #include "PenguinBody.h"
 #include "InputManager.h"
 #include "Bullet.h"
+#include "Collider.h"
 #include "errors.h"
-#include <iostream>
+
 
 
 PenguinCannon::PenguinCannon (GameObject& associated, std::weak_ptr<GameObject> penguinBody) : Component(associated), pbody(penguinBody) {
 	this->angle = 0.0f;
 	associated.AddComponent(new Sprite(associated, "assets/img/cubngun.png"));
+	associated.AddComponent(new Collider(associated, {COLLISION_PENGC}));
 }
 
 void PenguinCannon::Update (float dt) {
@@ -52,7 +54,7 @@ void PenguinCannon::Shoot(void) {
 
 	GameObject * bullet = new GameObject();
 	Sprite * bulletSprite = new Sprite(*bullet, "assets/img/penguinbullet.png", 4, 0.25f);
-	bullet->AddComponent(new Bullet(*bullet, angle, 400.0f, 20, 470.0f, bulletSprite));
+	bullet->AddComponent(new Bullet(*bullet, angle, 400.0f, 20, 470.0f, bulletSprite, {COLLISION_ALIEN,COLLISION_MINION}));
 	bullet->SetCenterPosition(bulletCenter);
 	state.AddObject(bullet);
 }

@@ -4,12 +4,13 @@
 #include "Game.h"
 #include "State.h"
 #include "GameObject.h"
+#include "Collider.h"
 #include "errors.h"
-#include <iostream>
 
 
 Minion::Minion (GameObject& associated, std::weak_ptr<GameObject> alien, float arcOffsetDeg) : Component(associated), alienCenter(alien), arc(arcOffsetDeg) {
 	associated.AddComponent(new Sprite(associated, "assets/img/Minion.png"));
+	associated.AddComponent(new Collider(associated, {COLLISION_MINION}));
 }
 
 Minion::~Minion(void) {
@@ -50,7 +51,7 @@ void Minion::Shoot(const Vec2 & vec) {
 
 	GameObject * bullet = new GameObject();
 	Sprite * bulletSprite = new Sprite(*bullet, "assets/img/minionbullet2.png", 3, 0.05f);
-	bullet->AddComponent(new Bullet(*bullet, target.deg(), 500.0f, 20, 1000.0f, bulletSprite));
+	bullet->AddComponent(new Bullet(*bullet, target.deg(), 500.0f, 20, 1000.0f, bulletSprite, { COLLISION_PENGB, COLLISION_PENGC }));
 	bullet->SetCenterPosition(associated.GetCenterPosition());
 	state.AddObject(bullet);
 }

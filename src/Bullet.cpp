@@ -1,18 +1,19 @@
 #include "Bullet.h"
 #include "Sprite.h"
 #include "GameObject.h"
-
+#include "Collider.h"
 #include "errors.h"
-#include <iostream>
 
 
-Bullet::Bullet (GameObject& associated, float angle, float spd, int dmg, float maxDistance, Sprite * sprite) : Component(associated) {
+
+Bullet::Bullet (GameObject& associated, float angle, float spd, int dmg, float maxDistance, Sprite * sprite, const std::vector<CollisionClass>& cclass) : Component(associated) {
 	associated.SetRotation(angle);
 	this->speedAbs = spd;
 	this->speed = Vec2(spd, 0.0f).RotateBy(angle);
 	this->damage = dmg;
 	this->distanceLeft = maxDistance;
 	associated.AddComponent(sprite);
+	associated.AddComponent(new Collider(associated, cclass));
 }
 
 Bullet::~Bullet(void) {

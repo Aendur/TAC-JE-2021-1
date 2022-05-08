@@ -5,6 +5,7 @@
 #include "Minion.h"
 #include "GameObject.h"
 #include "InputManager.h"
+#include "Collider.h"
 #include "errors.h"
 #include <iostream>
 
@@ -12,6 +13,7 @@ Alien::Alien (GameObject& associated, int nMinions) : Component(associated), nMi
 	speed = { 0, 0 };
 	hp = 100;
 	associated.AddComponent(new Sprite(associated, "assets/img/alien.png"));
+	associated.AddComponent(new Collider(associated, {COLLISION_ALIEN}));
 }
 
 Alien::~Alien (void) {
