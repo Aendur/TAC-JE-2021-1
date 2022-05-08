@@ -5,6 +5,7 @@
 #include "Minion.h"
 #include "GameObject.h"
 #include "InputManager.h"
+#include "PenguinBody.h"
 #include "Collider.h"
 #include "Bullet.h"
 #include "Sound.h"
@@ -16,19 +17,26 @@ Alien::Alien (GameObject& associated, int nMinions) : Component(associated), nMi
 	hitpoints = 100;
 	associated.AddComponent(new Sprite(associated, "assets/img/alien.png"));
 	associated.AddComponent(new Collider(associated, {COLLISION_ALIEN}, {0.30f, 0.30f}, {-10.0f, 0.0f}));
+
+	state = RESTING;
+	restTimer.Restart();
+	destination = associated.GetCenterPosition();
+
+	++alienCount;
 }
 
 Alien::~Alien (void) {
 	minionArray.clear();
+	--alienCount;
 }
 
 void Alien::Start (void) {
-	State & state = Game::GetInstance().GetState();
+	State & gameState = Game::GetInstance().GetState();
 
 	float arc = 360.0f / nMinions;
 	for (int i = 0; i < nMinions; ++i) {
 		GameObject * minion = new GameObject();
-		minion->AddComponent(new Minion(*minion, state.GetObjectPtr(&this->associated), i * arc));
+		minion->AddComponent(new Minion(*minion, gameState.GetObjectPtr(&this->associated), i * arc));
 		
 		Sprite * spr = (Sprite*) minion->GetComponent("Sprite");
 		if (spr != nullptr) {
@@ -36,7 +44,7 @@ void Alien::Start (void) {
 			spr->SetScale(newscale, newscale);
 		}
 
-		auto ptr = state.AddObject(minion);
+		auto ptr = gameState.AddObject(minion);
 		this->minionArray.push_back(ptr);
 	}
 }
@@ -52,32 +60,32 @@ void Alien::Update (float dt) {
 	}
 
 	static const float angularSpeed = 60.0f;
+	static const float restCooldown = 1.0f;
 	associated.SetRotation(associated.GetRotation() + angularSpeed * dt);
 
-	// Get camera-independent mouse position
-	InputManager & inputManager = InputManager::GetInstance();
-	Vec2 newpos = inputManager.GetMouseWorldPosition();
-	
-	// Enqueue actions if applicable
-	if (inputManager.MousePress(MOUSE_LEFT)) {
-		taskQueue.push({Action::SHOOT, newpos.x, newpos.y});
-	}
-	if (inputManager.MousePress(MOUSE_RIGHT)) {
-		taskQueue.push({Action::MOVE, newpos.x, newpos.y});
-	}
 
-	// Axecute actions, if any
-	if (!taskQueue.empty()) {
-		Action nextAction = taskQueue.front();
-		bool complete = false;
-		switch(nextAction.type) {
-			case Action::MOVE:  complete = MoveTo(nextAction.pos, dt); break;
-			case Action::SHOOT: complete = ShootAt(nextAction.pos); break;
-			default: break;
+	if (PenguinBody::player == nullptr) return;
+
+	switch(state) {
+	case RESTING: {
+		restTimer.Update(dt);
+		if(restTimer.Get() > restCooldown) {
+			destination = PenguinBody::player->GetAssociated().GetCenterPosition();
+			state = MOVING;
 		}
-		if (complete) {
-			taskQueue.pop();
+	} break;
+	
+	case MOVING: {
+		bool arrived = MoveTo(destination, dt);
+		if (arrived) {
+			destination = PenguinBody::player->GetAssociated().GetCenterPosition();
+			ShootAt(destination);
+			restTimer.Restart();
+			state = RESTING;
 		}
+	} break;
+	
+	default: break;
 	}
 }
 

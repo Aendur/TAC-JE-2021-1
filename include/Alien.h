@@ -6,33 +6,28 @@
 #include <SDL2/SDL.h>
 
 #include "Component.h"
+#include "Timer.h"
 #include "Vec2.h"
 
 class Alien : public Component {
 private:
-	class Action {
-		public:
-		enum ActionType : int {
-			MOVE,
-			SHOOT,
-		};
-
-		ActionType type;
-		Vec2 pos;
-		Action(ActionType type, float x, float y) : type(type), pos(x, y) {}
-	};
+	enum AlienState { MOVING, RESTING };
+	AlienState state;
+	Timer restTimer;
+	Vec2 destination;
 
 	Vec2 speed;
 	int hitpoints;
 	int nMinions;
-	std::queue<Action> taskQueue;
 	std::vector<std::weak_ptr<GameObject>> minionArray;
 
 	bool MoveTo(const Vec2 & newpos, float dt);
 	bool ShootAt(const Vec2 & newpos);
 
 public:
-	//
+	inline static int alienCount = 0;
+
+
 	Alien (GameObject& associated, int nMinions);
 	~Alien (void);
 	inline int GetHitPoints(void) const { return hitpoints; }
