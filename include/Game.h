@@ -14,16 +14,29 @@ private:
 	float dt = -1.0f;
 	
 	inline static Game * instance = nullptr;
-	
+
 	State * storedState = nullptr;
 	SDL_Window * window = nullptr;
 	SDL_Renderer * renderer = nullptr;
 	std::stack<std::unique_ptr<State>> stateStack;
+
+	std::string title;
+	int width;
+	int height;
 	
 	void CalculateDeltaTime(void);
 	bool ManageStates(void);
 	void StartStoredState(void);
 	void PopAndResumeState(void);
+
+	void InitializeSDL(void);
+	void InitializeIMG(void);
+	void InitializeMIX(void);
+	void InitializeTTF(void);
+	void DisposeSDL(void);
+	void DisposeIMG(void);
+	void DisposeMIX(void);
+	void DisposeTTF(void);
 
 	Game(const std::string &, int, int);
 public:

@@ -17,7 +17,7 @@ PROJ_LIBS= \
 LIBS=$(patsubst %,obj\\%.obj,$(PROJ_LIBS))
 #CFLAGS=/W4 /EHsc /std:c++20 /I$(HEADIR) /I$(SDL_INCLUDE_PATH) /utf-8 /nologo /O2
 CFLAGS=/W4 /EHsc /std:c++20 /I$(HEADIR) /I$(SDL_INCLUDE_PATH) /utf-8 /nologo
-SDL_LIBS=SDL2main SDL2 SDL2_image SDL2_mixer
+SDL_LIBS=SDL2main SDL2 SDL2_image SDL2_mixer SDL2_ttf
 
 # /SUBSYSTEM:WINDOWS hides the console, /SUBSYSTEM:CONSOLE shows it
 #LINKFLAGS=/link /SUBSYSTEM:WINDOWS /LIBPATH:$(OBJDIR) /LIBPATH:$(SDL_LIB_PATH) $(PROJ_LIBS) $(patsubst %,%.lib,$(SDL_LIBS)) shell32.lib
