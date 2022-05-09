@@ -9,7 +9,8 @@
 enum class TextStyle {
 	SOLID,
 	SHADED,
-	BLENDED
+	BLENDED,
+	BLINKING,
 };
 
 class FontStyle {
@@ -23,19 +24,19 @@ public:
 class Text : public Component {
 private:
 	FontStyle style;
-	std::string text;
+	std::u8string text;
 	SharedFont font;
 	SDL_Texture * texture;
 	void RemakeTexture(void);
 public:
-	Text (GameObject& associated, const FontStyle & style, const std::string & text);
+	Text (GameObject& associated, const FontStyle & style, const std::u8string & text);
 	~Text (void);
 
-	inline void SetText(const std::string & t)     { text = t       ; RemakeTexture(); }
-	inline void SetColor(const SDL_Color & c)      { style.color = c; RemakeTexture(); }
-	inline void SetStyle(TextStyle s)              { style.style = s; RemakeTexture(); }
-	inline void SetFontFile(const std::string & f) { style.file = f ; RemakeTexture(); }
-	inline void SetFontSize(int s)                 { style.size = s ; RemakeTexture(); }
+	inline void SetText(const std::u8string & value)   { text = value       ; RemakeTexture(); }
+	inline void SetColor(const SDL_Color & value)      { style.color = value; RemakeTexture(); }
+	inline void SetStyle(TextStyle value)              { style.style = value; RemakeTexture(); }
+	inline void SetFontFile(const std::string & value) { style.file = value ; RemakeTexture(); }
+	inline void SetFontSize(int value)                 { style.size = value ; RemakeTexture(); }
 
 	// inherited from component
 	void Update (float dt);

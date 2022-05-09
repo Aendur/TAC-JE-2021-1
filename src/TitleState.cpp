@@ -5,6 +5,8 @@
 #include "InputManager.h"
 #include "StageState.h"
 #include "Sprite.h"
+#include "Camera.h"
+#include "Text.h"
 #include "errors.h"
 #include <string>
 
@@ -15,7 +17,16 @@ void TitleState::LoadAssets (void) {
 	bg->SetPosition({0, 0});
 	this->AddObject(bg);
 
+	FontStyle style;
+	style.color = {30, 100, 150, 127};
+	style.file = "assets/font/Call me maybe.ttf";
+	style.size = 70;
+	style.style = TextStyle::BLINKING;
 
+	GameObject * text = new GameObject();
+	text->AddComponent(new Text(*text, style, u8"Press SPACE to start"));
+	text->AddComponent(new CameraFollower(*text, {((float)Camera::width - text->box.w) / 2.0f, (float)(Camera::height - 250)}));
+	this->AddObject(text);
 }
 
 void TitleState::Update (float dt) {

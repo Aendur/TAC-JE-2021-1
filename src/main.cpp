@@ -8,6 +8,7 @@
 #ifndef UNITTEST
 int main (int, char ** argv) {
 	try {
+		//std::setlocale(LC_ALL, "en_US.UTF-8");
 		auto wdir = (std::filesystem::current_path()  / argv[0]).parent_path();
 		std::cout << "working directory is " << wdir << std::endl;
 		std::filesystem::current_path(wdir);
