@@ -86,9 +86,10 @@ Game::~Game() {
 	while (!stateStack.empty()) { stateStack.pop(); }
 
 	std::cout << "clearing resources..." << std::endl;
-	Resources::ClearImages();
-	Resources::ClearMusics();
-	Resources::ClearSounds();
+	Resources::CleanUpResources();
+	//Resources::ClearImages();
+	//Resources::ClearMusics();
+	//Resources::ClearSounds();
 
 	std::cout << "deallocating renderer..." << std::endl;
 	SDL_DestroyRenderer(this->renderer);
@@ -120,6 +121,16 @@ Game & Game::GetInstance (void) {
 	}
 	return *Game::instance;
 }
+
+void Game::DeleteInstance (void) {
+	if (Game::instance != nullptr) {
+		delete Game::instance;
+		Game::instance = nullptr;
+	} else {
+		throw std::logic_error("instance does not exist");
+	}
+}
+
 
 SDL_Renderer * Game::GetRenderer (void) const {
 	return this->renderer;
@@ -157,6 +168,8 @@ void Game::PopAndResumeState(void) {
 	if (!this->stateStack.empty()) {
 		if (this->stateStack.top()->PopRequested()) {
 			this->stateStack.pop();
+			Resources::CleanUpResources();
+
 			if (!this->stateStack.empty()) {
 				this->stateStack.top()->Resume();
 				InputManager::GetInstance().Reset();

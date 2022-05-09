@@ -4,12 +4,14 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include "Component.h"
+#include "Resources.h"
 #include "Timer.h"
 #include "Vec2.h"
 
 class Sprite : public Component {
 private:
-	SDL_Texture * texture = nullptr;
+	//SDL_Texture * texture = nullptr;
+	SharedTexture texture;
 	int width = -1;
 	int height = -1;
 	SDL_Rect clipRect;
@@ -24,7 +26,6 @@ private:
 
 public:
 	Sprite (GameObject& associated);
-	//Sprite (GameObject& associated, const std::string & file);
 	Sprite (GameObject& associated, const std::string & file, int frameCount = 1, float frameTime = 1.0f, float secondsToSelfDestruct = -1.0f);
 	~Sprite (void);
 

@@ -4,13 +4,13 @@
 #include <string>
 #include <SDL2/SDL_mixer.h>
 #include "Component.h"
+#include "Resources.h"
 
 class GameObject;
 
 class Sound : public Component {
 private:
-	//Mix_Music * music = nullptr;
-	Mix_Chunk * chunk = nullptr;
+	SharedChunk chunk;
 	int channel = -1;
 
 public:

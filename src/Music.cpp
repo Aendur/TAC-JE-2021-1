@@ -1,5 +1,4 @@
 #include "Music.h"
-#include "Resources.h"
 #include <stdexcept>
 
 Music::Music(void) { }
@@ -12,7 +11,7 @@ Music::~Music(void) { }
 
 void Music::Play (int times) { //= -1) {
 	if (this->IsOpen()) {
-		Mix_PlayMusic(this->music, times);
+		Mix_PlayMusic(this->music.get(), times);
 	}
 }
 

@@ -1,5 +1,4 @@
 #include "Sound.h"
-#include "Resources.h"
 #include <stdexcept>
 
 void Sound::Update(float dt) { (void) dt; }
@@ -24,7 +23,7 @@ Sound::~Sound(void){ }
 void Sound::Play (int times) {
 	if (this->IsOpen()) {
 		// int Mix_PlayChannel(int channel, Mix_Chunk* chunk, int loops)
-		this->channel = Mix_PlayChannel(-1, chunk, times-1);
+		this->channel = Mix_PlayChannel(-1, this->chunk.get(), times-1);
 	}
 }
 

@@ -30,6 +30,7 @@ public:
 	~Game(void);
 	
 	static Game & GetInstance (void);
+	static void DeleteInstance (void);
 	SDL_Renderer * GetRenderer (void) const;
 	State & GetCurrentState (void) const;
 	void Push(State * state);

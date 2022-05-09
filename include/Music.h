@@ -3,10 +3,11 @@
 
 #include <string>
 #include <SDL2/SDL_mixer.h>
+#include "Resources.h"
 
 class Music {
 private:
-	Mix_Music * music = nullptr;
+	SharedMusic music;
 
 public:
 	Music(void);
