@@ -19,6 +19,7 @@ private:
 	Vec2 speed;
 	int hitpoints;
 	int nMinions;
+	float maxRest;
 	std::vector<std::weak_ptr<GameObject>> minionArray;
 
 	bool MoveTo(const Vec2 & newpos, float dt);
@@ -28,7 +29,7 @@ public:
 	inline static int alienCount = 0;
 
 
-	Alien (GameObject& associated, int nMinions);
+	Alien (GameObject& associated, int nMinions, float maxRest);
 	~Alien (void);
 	inline int GetHitPoints(void) const { return hitpoints; }
 

@@ -12,12 +12,13 @@
 #include "errors.h"
 #include <iostream>
 
-Alien::Alien (GameObject& associated, int nMinions) : Component(associated), nMinions(nMinions) {
+Alien::Alien (GameObject& associated, int nMinions, float maxR) : Component(associated), nMinions(nMinions) {
 	speed = { 0, 0 };
 	hitpoints = 100;
 	associated.AddComponent(new Sprite(associated, "assets/img/alien.png"));
 	associated.AddComponent(new Collider(associated, {COLLISION_ALIEN}, {0.30f, 0.30f}, {-10.0f, 0.0f}));
 
+	maxRest = maxR;
 	state = RESTING;
 	restTimer.Restart();
 	destination = associated.GetCenterPosition();
@@ -52,7 +53,6 @@ void Alien::Start (void) {
 void Alien::Update (float dt) {
 	if (hitpoints <= 0) {
 		hitpoints = INT_MAX;
-		//associated.RequestDelete();
 		Sound * sfx = new Sound(associated, "assets/audio/boom.wav");
 		sfx->Play(1);
 		associated.AddComponent(sfx);
@@ -60,7 +60,6 @@ void Alien::Update (float dt) {
 	}
 
 	static const float angularSpeed = 60.0f;
-	static const float restCooldown = 1.0f;
 	associated.SetRotation(associated.GetRotation() + angularSpeed * dt);
 
 
@@ -69,7 +68,7 @@ void Alien::Update (float dt) {
 	switch(state) {
 	case RESTING: {
 		restTimer.Update(dt);
-		if(restTimer.Get() > restCooldown) {
+		if(restTimer.Get() > maxRest) {
 			destination = PenguinBody::player->GetAssociated().GetCenterPosition();
 			state = MOVING;
 		}
