@@ -2,11 +2,11 @@
 #define TEXT_H
 
 #include "Component.h"
+#include "Resources.h"
 #include <string>
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
 
-enum TextStyle {
+enum class TextStyle {
 	SOLID,
 	SHADED,
 	BLENDED
@@ -24,19 +24,18 @@ class Text : public Component {
 private:
 	FontStyle style;
 	std::string text;
-	TTF_Font * font;
+	SharedFont font;
 	SDL_Texture * texture;
 	void RemakeTexture(void);
 public:
 	Text (GameObject& associated, const FontStyle & style, const std::string & text);
 	~Text (void);
 
-	inline void SetText(const std::string & t) { text = t; }
-	inline void SetColor(const SDL_Color & c) { style.color = c; }
-	inline void SetStyle(TextStyle s) { style.style = s; }
-	inline void SetFontFile(const std::string & f) { style.file = f; }
-	inline void SetFontSize(int s) { style.size = s; }
-
+	inline void SetText(const std::string & t)     { text = t       ; RemakeTexture(); }
+	inline void SetColor(const SDL_Color & c)      { style.color = c; RemakeTexture(); }
+	inline void SetStyle(TextStyle s)              { style.style = s; RemakeTexture(); }
+	inline void SetFontFile(const std::string & f) { style.file = f ; RemakeTexture(); }
+	inline void SetFontSize(int s)                 { style.size = s ; RemakeTexture(); }
 
 	// inherited from component
 	void Update (float dt);

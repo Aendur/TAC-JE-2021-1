@@ -11,7 +11,7 @@ PROJ_LIBS= \
 	Alien Bullet Camera CameraFollower Collider \
 	Game GameObject InputManager Minion Music \
 	PenguinBody PenguinCannon Rect Resources Sound \
-	Sprite StageState State TileMap TileSet \
+	Sprite StageState State Text TileMap TileSet \
 	TitleState Utility Vec2
 
 LIBS=$(patsubst %,obj\\%.obj,$(PROJ_LIBS))
