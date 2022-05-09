@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "StageState.h"
+#include "TitleState.h"
 
 #include <filesystem>
 #include <iostream>
@@ -15,7 +15,7 @@ int main (int, char ** argv) {
 		std::srand(std::random_device()());
 		//Game * game = new Game("Diogo Cesar Ferreira - 11/0027931", 1024, 600);
 		Game & game = Game::GetInstance();
-		game.Push(new StageState());
+		game.Push(new TitleState());
 		game.Run();
 	} catch (std::exception & e) {
 		std::cout << e.what() << std::endl;

@@ -1,5 +1,5 @@
-#ifndef STAGE_STATE_H
-#define STAGE_STATE_H
+#ifndef TITLE_STATE_H
+#define TITLE_STATE_H
 
 
 #include "Music.h"
@@ -7,16 +7,14 @@
 #include <memory>
 #include <vector>
 
-class StageState : public State {
+class TitleState : public State {
 private:
-	Music music;
 	void HandleInput(void);
-	void DetectCollisions(void);
-	void EraseDeadObjects(void);
 public:
 	void LoadAssets (void);
 	void Update (float);
 	void Render (void);
+
 	void Start(void);
 	void Pause(void);
 	void Resume(void);

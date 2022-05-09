@@ -79,7 +79,8 @@ void StageState::HandleInput(void) {
 	InputManager & inputManager = InputManager::GetInstance();
 
 	// Quit if requested or ESC was pressed
-	this->quitRequested = (inputManager.IsKeyDown(KEY_ESC) || inputManager.QuitRequested());
+	this->popRequested = (inputManager.IsKeyDown(KEY_ESC) || inputManager.QuitRequested());
+	if (this->popRequested || this->quitRequested) return;
 
 	// Get keyboard input for camera WASD / arrows
 	bool accelerateCameraU = inputManager.IsKeyDown(KEY_UP);

@@ -12,7 +12,7 @@ PROJ_LIBS= \
 	Game GameObject InputManager Minion Music \
 	PenguinBody PenguinCannon Rect Resources Sound \
 	Sprite StageState State TileMap TileSet \
-	Utility Vec2
+	TitleState Utility Vec2
 
 LIBS=$(patsubst %,obj\\%.obj,$(PROJ_LIBS))
 #CFLAGS=/W4 /EHsc /std:c++20 /I$(HEADIR) /I$(SDL_INCLUDE_PATH) /utf-8 /nologo /O2
