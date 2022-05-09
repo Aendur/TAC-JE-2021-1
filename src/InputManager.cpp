@@ -62,6 +62,12 @@ void InputManager::Update(void) {
 	}
 }
 
+void InputManager::Reset(void) {
+	this->updateCounter = -1;
+	for (auto & [k,v] : this->keyState) { this->keyState[k] = false; }
+	for (auto & [k,v] : this->keyUpdate) { this->keyUpdate[k] = -1; }
+}
+
 bool InputManager::KeyPress(int key) {
 	if (this->keyUpdate.find(key) == this->keyUpdate.end()) {
 		std::cout << "unregistered key: " << key << std::endl;

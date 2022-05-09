@@ -126,12 +126,10 @@ SDL_Renderer * Game::GetRenderer (void) const {
 }
 
 State & Game::GetCurrentState (void) const {
-	//return *this->state;
 	return *this->stateStack.top();
 }
 
 void Game::Push(State * state) {
-	#pragma message (MSG_INCOMPLETE_ERR)
 	this->storedState = state;
 }
 
@@ -157,8 +155,13 @@ bool Game::ManageStates(void) {
 
 void Game::PopAndResumeState(void) {
 	if (!this->stateStack.empty()) {
-		if (this->stateStack.top()->PopRequested()) { this->stateStack.pop(); }
-		if (!this->stateStack.empty()) { this->stateStack.top()->Resume(); }
+		if (this->stateStack.top()->PopRequested()) {
+			this->stateStack.pop();
+			if (!this->stateStack.empty()) {
+				this->stateStack.top()->Resume();
+				InputManager::GetInstance().Reset();
+			}
+		}
 	}
 }
 
@@ -168,6 +171,7 @@ void Game::StartStoredState(void) {
 		this->stateStack.push(std::unique_ptr<State>(this->storedState));
 		this->stateStack.top()->Start();
 		this->storedState = nullptr;
+		InputManager::GetInstance().Reset();
 	}
 }
 

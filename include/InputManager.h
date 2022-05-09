@@ -37,6 +37,7 @@ public:
 	static InputManager & GetInstance (void);
 
 	void Update(void);
+	void Reset(void);
 
 	bool KeyPress(int key);
 	bool KeyRelease(int key);
