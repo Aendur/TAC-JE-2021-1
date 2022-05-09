@@ -18,6 +18,7 @@ PenguinCannon::PenguinCannon (GameObject& associated, std::weak_ptr<GameObject> 
 
 void PenguinCannon::Update (float dt) {
 	(void) dt;
+	static const float maxCooldown = 0.75f;
 	cooldown.Update(dt);
 
 	if (PenguinBody::player == nullptr) {
@@ -37,7 +38,8 @@ void PenguinCannon::Update (float dt) {
 		angle = (target - center).deg();
 		associated.SetRotation(angle);
 
-		if (inputManager.MousePress(MOUSE_LEFT) && cooldown.Get() > 1.0f) {
+		if ((inputManager.MousePress(MOUSE_LEFT) || inputManager.IsMouseDown(MOUSE_LEFT)) && cooldown.Get() > maxCooldown) {
+			
 			Shoot();
 			cooldown.Restart();
 		}

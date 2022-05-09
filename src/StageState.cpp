@@ -56,28 +56,28 @@ void StageState::LoadAssets (void) {
 	int N;
 	float T;
 	T = (float)(10 + rand() % 41) / 10.0f;
-	N = 3 + rand() % 7;
+	N = 2 + rand() % 4;
 	GameObject * alien = new GameObject();
 	alien->AddComponent(new Alien(*alien, N, T));
 	alien->SetCenterPosition({0, 0});
 	this->AddObject(alien);
 
 	T = (float)(10 + rand() % 41) / 10.0f;
-	N = 3 + rand() % 7;
+	N = 2 + rand() % 4;
 	alien = new GameObject();
 	alien->AddComponent(new Alien(*alien, N, T));
 	alien->SetCenterPosition({0, 1280});
 	this->AddObject(alien);
 
 	T = (float)(10 + rand() % 41) / 10.0f;
-	N = 3 + rand() % 7;
+	N = 2 + rand() % 4;
 	alien = new GameObject();
 	alien->AddComponent(new Alien(*alien, N, T));
 	alien->SetCenterPosition({1408, 0});
 	this->AddObject(alien);
 
 	T = (float)(10 + rand() % 41) / 10.0f;
-	N = 3 + rand() % 7;
+	N = 2 + rand() % 4;
 	alien = new GameObject();
 	alien->AddComponent(new Alien(*alien, N, T));
 	alien->SetCenterPosition({1408, 1280});

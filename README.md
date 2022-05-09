@@ -1,7 +1,7 @@
 # TAC-JE-2021-1
 
 Repositório do trabalho da discipline de TAC - turma JE - 2021/1 da UnB
-<br>*Este branch é referente à parte atualmente em desenvolvimento **(Parte 7)** do trabalho.*
+<br>*Este branch é referente à **(Parte 7)** do trabalho.*
 
 Autor: Diogo César Ferreira - 11/0027931
 
