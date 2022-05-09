@@ -51,15 +51,19 @@ void PenguinBody::Update (float dt) {
 	else if (inputManager.IsKeyDown(KEY_S)) { linearSpeed -= acceleration * dt; }
 	linearSpeed -= linearSpeed * frictionFact * dt;
 
-	//std::cout << linearSpeed << std::endl;
-	
 	if (inputManager.IsKeyDown(KEY_A)) { angle -= angularSpeed * dt; }
 	if (inputManager.IsKeyDown(KEY_D)) { angle += angularSpeed * dt; }
 
-	speed = Vec2(linearSpeed, 0.0f).RotateBy(angle);
-
 	Vec2 currentPosition = associated.GetCenterPosition();
-	associated.SetCenterPosition(currentPosition + dt * speed );
+
+	Vec2 correctedPosition = currentPosition;
+	if      (currentPosition.x < 50.0f)   { correctedPosition.x =   60.0f; angle = 180.0f - angle; }
+	else if (currentPosition.x > 1358.0f) {	correctedPosition.x = 1348.0f; angle = 180.0f - angle; }
+	if      (currentPosition.y < 50.0f)   { correctedPosition.y =   60.0f; angle = -angle; }
+	else if (currentPosition.y > 1230.0f) { correctedPosition.y = 1220.0f; angle = -angle; }
+
+	speed = Vec2(linearSpeed, 0.0f).RotateBy(angle);
+	associated.SetCenterPosition(correctedPosition + dt * speed );
 	associated.SetRotation(angle);
 
 	//std::cout << (--hp) << std::endl;

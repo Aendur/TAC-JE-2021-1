@@ -14,9 +14,6 @@ Collider::Collider (GameObject& associated, std::vector<CollisionClass> cclass, 
 	collisionClass = cclass;
 	scale = colliderScale;
 	offset = colliderOffset;
-	// center = associated.GetCenterPosition() + offset.RotateBy(associated.GetRotation());
-	// radius = (associated.box.w * scale.x + associated.box.h * scale.y) / 2.0f;
-
 	for (CollisionClass cc : collisionClass) {
 		globalColliders[cc].insert(&this->associated);
 	}
@@ -37,7 +34,7 @@ void Collider::Update (float dt) {
 #include "Utility.h"
 
 void Collider::Render (void) {
-	Utility::DrawCircumference(center - Camera::pos, radius, {255, 0, 0});
+	//Utility::DrawCircumference(center - Camera::pos, radius, {255, 0, 0});
 }
 
 bool Collider::Is (const std::string & type) const {
