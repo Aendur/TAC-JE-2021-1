@@ -3,6 +3,7 @@
 #include "Game.h"
 #include <iostream>
 
+
 SharedTexture Resources::GetImage(const std::string & file) {
 	if (!imageTable.contains(file)) {
 		SDL_Texture * texture = IMG_LoadTexture(Game::GetInstance().GetRenderer(), file.c_str()); ;
@@ -63,29 +64,41 @@ SharedChunk Resources::GetSound(const std::string & file) {
 	return soundTable[file];
 }
 
-void Resources::ClearImages(void) {
-	for (auto & [k,v] : imageTable) {
-		if (v.use_count() == 1) { imageTable.erase(k); }
+SharedFont Resources::GetFont(const std::string & fontfile, int fontsize) {
+	std::string key = fontfile + ',' + std::to_string(fontsize);
+	if (!fontTable.contains(key)) {
+		TTF_Font * font = TTF_OpenFont(fontfile.c_str(), fontsize);
+		if (font == nullptr) {
+			std::string error = TTF_GetError();
+			throw std::runtime_error(error);
+		}
+
+		fontTable[key] = SharedFont(font, [key](TTF_Font * tgt) {
+			if (tgt != nullptr) {
+				TTF_CloseFont(tgt);
+				std::cout << "released font " << key << "\n";
+			}
+		});
+
+		std::cout << "loaded font: " << key << " as a resource\n";
 	}
-	std::cout << "clean up image resources" << std::endl;
+	return fontTable[key];
 }
 
-void Resources::ClearMusics(void) {
-	for (auto & [k,v] : musicTable) {
-		if (v.use_count() == 1) { musicTable.erase(k); }
+template<class T>
+void Resources::ClearTable(std::unordered_map<std::string, T> & table) {
+	for (auto & [k,v] : table) {
+		if (v.use_count() == 1) { table.erase(k); }
 	}
-	std::cout << "clean up music resources" << std::endl;
-}
-
-void Resources::ClearSounds(void) {
-	for (auto & [k,v] : soundTable) {
-		if (v.use_count() == 1) { soundTable.erase(k); }
-	}
-	std::cout << "clean up sound resources" << std::endl;
 }
 
 void Resources::CleanUpResources(void) {
-	ClearImages();
-	ClearMusics();
-	ClearSounds();
+	std::cout << "clean up image resources" << std::endl;
+	ClearTable<SharedTexture>(imageTable);
+	std::cout << "clean up music resources" << std::endl;
+	ClearTable<SharedMusic>(musicTable);
+	std::cout << "clean up sound resources" << std::endl;
+	ClearTable<SharedChunk>(soundTable);
+	std::cout << "clean up font resources" << std::endl;
+	ClearTable<SharedFont>(fontTable);
 }
