@@ -1,7 +1,7 @@
 #include "Alien.h"
 #include "Sprite.h"
 #include "Game.h"
-#include "StageState.h"
+#include "State.h"
 #include "Minion.h"
 #include "GameObject.h"
 #include "InputManager.h"
@@ -31,7 +31,7 @@ Alien::~Alien (void) {
 }
 
 void Alien::Start (void) {
-	StageState & gameState = Game::GetInstance().GetState();
+	State & gameState = Game::GetInstance().GetCurrentState();
 
 	float arc = 360.0f / nMinions;
 	for (int i = 0; i < nMinions; ++i) {

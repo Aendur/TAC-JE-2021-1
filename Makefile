@@ -15,6 +15,7 @@ PROJ_LIBS= \
 	Utility Vec2
 
 LIBS=$(patsubst %,obj\\%.obj,$(PROJ_LIBS))
+#CFLAGS=/W4 /EHsc /std:c++20 /I$(HEADIR) /I$(SDL_INCLUDE_PATH) /utf-8 /nologo /O2
 CFLAGS=/W4 /EHsc /std:c++20 /I$(HEADIR) /I$(SDL_INCLUDE_PATH) /utf-8 /nologo
 SDL_LIBS=SDL2main SDL2 SDL2_image SDL2_mixer
 

@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "Sprite.h"
 #include "Game.h"
-#include "StageState.h"
+#include "State.h"
 #include "PenguinCannon.h"
 #include "InputManager.h"
 #include "Collider.h"
@@ -27,7 +27,7 @@ PenguinBody::~PenguinBody (void) {
 }
 
 void PenguinBody::Start (void) {
-	StageState & state = Game::GetInstance().GetState();
+	State & state = Game::GetInstance().GetCurrentState();
 	GameObject * cannon = new GameObject();
 	cannon->AddComponent(new PenguinCannon(*cannon, state.GetObjectPtr(&this->associated)));
 	pcannon = state.AddObject(cannon);

@@ -17,27 +17,6 @@
 #include "PenguinBody.h"
 #include "errors.h"
 
-StageState::StageState (void) {
-	this->started = false;
-	this->quitRequested = false;
-}
-
-StageState::~StageState(void) {
-	this->objectArray.clear();
-}
-
-void StageState::Start(void) {
-	if (!started) {
-		LoadAssets();
-		for (size_t i = 0; i < objectArray.size(); ++i) { objectArray[i]->Start(); }
-		started = true;
-	}
-}
-
-bool StageState::QuitRequested (void) {
-	return this->quitRequested;
-}
-
 void StageState::LoadAssets (void) {
 	GameObject * bg = new GameObject();
 	bg->AddComponent(new Sprite(*bg, "assets/img/ocean.jpg"));
@@ -75,33 +54,26 @@ void StageState::Update (float dt) {
 	this->HandleInput();
 	if (PenguinBody::player == nullptr) { Camera::Unfollow(); }
 	Camera::Update(dt);
-	UpdateObjects(dt);
+	UpdateArray(dt);
 	DetectCollisions();
 	EraseDeadObjects();
 }
 
 void StageState::Render (void) {
-	for(auto & obj : this->objectArray) {
-		obj->Render();
+	RenderArray();
+}
+
+void StageState::Start(void) {
+	if (!started) {
+		LoadAssets();
+		StartArray();
+		started = true;
 	}
 }
 
-std::weak_ptr<GameObject> StageState::AddObject(GameObject * go) {
-	auto obj_ptr = std::shared_ptr<GameObject>(go);
-	if (started) { obj_ptr->Start(); }
-	objectArray.push_back(obj_ptr);
-	return std::weak_ptr<GameObject>(obj_ptr);
+void StageState::Pause(void) { }
+void StageState::Resume(void) { }
 
-}
-
-std::weak_ptr<GameObject> StageState::GetObjectPtr(GameObject * go) const {
-	for (auto & shared : objectArray) {
-		if (go == shared.get()) {
-			return std::weak_ptr<GameObject>(shared);
-		}
-	}
-	return std::weak_ptr<GameObject>();
-}
 
 void StageState::HandleInput(void) {
 	InputManager & inputManager = InputManager::GetInstance();
@@ -129,12 +101,6 @@ void StageState::HandleInput(void) {
 	} else {
 		if (accelerateCameraL) { Camera::speed.x -= cameraAcceleration; }
 		if (accelerateCameraR) { Camera::speed.x += cameraAcceleration; }
-	}
-}
-
-void StageState::UpdateObjects(float dt) {
-	for (size_t i = 0; i < this->objectArray.size(); ++i) {
-		this->objectArray[i]->Update(dt);
 	}
 }
 

@@ -3,37 +3,26 @@
 
 
 #include "Music.h"
+#include "State.h"
 #include <memory>
 #include <vector>
 
 class GameObject;
 
-class StageState {
+class StageState : public State {
 private:
 	Music music;
-	bool quitRequested;
-	//std::vector<std::unique_ptr<GameObject>> objectArray;
-	std::vector<std::shared_ptr<GameObject>> objectArray;
-
 	void HandleInput(void);
-	// void AddObject(int mouseX, int mouseY);
-
-	bool started;
+	void DetectCollisions(void);
+	void EraseDeadObjects(void);
 public:
-	StageState (void);
-	~StageState(void);
-	bool QuitRequested (void);
 	void LoadAssets (void);
 	void Update (float);
 	void Render (void);
-
-	void UpdateObjects(float dt);
-	void DetectCollisions(void);
-	void EraseDeadObjects(void);
-
 	void Start(void);
-	std::weak_ptr<GameObject> AddObject(GameObject * go);
-	std::weak_ptr<GameObject> GetObjectPtr(GameObject * go) const;
+	void Pause(void);
+	void Resume(void);
 };
 
 #endif
+

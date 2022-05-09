@@ -1,6 +1,6 @@
 #include "Game.h"
+#include "StageState.h"
 
-//#include <ctime>
 #include <filesystem>
 #include <iostream>
 #include <random>
@@ -12,9 +12,10 @@ int main (int, char ** argv) {
 		std::cout << "working directory is " << wdir << std::endl;
 		std::filesystem::current_path(wdir);
 		
-		//std::srand(std::time(NULL));
 		std::srand(std::random_device()());
-		Game game = Game::GetInstance();
+		//Game * game = new Game("Diogo Cesar Ferreira - 11/0027931", 1024, 600);
+		Game & game = Game::GetInstance();
+		game.Push(new StageState());
 		game.Run();
 	} catch (std::exception & e) {
 		std::cout << e.what() << std::endl;

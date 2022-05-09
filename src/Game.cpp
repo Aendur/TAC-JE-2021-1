@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "StageState.h"
+#include "State.h"
 #include "Camera.h"
 #include "Resources.h"
 #include "InputManager.h"
@@ -9,7 +9,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 
-Game::Game(std::string title, int width, int height) {
+Game::Game(const std::string & title, int width, int height) {
 	if (Game::instance != nullptr) {
 		throw std::logic_error("Cannot init singleton twice");
 	}
@@ -74,13 +74,18 @@ Game::Game(std::string title, int width, int height) {
 	Camera::width = width;
 	Camera::height = height;
 	
-	std::cout << "init game state..." << std::endl;
-	this->state = new StageState();
+	//std::cout << "init game state..." << std::endl;
+	//this->state = new StageState();
 	
 	std::cout << "done." << std::endl;
 }
 
 Game::~Game() {
+	std::cout << "clearing game states..." << std::endl;
+	if (this->storedState != nullptr) { delete this->storedState; }
+	while (!stateStack.empty()) { stateStack.pop(); }
+
+	std::cout << "clearing resources..." << std::endl;
 	Resources::ClearImages();
 	Resources::ClearMusics();
 	Resources::ClearSounds();
@@ -108,34 +113,62 @@ Game::~Game() {
 	std::cout << "done." << std::endl;
 }
 
-void Game::Run(void) {
-	this->state->Start();
-	while (!this->state->QuitRequested()) {
-		this->CalculateDeltaTime();
-
-		InputManager::GetInstance().Update();
-		this->state->Update(this->dt);
-		this->state->Render();
-
-		SDL_RenderPresent(this->renderer);
-		SDL_Delay(32);
-	}
-}
-
-SDL_Renderer * Game::GetRenderer (void) {
-	return this->renderer;
-}
-
-StageState & Game::GetState (void) {
-	return *this->state;
-}
-
 Game & Game::GetInstance (void) {
 	if (Game::instance == nullptr) {
 		std::cout << "instance is null. Creating singleton" << std::endl;
 		new Game("Diogo Cesar Ferreira - 11/0027931", 1024, 600);
 	}
 	return *Game::instance;
+}
+
+SDL_Renderer * Game::GetRenderer (void) const {
+	return this->renderer;
+}
+
+State & Game::GetCurrentState (void) const {
+	//return *this->state;
+	return *this->stateStack.top();
+}
+
+void Game::Push(State * state) {
+	#pragma message (MSG_INCOMPLETE_ERR)
+	this->storedState = state;
+}
+
+void Game::Run(void) {
+	while (this->ManageStates() && !this->stateStack.top()->QuitRequested()) {
+		const std::unique_ptr<State> & currentState = this->stateStack.top();
+
+		this->CalculateDeltaTime();
+		InputManager::GetInstance().Update();
+		currentState->Update(this->dt);
+		currentState->Render();
+
+		SDL_RenderPresent(this->renderer);
+		SDL_Delay(32);
+	}
+}
+
+bool Game::ManageStates(void) {
+	PopAndResumeState();
+	StartStoredState();
+	return (!this->stateStack.empty());
+}
+
+void Game::PopAndResumeState(void) {
+	if (!this->stateStack.empty()) {
+		if (this->stateStack.top()->PopRequested()) { this->stateStack.pop(); }
+		if (!this->stateStack.empty()) { this->stateStack.top()->Resume(); }
+	}
+}
+
+void Game::StartStoredState(void) {
+	if (this->storedState != nullptr) {
+		if (!this->stateStack.empty()) { this->stateStack.top()->Pause(); }
+		this->stateStack.push(std::unique_ptr<State>(this->storedState));
+		this->stateStack.top()->Start();
+		this->storedState = nullptr;
+	}
 }
 
 ////////////////////
