@@ -28,7 +28,7 @@ O projeto foi desenvolvido utilizando:
 - Compilador: MSVC 19.31.31107 (x64)
 - Sistema operacional Windows 10+
 
-As fases anteriores do trabalho podem ser acessadas através dos links a seguir, ou verificando-se os seus respectivos *branches* T1 a T7.
+As outras fases do trabalho podem ser acessadas através dos links a seguir, ou verificando-se os seus respectivos *branches* T1 a T7.
 - [Parte 7 (última)](https://github.com/Aendur/TAC-JE-2021-1/tree/T7)
 - [Parte 6](https://github.com/Aendur/TAC-JE-2021-1/tree/T6)
 - [Parte 5](https://github.com/Aendur/TAC-JE-2021-1/tree/T5)
