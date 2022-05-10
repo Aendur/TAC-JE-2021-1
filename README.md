@@ -1,6 +1,6 @@
 # TAC-JE-2021-1
 
-Repositório do trabalho da discipline de TAC - turma JE - 2021/1 da UnB
+Repositório do trabalho da disciplina de TAC - turma JE - 2021/1 da UnB
 <br>*Este branch é referente ao **Trabalho 4**.*
 
 Autor: Diogo César Ferreira - 11/0027931
@@ -21,7 +21,7 @@ O projeto foi desenvolvido utilizando:
 - Compilador: TDM-GCC (tdm64-1) 10.3.0
 - Sistema operacional Windows 10
 
-As fases anteriores do trabalho podem ser acessadas através dos links a seguir, ou verificando-se os seus respectivos *branches* T1 a T7.
+As outras fases do trabalho podem ser acessadas através dos links a seguir, ou verificando-se os seus respectivos *branches* T1 a T7.
 - [Parte 7 (última)](https://github.com/Aendur/TAC-JE-2021-1/tree/T7)
 - [Parte 6](https://github.com/Aendur/TAC-JE-2021-1/tree/T6)
 - [Parte 5](https://github.com/Aendur/TAC-JE-2021-1/tree/T5)
